@@ -1,29 +1,30 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktSyncSeasonsLastActivities {
-	Date getRatedAt();
+	Instant getRatedAt();
 
-	void setRatedAt(Date ratedAt);
+	void setRatedAt(Instant ratedAt);
 
-	TraktSyncSeasonsLastActivities withRatedAt(Date ratedAt);
+	TraktSyncSeasonsLastActivities withRatedAt(Instant ratedAt);
 
-	Date getWatchlistedAt();
+	Instant getWatchlistedAt();
 
-	void setWatchlistedAt(Date watchlistedAt);
+	void setWatchlistedAt(Instant watchlistedAt);
 
-	TraktSyncSeasonsLastActivities withWatchlistedAt(Date watchlistedAt);
+	TraktSyncSeasonsLastActivities withWatchlistedAt(Instant watchlistedAt);
 
-	Date getCommentedAt();
+	Instant getCommentedAt();
 
-	void setCommentedAt(Date commentedAt);
+	void setCommentedAt(Instant commentedAt);
 
-	TraktSyncSeasonsLastActivities withCommentedAt(Date commentedAt);
+	TraktSyncSeasonsLastActivities withCommentedAt(Instant commentedAt);
 
-	Date getHiddenAt();
+	Instant getHiddenAt();
 
-	void setHiddenAt(Date hiddenAt);
+	void setHiddenAt(Instant hiddenAt);
 
-	TraktSyncSeasonsLastActivities withHiddenAt(Date hiddenAt);
+	TraktSyncSeasonsLastActivities withHiddenAt(Instant hiddenAt);
 }

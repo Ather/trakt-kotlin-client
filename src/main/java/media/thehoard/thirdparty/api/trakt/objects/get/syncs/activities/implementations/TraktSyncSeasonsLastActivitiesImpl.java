@@ -3,78 +3,79 @@ package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.impleme
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.TraktSyncSeasonsLastActivities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktSyncSeasonsLastActivitiesImpl implements TraktSyncSeasonsLastActivities {
 	@SerializedName("rated_at")
-	private Date ratedAt;
+	private Instant ratedAt;
 	@SerializedName("watchlisted_at")
-	private Date watchlistedAt;
+	private Instant watchlistedAt;
 	@SerializedName("commented_at")
-	private Date commentedAt;
+	private Instant commentedAt;
 	@SerializedName("hidden_at")
-	private Date hiddenAt;
+	private Instant hiddenAt;
 
 	@Override
-	public Date getRatedAt() {
+	public Instant getRatedAt() {
 		return ratedAt;
 	}
 
 	@Override
-	public void setRatedAt(Date ratedAt) {
+	public void setRatedAt(Instant ratedAt) {
 		this.ratedAt = ratedAt;
 	}
 
 	@Override
-	public TraktSyncSeasonsLastActivities withRatedAt(Date ratedAt) {
+	public TraktSyncSeasonsLastActivities withRatedAt(Instant ratedAt) {
 		this.ratedAt = ratedAt;
 		return this;
 	}
 
 	@Override
-	public Date getWatchlistedAt() {
+	public Instant getWatchlistedAt() {
 		return watchlistedAt;
 	}
 
 	@Override
-	public void setWatchlistedAt(Date watchlistedAt) {
+	public void setWatchlistedAt(Instant watchlistedAt) {
 		this.watchlistedAt = watchlistedAt;
 	}
 
 	@Override
-	public TraktSyncSeasonsLastActivities withWatchlistedAt(Date watchlistedAt) {
+	public TraktSyncSeasonsLastActivities withWatchlistedAt(Instant watchlistedAt) {
 		this.watchlistedAt = watchlistedAt;
 		return this;
 	}
 
 	@Override
-	public Date getCommentedAt() {
+	public Instant getCommentedAt() {
 		return commentedAt;
 	}
 
 	@Override
-	public void setCommentedAt(Date commentedAt) {
+	public void setCommentedAt(Instant commentedAt) {
 		this.commentedAt = commentedAt;
 	}
 
 	@Override
-	public TraktSyncSeasonsLastActivities withCommentedAt(Date commentedAt) {
+	public TraktSyncSeasonsLastActivities withCommentedAt(Instant commentedAt) {
 		this.commentedAt = commentedAt;
 		return this;
 	}
 
 	@Override
-	public Date getHiddenAt() {
+	public Instant getHiddenAt() {
 		return hiddenAt;
 	}
 
 	@Override
-	public void setHiddenAt(Date hiddenAt) {
+	public void setHiddenAt(Instant hiddenAt) {
 		this.hiddenAt = hiddenAt;
 	}
 
 	@Override
-	public TraktSyncSeasonsLastActivities withHiddenAt(Date hiddenAt) {
+	public TraktSyncSeasonsLastActivities withHiddenAt(Instant hiddenAt) {
 		this.hiddenAt = hiddenAt;
 		return this;
 	}

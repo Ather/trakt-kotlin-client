@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.shows;
 import media.thehoard.thirdparty.api.trakt.enums.TraktShowStatus;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowAirsImpl;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public interface TraktShowExtended extends TraktShow<TraktShowExtended> {
@@ -13,11 +13,11 @@ public interface TraktShowExtended extends TraktShow<TraktShowExtended> {
 
 	TraktShowExtended withOverview(String overview);
 
-	Date getFirstAired();
+	Instant getFirstAired();
 
-	void setFirstAired(Date firstAired);
+	void setFirstAired(Instant firstAired);
 
-	TraktShowExtended withFirstAired(Date firstAired);
+	TraktShowExtended withFirstAired(Instant firstAired);
 
 	TraktShowAirs getAirs();
 
@@ -49,11 +49,11 @@ public interface TraktShowExtended extends TraktShow<TraktShowExtended> {
 
 	TraktShowExtended withCountry(String country);
 
-	Date getUpdatedAt();
+	Instant getUpdatedAt();
 
-	void setUpdatedAt(Date updatedAt);
+	void setUpdatedAt(Instant updatedAt);
 
-	TraktShowExtended withUpdatedAt(Date updatedAt);
+	TraktShowExtended withUpdatedAt(Instant updatedAt);
 
 	String getTrailer();
 

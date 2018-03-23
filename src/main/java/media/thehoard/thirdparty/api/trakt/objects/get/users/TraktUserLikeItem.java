@@ -4,14 +4,14 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktUserLikeType;
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserLikeItem {
-	Date getLikedAt();
+	Instant getLikedAt();
 
-	void setLikedAt(Date likedAt);
+	void setLikedAt(Instant likedAt);
 
-	TraktUserLikeItem withLikedAt(Date likedAt);
+	TraktUserLikeItem withLikedAt(Instant likedAt);
 
 	TraktUserLikeType getType();
 

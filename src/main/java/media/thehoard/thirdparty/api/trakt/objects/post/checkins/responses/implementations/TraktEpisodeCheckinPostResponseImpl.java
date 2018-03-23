@@ -6,12 +6,13 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktEpisodeCheckinPostResponse;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktEpisodeCheckinPostResponseImpl implements TraktEpisodeCheckinPostResponse {
 	private long id;
 	@SerializedName("watched_at")
-	private Date watchedAt;
+	private Instant watchedAt;
 	private TraktSharingImpl sharing;
 
 	private TraktEpisodeImpl episode;
@@ -34,17 +35,17 @@ public class TraktEpisodeCheckinPostResponseImpl implements TraktEpisodeCheckinP
 	}
 
 	@Override
-	public Date getWatchedAt() {
+	public Instant getWatchedAt() {
 		return watchedAt;
 	}
 
 	@Override
-	public void setWatchedAt(Date watchedAt) {
+	public void setWatchedAt(Instant watchedAt) {
 		this.watchedAt = watchedAt;
 	}
 
 	@Override
-	public TraktEpisodeCheckinPostResponse withWatchedAt(Date watchedAt) {
+	public TraktEpisodeCheckinPostResponse withWatchedAt(Instant watchedAt) {
 		this.watchedAt = watchedAt;
 		return this;
 	}

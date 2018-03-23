@@ -10,26 +10,27 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktCalendarShowImpl implements TraktCalendarShow {
 	@SerializedName("first_aired")
-	private Date firstAired;
+	private Instant firstAired;
 	private TraktEpisodeImpl episode;
 	private TraktShowImpl show;
 
 	@Override
-	public Date getFirstAired() {
+	public Instant getFirstAired() {
 		return firstAired;
 	}
 
 	@Override
-	public void setFirstAired(Date firstAired) {
+	public void setFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 	}
 
 	@Override
-	public TraktCalendarShow withFirstAired(Date firstAired) {
+	public TraktCalendarShow withFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 		return this;
 	}

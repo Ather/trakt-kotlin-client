@@ -3,6 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeCollectionProgress;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktEpisodeCollectionProgressImpl implements TraktEpisodeCollectionProgress {
@@ -10,7 +11,7 @@ public class TraktEpisodeCollectionProgressImpl implements TraktEpisodeCollectio
 	private Boolean completed;
 
 	@SerializedName("collected_at")
-	private Date collectedAt;
+	private Instant collectedAt;
 
 	@Override
 	public Integer getNumber() {
@@ -45,17 +46,17 @@ public class TraktEpisodeCollectionProgressImpl implements TraktEpisodeCollectio
 	}
 
 	@Override
-	public Date getCollectedAt() {
+	public Instant getCollectedAt() {
 		return collectedAt;
 	}
 
 	@Override
-	public void setCollectedAt(Date collectedAt) {
+	public void setCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 	}
 
 	@Override
-	public TraktEpisodeCollectionProgress withCollectedAt(Date collectedAt) {
+	public TraktEpisodeCollectionProgress withCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 		return this;
 	}

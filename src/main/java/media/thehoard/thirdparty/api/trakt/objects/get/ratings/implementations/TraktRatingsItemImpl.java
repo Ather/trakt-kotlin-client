@@ -8,11 +8,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.ratings.TraktRatingsItem;
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktRatingsItemImpl implements TraktRatingsItem {
 	@SerializedName("rated_at")
-	private Date ratedAt;
+	private Instant ratedAt;
 	private Integer rating;
 	private TraktRatingsItemType type;
 	private TraktMovieImpl movie;
@@ -21,17 +21,17 @@ public class TraktRatingsItemImpl implements TraktRatingsItem {
 	private TraktEpisodeImpl episode;
 
 	@Override
-	public Date getRatedAt() {
+	public Instant getRatedAt() {
 		return ratedAt;
 	}
 
 	@Override
-	public void setRatedAt(Date ratedAt) {
+	public void setRatedAt(Instant ratedAt) {
 		this.ratedAt = ratedAt;
 	}
 
 	@Override
-	public TraktRatingsItem withRatedAt(Date ratedAt) {
+	public TraktRatingsItem withRatedAt(Instant ratedAt) {
 		this.ratedAt = ratedAt;
 		return this;
 	}

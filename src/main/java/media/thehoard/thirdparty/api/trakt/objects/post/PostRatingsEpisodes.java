@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
 import java.util.*;
 
 public final class PostRatingsEpisodes implements Collection<PostRatingsEpisodes.PostRatingsEpisode> {
@@ -17,7 +18,7 @@ public final class PostRatingsEpisodes implements Collection<PostRatingsEpisodes
 		this.episodes.addAll(Arrays.asList(episodes));
 	}
 
-	public void add(int episode, int rating, Date ratedAt) {
+	public void add(int episode, int rating, Instant ratedAt) {
 		episodes.add(new PostRatingsEpisode(episode, rating, ratedAt));
 	}
 
@@ -95,7 +96,7 @@ public final class PostRatingsEpisodes implements Collection<PostRatingsEpisodes
 	}
 
 	public final class PostRatingsEpisode {
-		public PostRatingsEpisode(int number, Integer rating, Date ratedAt) {
+		public PostRatingsEpisode(int number, Integer rating, Instant ratedAt) {
 			this.number = number;
 			this.rating = rating;
 			this.ratedAt = ratedAt;
@@ -118,6 +119,6 @@ public final class PostRatingsEpisodes implements Collection<PostRatingsEpisodes
 		public Integer rating;
 
 		@SerializedName("rated_at")
-		public Date ratedAt;
+		public Instant ratedAt;
 	}
 }

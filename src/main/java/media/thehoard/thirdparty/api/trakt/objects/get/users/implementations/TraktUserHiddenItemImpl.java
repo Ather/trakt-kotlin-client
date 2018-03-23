@@ -7,28 +7,28 @@ import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.T
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserHiddenItem;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktUserHiddenItemImpl implements TraktUserHiddenItem {
 	@SerializedName("hidden_at")
-	private Date hiddenAt;
+	private Instant hiddenAt;
 	private TraktHiddenItemType type;
 	private TraktMovieImpl movie;
 	private TraktShowImpl show;
 	private TraktSeasonImpl season;
 
 	@Override
-	public Date getHiddenAt() {
+	public Instant getHiddenAt() {
 		return hiddenAt;
 	}
 
 	@Override
-	public void setHiddenAt(Date hiddenAt) {
+	public void setHiddenAt(Instant hiddenAt) {
 		this.hiddenAt = hiddenAt;
 	}
 
 	@Override
-	public TraktUserHiddenItem withHiddenAt(Date hiddenAt) {
+	public TraktUserHiddenItem withHiddenAt(Instant hiddenAt) {
 		this.hiddenAt = hiddenAt;
 		return this;
 	}

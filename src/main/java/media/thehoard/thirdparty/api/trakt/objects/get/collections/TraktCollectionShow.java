@@ -3,15 +3,15 @@ package media.thehoard.thirdparty.api.trakt.objects.get.collections;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public interface TraktCollectionShow extends TraktShow<TraktCollectionShow> {
-	Date getLastCollectedAt();
+	Instant getLastCollectedAt();
 
-	void setLastCollectedAt(Date lastCollectedAt);
+	void setLastCollectedAt(Instant lastCollectedAt);
 
-	TraktCollectionShow withLastCollectedAt(Date lastCollectedAt);
+	TraktCollectionShow withLastCollectedAt(Instant lastCollectedAt);
 
 	TraktShowImpl getShow();
 

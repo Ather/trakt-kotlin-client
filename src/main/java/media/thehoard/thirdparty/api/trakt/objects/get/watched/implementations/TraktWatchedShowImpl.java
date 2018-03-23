@@ -5,13 +5,13 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedShow;
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedShowSeason;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public class TraktWatchedShowImpl implements TraktWatchedShow {
 	private Integer plays;
 	@SerializedName("last_watched_at")
-	private Date lastWatchedAt;
+	private Instant lastWatchedAt;
 	private TraktShowImpl show;
 	private List<TraktWatchedShowSeason> seasons;
 
@@ -32,17 +32,17 @@ public class TraktWatchedShowImpl implements TraktWatchedShow {
 	}
 
 	@Override
-	public Date getLastWatchedAt() {
+	public Instant getLastWatchedAt() {
 		return lastWatchedAt;
 	}
 
 	@Override
-	public void setLastWatchedAt(Date lastWatchedAt) {
+	public void setLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 	}
 
 	@Override
-	public TraktWatchedShow withLastWatchedAt(Date lastWatchedAt) {
+	public TraktWatchedShow withLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 		return this;
 	}

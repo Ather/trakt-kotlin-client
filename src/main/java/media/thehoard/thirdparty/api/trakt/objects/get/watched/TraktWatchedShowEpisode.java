@@ -1,5 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.watched;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktWatchedShowEpisode {
@@ -15,9 +16,9 @@ public interface TraktWatchedShowEpisode {
 
 	TraktWatchedShowEpisode withPlays(Integer plays);
 
-	Date getLastWatchedAt();
+	Instant getLastWatchedAt();
 
-	void setLastWatchedAt(Date lastWatchedAt);
+	void setLastWatchedAt(Instant lastWatchedAt);
 
-	TraktWatchedShowEpisode withLastWatchedAt(Date lastWatchedAt);
+	TraktWatchedShowEpisode withLastWatchedAt(Instant lastWatchedAt);
 }

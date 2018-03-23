@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.collections;
 
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktCollectionShowEpisode {
 	Integer getNumber();
@@ -11,11 +11,11 @@ public interface TraktCollectionShowEpisode {
 
 	TraktCollectionShowEpisode withNumber(Integer number);
 
-	Date getCollectedAt();
+	Instant getCollectedAt();
 
-	void setCollectedAt(Date collectedAt);
+	void setCollectedAt(Instant collectedAt);
 
-	TraktCollectionShowEpisode withCollectedAt(Date collectedAt);
+	TraktCollectionShowEpisode withCollectedAt(Instant collectedAt);
 
 	TraktMetadataImpl getMetadata();
 

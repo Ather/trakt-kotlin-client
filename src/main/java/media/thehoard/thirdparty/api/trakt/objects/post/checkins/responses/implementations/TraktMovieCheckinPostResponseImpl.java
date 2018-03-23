@@ -5,12 +5,13 @@ import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSh
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostResponse;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktMovieCheckinPostResponseImpl implements TraktCheckinPostResponse<TraktMovieCheckinPostResponseImpl> {
 	private long id;
 	@SerializedName("watched_at")
-	private Date watchedAt;
+	private Instant watchedAt;
 	private TraktSharingImpl sharing;
 
 	private TraktMovieImpl movie;
@@ -32,17 +33,17 @@ public class TraktMovieCheckinPostResponseImpl implements TraktCheckinPostRespon
 	}
 
 	@Override
-	public Date getWatchedAt() {
+	public Instant getWatchedAt() {
 		return watchedAt;
 	}
 
 	@Override
-	public void setWatchedAt(Date watchedAt) {
+	public void setWatchedAt(Instant watchedAt) {
 		this.watchedAt = watchedAt;
 	}
 
 	@Override
-	public TraktMovieCheckinPostResponseImpl withWatchedAt(Date watchedAt) {
+	public TraktMovieCheckinPostResponseImpl withWatchedAt(Instant watchedAt) {
 		this.watchedAt = watchedAt;
 		return this;
 	}

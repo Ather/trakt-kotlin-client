@@ -9,12 +9,12 @@ import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.T
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktListItem;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktListItemImpl implements TraktListItem {
 	private String rank;
 	@SerializedName("listed_at")
-	private Date listedAt;
+	private Instant listedAt;
 	private TraktListItemType type;
 	private TraktMovieImpl movie;
 	private TraktShowImpl show;
@@ -39,17 +39,17 @@ public class TraktListItemImpl implements TraktListItem {
 	}
 
 	@Override
-	public Date getListedAt() {
+	public Instant getListedAt() {
 		return listedAt;
 	}
 
 	@Override
-	public void setListedAt(Date listedAt) {
+	public void setListedAt(Instant listedAt) {
 		this.listedAt = listedAt;
 	}
 
 	@Override
-	public TraktListItem withListedAt(Date listedAt) {
+	public TraktListItem withListedAt(Instant listedAt) {
 		this.listedAt = listedAt;
 		return this;
 	}

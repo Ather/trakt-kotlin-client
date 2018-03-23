@@ -7,7 +7,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.T
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonWatchedProgressImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowWatchedProgress;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public class TraktShowWatchedProgressImpl implements TraktShowWatchedProgress {
@@ -21,7 +21,7 @@ public class TraktShowWatchedProgressImpl implements TraktShowWatchedProgress {
 	private TraktEpisodeImpl lastEpisode;
 
 	@SerializedName("last_watched_at")
-	private Date lastWatchedAt;
+	private Instant lastWatchedAt;
 	private List<TraktSeasonWatchedProgressImpl> seasons;
 
 	@Override
@@ -105,17 +105,17 @@ public class TraktShowWatchedProgressImpl implements TraktShowWatchedProgress {
 	}
 
 	@Override
-	public Date getLastWatchedAt() {
+	public Instant getLastWatchedAt() {
 		return lastWatchedAt;
 	}
 
 	@Override
-	public void setLastWatchedAt(Date lastWatchedAt) {
+	public void setLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 	}
 
 	@Override
-	public TraktShowWatchedProgress withLastWatchedAt(Date lastWatchedAt) {
+	public TraktShowWatchedProgress withLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 		return this;
 	}

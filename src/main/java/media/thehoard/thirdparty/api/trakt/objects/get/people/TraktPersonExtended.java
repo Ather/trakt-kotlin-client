@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.people;
 
 import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonExtendedImpl;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktPersonExtended extends TraktPerson<TraktPersonExtended> {
@@ -11,17 +12,17 @@ public interface TraktPersonExtended extends TraktPerson<TraktPersonExtended> {
 
 	TraktPersonExtendedImpl withBiography(String biography);
 
-	Date getBirthday();
+	Instant getBirthday();
 
-	void setBirthday(Date birthday);
+	void setBirthday(Instant birthday);
 
-	TraktPersonExtendedImpl withBirthday(Date birthday);
+	TraktPersonExtendedImpl withBirthday(Instant birthday);
 
-	Date getDeath();
+	Instant getDeath();
 
-	void setDeath(Date death);
+	void setDeath(Instant death);
 
-	TraktPersonExtendedImpl withDeath(Date death);
+	TraktPersonExtendedImpl withDeath(Instant death);
 
 	String getBirthplace();
 

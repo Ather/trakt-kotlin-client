@@ -6,20 +6,20 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserWatchingItem {
-	Date getStartedAt();
+	Instant getStartedAt();
 
-	void setStartedAt(Date startedAt);
+	void setStartedAt(Instant startedAt);
 
-	TraktUserWatchingItem withStartedAt(Date startedAt);
+	TraktUserWatchingItem withStartedAt(Instant startedAt);
 
-	Date getExpiresAt();
+	Instant getExpiresAt();
 
-	void setExpiresAt(Date expiresAt);
+	void setExpiresAt(Instant expiresAt);
 
-	TraktUserWatchingItem withExpiresAt(Date expiresAt);
+	TraktUserWatchingItem withExpiresAt(Instant expiresAt);
 
 	TraktHistoryActionType getAction();
 

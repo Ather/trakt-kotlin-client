@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserFollowRequest;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktUserFollowRequestImpl implements TraktUserFollowRequest {
 	private int id;
 	@SerializedName("requested_at")
-	private Date requestedAt;
+	private Instant requestedAt;
 	private TraktUserImpl user;
 
 	@Override
@@ -29,17 +29,17 @@ public class TraktUserFollowRequestImpl implements TraktUserFollowRequest {
 	}
 
 	@Override
-	public Date getRequestedAt() {
+	public Instant getRequestedAt() {
 		return requestedAt;
 	}
 
 	@Override
-	public void setRequestedAt(Date requestedAt) {
+	public void setRequestedAt(Instant requestedAt) {
 		this.requestedAt = requestedAt;
 	}
 
 	@Override
-	public TraktUserFollowRequest withRequestedAt(Date requestedAt) {
+	public TraktUserFollowRequest withRequestedAt(Instant requestedAt) {
 		this.requestedAt = requestedAt;
 		return this;
 	}

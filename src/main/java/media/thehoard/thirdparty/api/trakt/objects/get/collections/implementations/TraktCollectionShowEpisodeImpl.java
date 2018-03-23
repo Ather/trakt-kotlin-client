@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionShowEpisode;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktCollectionShowEpisodeImpl implements TraktCollectionShowEpisode {
 	private Integer number;
 	@SerializedName("collected_at")
-	private Date collectedAt;
+	private Instant collectedAt;
 	//TODO Consider using Extended versions, this isn't explicitly included. (?extended = metadata)
 	private TraktMetadataImpl metadata;
 
@@ -30,17 +30,17 @@ public class TraktCollectionShowEpisodeImpl implements TraktCollectionShowEpisod
 	}
 
 	@Override
-	public Date getCollectedAt() {
+	public Instant getCollectedAt() {
 		return collectedAt;
 	}
 
 	@Override
-	public void setCollectedAt(Date collectedAt) {
+	public void setCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 	}
 
 	@Override
-	public TraktCollectionShowEpisode withCollectedAt(Date collectedAt) {
+	public TraktCollectionShowEpisode withCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 		return this;
 	}

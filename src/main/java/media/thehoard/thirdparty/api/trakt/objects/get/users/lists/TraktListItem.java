@@ -7,7 +7,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktListItem {
 	String getRank();
@@ -16,11 +16,11 @@ public interface TraktListItem {
 
 	TraktListItem withRank(String rank);
 
-	Date getListedAt();
+	Instant getListedAt();
 
-	void setListedAt(Date listedAt);
+	void setListedAt(Instant listedAt);
 
-	TraktListItem withListedAt(Date listedAt);
+	TraktListItem withListedAt(Instant listedAt);
 
 	TraktListItemType getType();
 

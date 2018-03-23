@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.TraktSeasonExtended;
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.TraktSeasonIds;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktSeasonExtendedImpl implements TraktSeasonExtended {
 	private Integer number;
@@ -19,7 +19,7 @@ public class TraktSeasonExtendedImpl implements TraktSeasonExtended {
 	private String title;
 	private String overview;
 	@SerializedName("first_aired")
-	private Date firstAired;
+	private Instant firstAired;
 	private String network;
 
 	@Override
@@ -152,17 +152,17 @@ public class TraktSeasonExtendedImpl implements TraktSeasonExtended {
 	}
 
 	@Override
-	public Date getFirstAired() {
+	public Instant getFirstAired() {
 		return firstAired;
 	}
 
 	@Override
-	public void setFirstAired(Date firstAired) {
+	public void setFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 	}
 
 	@Override
-	public TraktSeasonExtended withFirstAired(Date firstAired) {
+	public TraktSeasonExtended withFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 		return this;
 	}

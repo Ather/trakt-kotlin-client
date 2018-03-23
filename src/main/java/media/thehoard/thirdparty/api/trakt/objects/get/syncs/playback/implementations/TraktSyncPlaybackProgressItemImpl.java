@@ -7,13 +7,13 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.playback.TraktSyncPlaybackProgressItem;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktSyncPlaybackProgressItemImpl implements TraktSyncPlaybackProgressItem {
 	private int id;
 	private Float progress;
 	@SerializedName("pause_at")
-	private Date pausedAt;
+	private Instant pausedAt;
 	private TraktSyncType type;
 	private TraktMovieImpl movie;
 	private TraktEpisodeImpl episode;
@@ -52,17 +52,17 @@ public class TraktSyncPlaybackProgressItemImpl implements TraktSyncPlaybackProgr
 	}
 
 	@Override
-	public Date getPausedAt() {
+	public Instant getPausedAt() {
 		return pausedAt;
 	}
 
 	@Override
-	public void setPausedAt(Date pausedAt) {
+	public void setPausedAt(Instant pausedAt) {
 		this.pausedAt = pausedAt;
 	}
 
 	@Override
-	public TraktSyncPlaybackProgressItem withPausedAt(Date pausedAt) {
+	public TraktSyncPlaybackProgressItem withPausedAt(Instant pausedAt) {
 		this.pausedAt = pausedAt;
 		return this;
 	}

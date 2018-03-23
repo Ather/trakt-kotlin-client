@@ -1,41 +1,42 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktSyncEpisodesLastActivities {
-	Date getWatchedAt();
+	Instant getWatchedAt();
 
-	void setWatchedAt(Date watchedAt);
+	void setWatchedAt(Instant watchedAt);
 
-	TraktSyncEpisodesLastActivities withWatchedAt(Date watchedAt);
+	TraktSyncEpisodesLastActivities withWatchedAt(Instant watchedAt);
 
-	Date getCollectedAt();
+	Instant getCollectedAt();
 
-	void setCollectedAt(Date collectedAt);
+	void setCollectedAt(Instant collectedAt);
 
-	TraktSyncEpisodesLastActivities withCollectedAt(Date collectedAt);
+	TraktSyncEpisodesLastActivities withCollectedAt(Instant collectedAt);
 
-	Date getRatedAt();
+	Instant getRatedAt();
 
-	void setRatedAt(Date ratedAt);
+	void setRatedAt(Instant ratedAt);
 
-	TraktSyncEpisodesLastActivities withRatedAt(Date ratedAt);
+	TraktSyncEpisodesLastActivities withRatedAt(Instant ratedAt);
 
-	Date getWatchlistedAt();
+	Instant getWatchlistedAt();
 
-	void setWatchlistedAt(Date watchlistedAt);
+	void setWatchlistedAt(Instant watchlistedAt);
 
-	TraktSyncEpisodesLastActivities withWatchlistedAt(Date watchlistedAt);
+	TraktSyncEpisodesLastActivities withWatchlistedAt(Instant watchlistedAt);
 
-	Date getCommentedAt();
+	Instant getCommentedAt();
 
-	void setCommentedAt(Date commentedAt);
+	void setCommentedAt(Instant commentedAt);
 
-	TraktSyncEpisodesLastActivities withCommentedAt(Date commentedAt);
+	TraktSyncEpisodesLastActivities withCommentedAt(Instant commentedAt);
 
-	Date getPausedAt();
+	Instant getPausedAt();
 
-	void setPausedAt(Date pausedAt);
+	void setPausedAt(Instant pausedAt);
 
-	TraktSyncEpisodesLastActivities withPausedAt(Date pausedAt);
+	TraktSyncEpisodesLastActivities withPausedAt(Instant pausedAt);
 }

@@ -4,24 +4,25 @@ import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarMo
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovieIds;
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktCalendarMovieImpl implements TraktCalendarMovie {
-	private Date released;
+	private Instant released;
 	private TraktMovieImpl movie;
 
 	@Override
-	public Date getReleased() {
+	public Instant getReleased() {
 		return released;
 	}
 
 	@Override
-	public void setReleased(Date released) {
+	public void setReleased(Instant released) {
 		this.released = released;
 	}
 
 	@Override
-	public TraktCalendarMovie withReleased(Date released) {
+	public TraktCalendarMovie withReleased(Instant released) {
 		this.released = released;
 		return this;
 	}

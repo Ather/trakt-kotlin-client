@@ -12,8 +12,8 @@ public class TraktPersonExtendedImpl implements TraktPersonExtended {
 	private TraktPersonIdsImpl ids;
 
 	private String biography;
-	private Date birthday;
-	private Date death;
+	private Instant birthday;
+	private Instant death;
 	private String birthplace;
 	private String homepage;
 
@@ -66,33 +66,33 @@ public class TraktPersonExtendedImpl implements TraktPersonExtended {
 	}
 
 	@Override
-	public Date getBirthday() {
+	public Instant getBirthday() {
 		return birthday;
 	}
 
 	@Override
-	public void setBirthday(Date birthday) {
+	public void setBirthday(Instant birthday) {
 		this.birthday = birthday;
 	}
 
 	@Override
-	public TraktPersonExtendedImpl withBirthday(Date birthday) {
+	public TraktPersonExtendedImpl withBirthday(Instant birthday) {
 		this.birthday = birthday;
 		return this;
 	}
 
 	@Override
-	public Date getDeath() {
+	public Instant getDeath() {
 		return death;
 	}
 
 	@Override
-	public void setDeath(Date death) {
+	public void setDeath(Instant death) {
 		this.death = death;
 	}
 
 	@Override
-	public TraktPersonExtendedImpl withDeath(Date death) {
+	public TraktPersonExtendedImpl withDeath(Instant death) {
 		this.death = death;
 		return this;
 	}

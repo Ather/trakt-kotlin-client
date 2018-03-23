@@ -6,14 +6,14 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktWatchlistItem {
-	Date getListedAt();
+	Instant getListedAt();
 
-	void setListedAt(Date listedAt);
+	void setListedAt(Instant listedAt);
 
-	TraktWatchlistItem withListedAt(Date listedAt);
+	TraktWatchlistItem withListedAt(Instant listedAt);
 
 	TraktSyncItemType getType();
 

@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.seasons;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktSeasonExtended extends TraktSeason {
 	Float getRating();
@@ -39,11 +39,11 @@ public interface TraktSeasonExtended extends TraktSeason {
 
 	TraktSeasonExtended withOverview(String overview);
 
-	Date getFirstAired();
+	Instant getFirstAired();
 
-	void setFirstAired(Date firstAired);
+	void setFirstAired(Instant firstAired);
 
-	TraktSeasonExtended withFirstAired(Date firstAired);
+	TraktSeasonExtended withFirstAired(Instant firstAired);
 
 	String getNetwork();
 

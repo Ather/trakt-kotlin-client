@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktSyncPlaybackProgressItem {
 	int getId();
@@ -20,11 +20,11 @@ public interface TraktSyncPlaybackProgressItem {
 
 	TraktSyncPlaybackProgressItem withProgress(Float progress);
 
-	Date getPausedAt();
+	Instant getPausedAt();
 
-	void setPausedAt(Date pausedAt);
+	void setPausedAt(Instant pausedAt);
 
-	TraktSyncPlaybackProgressItem withPausedAt(Date pausedAt);
+	TraktSyncPlaybackProgressItem withPausedAt(Instant pausedAt);
 
 	TraktSyncType getType();
 

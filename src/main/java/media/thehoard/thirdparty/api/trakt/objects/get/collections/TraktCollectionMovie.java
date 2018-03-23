@@ -5,14 +5,14 @@ import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMe
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie;
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktCollectionMovie extends TraktMovie<TraktCollectionMovie> {
-	Date getCollectedAt();
+	Instant getCollectedAt();
 
-	void setCollectedAt(Date collectedAt);
+	void setCollectedAt(Instant collectedAt);
 
-	TraktCollectionMovie withCollectedAt(Date collectedAt);
+	TraktCollectionMovie withCollectedAt(Instant collectedAt);
 
 	TraktMovieImpl getMovie();
 

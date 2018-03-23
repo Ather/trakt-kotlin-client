@@ -1,11 +1,11 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktCheckinPostErrorResponse {
-	Date getExpiresAt();
+	Instant getExpiresAt();
 
-	void setExpiresAt(Date expiresAt);
+	void setExpiresAt(Instant expiresAt);
 
-	TraktCheckinPostErrorResponse withExpiresAt(Date expiresAt);
+	TraktCheckinPostErrorResponse withExpiresAt(Instant expiresAt);
 }

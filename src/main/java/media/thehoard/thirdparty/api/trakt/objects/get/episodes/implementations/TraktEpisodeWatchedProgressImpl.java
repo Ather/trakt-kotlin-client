@@ -3,6 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeWatchedProgress;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktEpisodeWatchedProgressImpl implements TraktEpisodeWatchedProgress {
@@ -10,7 +11,7 @@ public class TraktEpisodeWatchedProgressImpl implements TraktEpisodeWatchedProgr
 	private Boolean completed;
 
 	@SerializedName("last_watched_at")
-	private Date lastWatchedAt;
+	private Instant lastWatchedAt;
 
 	@Override
 	public Integer getNumber() {
@@ -45,17 +46,17 @@ public class TraktEpisodeWatchedProgressImpl implements TraktEpisodeWatchedProgr
 	}
 
 	@Override
-	public Date getLastWatchedAt() {
+	public Instant getLastWatchedAt() {
 		return lastWatchedAt;
 	}
 
 	@Override
-	public void setLastWatchedAt(Date lastWatchedAt) {
+	public void setLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 	}
 
 	@Override
-	public TraktEpisodeWatchedProgress withLastWatchedAt(Date lastWatchedAt) {
+	public TraktEpisodeWatchedProgress withLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 		return this;
 	}

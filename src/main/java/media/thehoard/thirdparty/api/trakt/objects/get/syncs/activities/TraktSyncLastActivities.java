@@ -1,13 +1,13 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktSyncLastActivities {
-	Date getAll();
+	Instant getAll();
 
-	void setAll(Date all);
+	void setAll(Instant all);
 
-	TraktSyncLastActivities withAll(Date all);
+	TraktSyncLastActivities withAll(Instant all);
 
 	TraktSyncMoviesLastActivities getMovies();
 

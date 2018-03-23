@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses;
 
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktCheckinPostResponse<T extends TraktCheckinPostResponse<T>> {
@@ -11,11 +12,11 @@ public interface TraktCheckinPostResponse<T extends TraktCheckinPostResponse<T>>
 
 	T withId(long id);
 
-	Date getWatchedAt();
+	Instant getWatchedAt();
 
-	void setWatchedAt(Date watchedAt);
+	void setWatchedAt(Instant watchedAt);
 
-	T withWatchedAt(Date watchedAt);
+	T withWatchedAt(Instant watchedAt);
 
 	TraktSharingImpl getSharing();
 

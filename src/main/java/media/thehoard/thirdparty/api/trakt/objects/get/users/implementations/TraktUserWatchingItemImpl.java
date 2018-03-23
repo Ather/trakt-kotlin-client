@@ -8,14 +8,14 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserWatchingItem;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktUserWatchingItemImpl
 		implements media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserWatchingItem {
 	@SerializedName("started_at")
-	private Date startedAt;
+	private Instant startedAt;
 	@SerializedName("expires_at")
-	private Date expiresAt;
+	private Instant expiresAt;
 	private TraktHistoryActionType action;
 	private TraktSyncType type;
 	private TraktMovieImpl movie;
@@ -23,33 +23,33 @@ public class TraktUserWatchingItemImpl
 	private TraktEpisodeImpl episode;
 
 	@Override
-	public Date getStartedAt() {
+	public Instant getStartedAt() {
 		return startedAt;
 	}
 
 	@Override
-	public void setStartedAt(Date startedAt) {
+	public void setStartedAt(Instant startedAt) {
 		this.startedAt = startedAt;
 	}
 
 	@Override
-	public TraktUserWatchingItem withStartedAt(Date startedAt) {
+	public TraktUserWatchingItem withStartedAt(Instant startedAt) {
 		this.startedAt = startedAt;
 		return this;
 	}
 
 	@Override
-	public Date getExpiresAt() {
+	public Instant getExpiresAt() {
 		return expiresAt;
 	}
 
 	@Override
-	public void setExpiresAt(Date expiresAt) {
+	public void setExpiresAt(Instant expiresAt) {
 		this.expiresAt = expiresAt;
 	}
 
 	@Override
-	public TraktUserWatchingItem withExpiresAt(Date expiresAt) {
+	public TraktUserWatchingItem withExpiresAt(Instant expiresAt) {
 		this.expiresAt = expiresAt;
 		return this;
 	}

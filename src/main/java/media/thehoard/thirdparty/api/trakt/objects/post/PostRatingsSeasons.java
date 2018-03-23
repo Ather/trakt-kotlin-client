@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -22,11 +23,11 @@ public final class PostRatingsSeasons implements Iterable<PostRatingsSeasons.Pos
 		seasons.add(new PostRatingsSeason(season, null, null, episodes));
 	}
 
-	public void add(int season, int rating, Date ratedAt, PostRatingsEpisodes episodes) {
+	public void add(int season, int rating, Instant ratedAt, PostRatingsEpisodes episodes) {
 		seasons.add(new PostRatingsSeason(season, rating, ratedAt, episodes));
 	}
 
-	public void add(int season, int rating, Date ratedAt) {
+	public void add(int season, int rating, Instant ratedAt) {
 		seasons.add(new PostRatingsSeason(season, rating, ratedAt));
 	}
 
@@ -49,18 +50,18 @@ public final class PostRatingsSeasons implements Iterable<PostRatingsSeasons.Pos
 		public Integer rating;
 
 		@SerializedName("rated_at")
-		public Date ratedAt;
+		public Instant ratedAt;
 
 		public PostRatingsEpisodes episodes;
 
-		public PostRatingsSeason(int number, Integer rating, Date ratedAt, PostRatingsEpisodes episodes) {
+		public PostRatingsSeason(int number, Integer rating, Instant ratedAt, PostRatingsEpisodes episodes) {
 			this.number = number;
 			this.rating = rating;
 			this.ratedAt = ratedAt;
 			this.episodes = episodes;
 		}
 
-		public PostRatingsSeason(int number, Integer rating, Date ratedAt) {
+		public PostRatingsSeason(int number, Integer rating, Instant ratedAt) {
 			this(number, rating, ratedAt, new PostRatingsEpisodes());
 		}
 

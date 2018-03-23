@@ -2,10 +2,10 @@ package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.impleme
 
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.*;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktSyncLastActivitiesImpl implements TraktSyncLastActivities {
-	private Date all;
+	private Instant all;
 	private TraktSyncMoviesLastActivities movies;
 	private TraktSyncEpisodesLastActivities episodes;
 	private TraktSyncShowsLastActivities shows;
@@ -14,17 +14,17 @@ public class TraktSyncLastActivitiesImpl implements TraktSyncLastActivities {
 	private TraktSyncListsLastActivities lists;
 
 	@Override
-	public Date getAll() {
+	public Instant getAll() {
 		return all;
 	}
 
 	@Override
-	public void setAll(Date all) {
+	public void setAll(Instant all) {
 		this.all = all;
 	}
 
 	@Override
-	public TraktSyncLastActivities withAll(Date all) {
+	public TraktSyncLastActivities withAll(Instant all) {
 		this.all = all;
 		return this;
 	}

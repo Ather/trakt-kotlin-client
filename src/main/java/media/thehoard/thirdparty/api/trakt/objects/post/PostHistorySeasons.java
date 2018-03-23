@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -14,11 +15,11 @@ public final class PostHistorySeasons implements Iterable<PostHistorySeasons.Pos
 		this.seasons = new ArrayList<>();
 	}
 
-	public void add(int season, Date watchedAt, PostHistoryEpisodes episodes) {
+	public void add(int season, Instant watchedAt, PostHistoryEpisodes episodes) {
 		seasons.add(new PostHistorySeason(season, watchedAt, episodes));
 	}
 
-	public void add(int season, Date watchedAt) {
+	public void add(int season, Instant watchedAt) {
 		this.seasons.add(new PostHistorySeason(season, watchedAt));
 	}
 
@@ -39,17 +40,17 @@ public final class PostHistorySeasons implements Iterable<PostHistorySeasons.Pos
 		public int number;
 
 		@SerializedName("watched_at")
-		public Date watchedAt;
+		public Instant watchedAt;
 
 		public PostHistoryEpisodes episodes;
 
-		public PostHistorySeason(int number, Date watchedAt, PostHistoryEpisodes episodes) {
+		public PostHistorySeason(int number, Instant watchedAt, PostHistoryEpisodes episodes) {
 			this.number = number;
 			this.watchedAt = watchedAt;
 			this.episodes = episodes;
 		}
 
-		public PostHistorySeason(int number, Date watchedAt) {
+		public PostHistorySeason(int number, Instant watchedAt) {
 			this(number, watchedAt, new PostHistoryEpisodes());
 		}
 

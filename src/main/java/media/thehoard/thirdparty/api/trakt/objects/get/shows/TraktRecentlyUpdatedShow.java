@@ -2,14 +2,14 @@ package media.thehoard.thirdparty.api.trakt.objects.get.shows;
 
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktRecentlyUpdatedShow extends TraktShow<TraktRecentlyUpdatedShow> {
-	Date getUpdatedAt();
+	Instant getUpdatedAt();
 
-	void setUpdatedAt(Date updatedAt);
+	void setUpdatedAt(Instant updatedAt);
 
-	TraktRecentlyUpdatedShow withUpdatedAt(Date updatedAt);
+	TraktRecentlyUpdatedShow withUpdatedAt(Instant updatedAt);
 
 	TraktShow getShow();
 

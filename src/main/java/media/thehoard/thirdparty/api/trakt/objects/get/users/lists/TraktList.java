@@ -4,7 +4,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktAccessScope;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListIdsImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktList {
 	String getName();
@@ -49,17 +49,17 @@ public interface TraktList {
 
 	TraktList withSortHow(String sortHow);
 
-	Date getCreatedAt();
+	Instant getCreatedAt();
 
-	void setCreatedAt(Date createdAt);
+	void setCreatedAt(Instant createdAt);
 
-	TraktList withCreatedAt(Date createdAt);
+	TraktList withCreatedAt(Instant createdAt);
 
-	Date getUpdatedAt();
+	Instant getUpdatedAt();
 
-	void setUpdatedAt(Date updatedAt);
+	void setUpdatedAt(Instant updatedAt);
 
-	TraktList withUpdatedAt(Date updatedAt);
+	TraktList withUpdatedAt(Instant updatedAt);
 
 	Integer getItemCount();
 

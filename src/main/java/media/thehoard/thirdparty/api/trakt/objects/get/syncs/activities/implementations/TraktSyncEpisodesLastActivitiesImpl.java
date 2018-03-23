@@ -3,114 +3,115 @@ package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.impleme
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.TraktSyncEpisodesLastActivities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktSyncEpisodesLastActivitiesImpl implements TraktSyncEpisodesLastActivities {
 	@SerializedName("watched_at")
-	private Date watchedAt;
+	private Instant watchedAt;
 	@SerializedName("collected_at")
-	private Date collectedAt;
+	private Instant collectedAt;
 	@SerializedName("rated_at")
-	private Date ratedAt;
+	private Instant ratedAt;
 	@SerializedName("watchlisted_at")
-	private Date watchlistedAt;
+	private Instant watchlistedAt;
 	@SerializedName("commented_at")
-	private Date commentedAt;
+	private Instant commentedAt;
 	@SerializedName("paused_at")
-	private Date pausedAt;
+	private Instant pausedAt;
 
 	@Override
-	public Date getWatchedAt() {
+	public Instant getWatchedAt() {
 		return watchedAt;
 	}
 
 	@Override
-	public void setWatchedAt(Date watchedAt) {
+	public void setWatchedAt(Instant watchedAt) {
 		this.watchedAt = watchedAt;
 	}
 
 	@Override
-	public TraktSyncEpisodesLastActivities withWatchedAt(Date watchedAt) {
+	public TraktSyncEpisodesLastActivities withWatchedAt(Instant watchedAt) {
 		this.watchedAt = watchedAt;
 		return this;
 	}
 
 	@Override
-	public Date getCollectedAt() {
+	public Instant getCollectedAt() {
 		return collectedAt;
 	}
 
 	@Override
-	public void setCollectedAt(Date collectedAt) {
+	public void setCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 	}
 
 	@Override
-	public TraktSyncEpisodesLastActivities withCollectedAt(Date collectedAt) {
+	public TraktSyncEpisodesLastActivities withCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 		return this;
 	}
 
 	@Override
-	public Date getRatedAt() {
+	public Instant getRatedAt() {
 		return ratedAt;
 	}
 
 	@Override
-	public void setRatedAt(Date ratedAt) {
+	public void setRatedAt(Instant ratedAt) {
 		this.ratedAt = ratedAt;
 	}
 
 	@Override
-	public TraktSyncEpisodesLastActivities withRatedAt(Date ratedAt) {
+	public TraktSyncEpisodesLastActivities withRatedAt(Instant ratedAt) {
 		this.ratedAt = ratedAt;
 		return this;
 	}
 
 	@Override
-	public Date getWatchlistedAt() {
+	public Instant getWatchlistedAt() {
 		return watchlistedAt;
 	}
 
 	@Override
-	public void setWatchlistedAt(Date watchlistedAt) {
+	public void setWatchlistedAt(Instant watchlistedAt) {
 		this.watchlistedAt = watchlistedAt;
 	}
 
 	@Override
-	public TraktSyncEpisodesLastActivities withWatchlistedAt(Date watchlistedAt) {
+	public TraktSyncEpisodesLastActivities withWatchlistedAt(Instant watchlistedAt) {
 		this.watchlistedAt = watchlistedAt;
 		return this;
 	}
 
 	@Override
-	public Date getCommentedAt() {
+	public Instant getCommentedAt() {
 		return commentedAt;
 	}
 
 	@Override
-	public void setCommentedAt(Date commentedAt) {
+	public void setCommentedAt(Instant commentedAt) {
 		this.commentedAt = commentedAt;
 	}
 
 	@Override
-	public TraktSyncEpisodesLastActivities withCommentedAt(Date commentedAt) {
+	public TraktSyncEpisodesLastActivities withCommentedAt(Instant commentedAt) {
 		this.commentedAt = commentedAt;
 		return this;
 	}
 
 	@Override
-	public Date getPausedAt() {
+	public Instant getPausedAt() {
 		return pausedAt;
 	}
 
 	@Override
-	public void setPausedAt(Date pausedAt) {
+	public void setPausedAt(Instant pausedAt) {
 		this.pausedAt = pausedAt;
 	}
 
 	@Override
-	public TraktSyncEpisodesLastActivities withPausedAt(Date pausedAt) {
+	public TraktSyncEpisodesLastActivities withPausedAt(Instant pausedAt) {
 		this.pausedAt = pausedAt;
 		return this;
 	}

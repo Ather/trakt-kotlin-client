@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.users;
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserFollowRequest {
 	int getId();
@@ -11,11 +11,11 @@ public interface TraktUserFollowRequest {
 
 	TraktUserFollowRequest withId(int id);
 
-	Date getRequestedAt();
+	Instant getRequestedAt();
 
-	void setRequestedAt(Date requestedAt);
+	void setRequestedAt(Instant requestedAt);
 
-	TraktUserFollowRequest withRequestedAt(Date requestedAt);
+	TraktUserFollowRequest withRequestedAt(Instant requestedAt);
 
 	TraktUser getUser();
 

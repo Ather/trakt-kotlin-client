@@ -2,14 +2,14 @@ package media.thehoard.thirdparty.api.trakt.objects.get.users;
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserFriend {
-	Date getFriendsAt();
+	Instant getFriendsAt();
 
-	void setFriendsAt(Date friendsAt);
+	void setFriendsAt(Instant friendsAt);
 
-	TraktUserFriend withFriendsAt(Date friendsAt);
+	TraktUserFriend withFriendsAt(Instant friendsAt);
 
 	TraktUser getUser();
 

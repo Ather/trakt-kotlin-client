@@ -6,14 +6,14 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktRatingsItem {
-	Date getRatedAt();
+	Instant getRatedAt();
 
-	void setRatedAt(Date ratedAt);
+	void setRatedAt(Instant ratedAt);
 
-	TraktRatingsItem withRatedAt(Date ratedAt);
+	TraktRatingsItem withRatedAt(Instant ratedAt);
 
 	Integer getRating();
 

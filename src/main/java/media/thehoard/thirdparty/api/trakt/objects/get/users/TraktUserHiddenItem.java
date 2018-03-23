@@ -5,14 +5,14 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserHiddenItem {
-	Date getHiddenAt();
+	Instant getHiddenAt();
 
-	void setHiddenAt(Date hiddenAt);
+	void setHiddenAt(Instant hiddenAt);
 
-	TraktUserHiddenItem withHiddenAt(Date hiddenAt);
+	TraktUserHiddenItem withHiddenAt(Instant hiddenAt);
 
 	TraktHiddenItemType getType();
 

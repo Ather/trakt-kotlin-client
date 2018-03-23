@@ -3,24 +3,25 @@ package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.impleme
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.TraktSyncCommentsLastActivities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktSyncCommentsLastActivitiesImpl implements TraktSyncCommentsLastActivities {
 	@SerializedName("liked_at")
-	private Date likedAt;
+	private Instant likedAt;
 
 	@Override
-	public Date getLikedAt() {
+	public Instant getLikedAt() {
 		return likedAt;
 	}
 
 	@Override
-	public void setLikedAt(Date likedAt) {
+	public void setLikedAt(Instant likedAt) {
 		this.likedAt = likedAt;
 	}
 
 	@Override
-	public TraktSyncCommentsLastActivities withLikedAt(Date likedAt) {
+	public TraktSyncCommentsLastActivities withLikedAt(Instant likedAt) {
 		this.likedAt = likedAt;
 		return this;
 	}

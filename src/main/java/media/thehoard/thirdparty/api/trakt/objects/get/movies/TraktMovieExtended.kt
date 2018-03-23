@@ -1,5 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.movies
 
+import java.time.Instant
 import java.util.Date
 
 interface TraktMovieExtended : TraktMovie {
@@ -7,11 +8,11 @@ interface TraktMovieExtended : TraktMovie {
 
     var overview: String
 
-    var released: Date?
+    var released: Instant?
 
     var runtime: Int?
 
-    var updatedAt: Date?
+    var updatedAt: Instant?
 
     var trailer: String
 

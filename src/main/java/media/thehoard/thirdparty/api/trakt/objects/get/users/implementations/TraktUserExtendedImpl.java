@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserExtended;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserIds;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserImages;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktUserExtendedImpl implements TraktUserExtended {
 	private String username;
@@ -19,7 +19,7 @@ public class TraktUserExtendedImpl implements TraktUserExtended {
 	private TraktUserIdsImpl ids;
 
 	@SerializedName("joined_at")
-	private Date joinedAt;
+	private Instant joinedAt;
 	private String location;
 	private String about;
 	private String gender;
@@ -127,17 +127,17 @@ public class TraktUserExtendedImpl implements TraktUserExtended {
 	}
 
 	@Override
-	public Date getJoinedAt() {
+	public Instant getJoinedAt() {
 		return joinedAt;
 	}
 
 	@Override
-	public void setJoinedAt(Date joinedAt) {
+	public void setJoinedAt(Instant joinedAt) {
 		this.joinedAt = joinedAt;
 	}
 
 	@Override
-	public TraktUserExtended withJoinedAt(Date joinedAt) {
+	public TraktUserExtended withJoinedAt(Instant joinedAt) {
 		this.joinedAt = joinedAt;
 		return this;
 	}

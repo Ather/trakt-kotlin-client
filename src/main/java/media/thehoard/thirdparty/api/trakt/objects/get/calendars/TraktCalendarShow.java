@@ -5,14 +5,15 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktCalendarShow extends TraktShow<TraktCalendarShow>, TraktCalendarEpisode<TraktCalendarShow> {
-	Date getFirstAired();
+	Instant getFirstAired();
 
-	void setFirstAired(Date firstAired);
+	void setFirstAired(Instant firstAired);
 
-	TraktCalendarShow withFirstAired(Date firstAired);
+	TraktCalendarShow withFirstAired(Instant firstAired);
 
 	TraktEpisode getEpisode();
 

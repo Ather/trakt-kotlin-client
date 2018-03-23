@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktShowStatus;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowAirs;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowExtended;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public class TraktShowExtendedImpl implements TraktShowExtended {
@@ -15,7 +15,7 @@ public class TraktShowExtendedImpl implements TraktShowExtended {
 
 	private String overview;
 	@SerializedName("first_aired")
-	private Date firstAired;
+	private Instant firstAired;
 	private TraktShowAirsImpl airs;
 	private Integer runtime;
 	//TODO Look into Enum here
@@ -23,7 +23,7 @@ public class TraktShowExtendedImpl implements TraktShowExtended {
 	private String network;
 	private String country;
 	@SerializedName("updated_at")
-	private Date updatedAt;
+	private Instant updatedAt;
 	private String trailer;
 	private String homepage;
 	private TraktShowStatus status;
@@ -105,17 +105,17 @@ public class TraktShowExtendedImpl implements TraktShowExtended {
 	}
 
 	@Override
-	public Date getFirstAired() {
+	public Instant getFirstAired() {
 		return firstAired;
 	}
 
 	@Override
-	public void setFirstAired(Date firstAired) {
+	public void setFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 	}
 
 	@Override
-	public TraktShowExtended withFirstAired(Date firstAired) {
+	public TraktShowExtended withFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 		return this;
 	}
@@ -201,17 +201,17 @@ public class TraktShowExtendedImpl implements TraktShowExtended {
 	}
 
 	@Override
-	public Date getUpdatedAt() {
+	public Instant getUpdatedAt() {
 		return updatedAt;
 	}
 
 	@Override
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
 	@Override
-	public TraktShowExtended withUpdatedAt(Date updatedAt) {
+	public TraktShowExtended withUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 		return this;
 	}

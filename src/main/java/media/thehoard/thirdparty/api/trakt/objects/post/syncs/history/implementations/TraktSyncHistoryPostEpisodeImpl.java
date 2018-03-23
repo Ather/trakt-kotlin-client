@@ -3,10 +3,10 @@ package media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.implement
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeIdsImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktSyncHistoryPostEpisodeImpl {
 	@SerializedName("watched_at")
-	private Date watchedAt;
+	private Instant watchedAt;
 	private TraktEpisodeIdsImpl ids;
 }

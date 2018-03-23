@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktAccessScope;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktListImpl implements TraktList {
 	private String name;
@@ -21,9 +21,9 @@ public class TraktListImpl implements TraktList {
 	@SerializedName("sort_how")
 	private String sortHow;
 	@SerializedName("created_at")
-	private Date createdAt;
+	private Instant createdAt;
 	@SerializedName("updated_at")
-	private Date updatedAt;
+	private Instant updatedAt;
 	@SerializedName("item_count")
 	private Integer itemCount;
 	@SerializedName("comment_count")
@@ -145,33 +145,33 @@ public class TraktListImpl implements TraktList {
 	}
 
 	@Override
-	public Date getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
 	@Override
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	@Override
-	public TraktList withCreatedAt(Date createdAt) {
+	public TraktList withCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 		return this;
 	}
 
 	@Override
-	public Date getUpdatedAt() {
+	public Instant getUpdatedAt() {
 		return updatedAt;
 	}
 
 	@Override
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
 	@Override
-	public TraktList withUpdatedAt(Date updatedAt) {
+	public TraktList withUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 		return this;
 	}

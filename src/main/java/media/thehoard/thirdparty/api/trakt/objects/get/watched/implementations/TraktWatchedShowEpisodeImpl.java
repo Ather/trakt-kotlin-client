@@ -3,13 +3,14 @@ package media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations;
 import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedShowEpisode;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class TraktWatchedShowEpisodeImpl implements TraktWatchedShowEpisode {
 	private Integer number;
 	private Integer plays;
 	@SerializedName("last_watched_at")
-	private Date lastWatchedAt;
+	private Instant lastWatchedAt;
 
 	@Override
 	public Integer getNumber() {
@@ -44,17 +45,17 @@ public class TraktWatchedShowEpisodeImpl implements TraktWatchedShowEpisode {
 	}
 
 	@Override
-	public Date getLastWatchedAt() {
+	public Instant getLastWatchedAt() {
 		return lastWatchedAt;
 	}
 
 	@Override
-	public void setLastWatchedAt(Date lastWatchedAt) {
+	public void setLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 	}
 
 	@Override
-	public TraktWatchedShowEpisode withLastWatchedAt(Date lastWatchedAt) {
+	public TraktWatchedShowEpisode withLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 		return this;
 	}

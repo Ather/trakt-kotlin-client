@@ -4,25 +4,25 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktRecentlyUpdatedShow;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktRecentlyUpdatedShowImpl implements TraktRecentlyUpdatedShow {
 	@SerializedName("updated_at")
-	private Date updatedAt;
+	private Instant updatedAt;
 	private TraktShowImpl show;
 
 	@Override
-	public Date getUpdatedAt() {
+	public Instant getUpdatedAt() {
 		return updatedAt;
 	}
 
 	@Override
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
 	@Override
-	public TraktRecentlyUpdatedShow withUpdatedAt(Date updatedAt) {
+	public TraktRecentlyUpdatedShow withUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 		return this;
 	}

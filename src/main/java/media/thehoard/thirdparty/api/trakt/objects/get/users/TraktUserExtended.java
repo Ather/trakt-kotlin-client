@@ -2,14 +2,14 @@ package media.thehoard.thirdparty.api.trakt.objects.get.users;
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImagesImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserExtended extends TraktUser<TraktUserExtended> {
-	Date getJoinedAt();
+	Instant getJoinedAt();
 
-	void setJoinedAt(Date joinedAt);
+	void setJoinedAt(Instant joinedAt);
 
-	TraktUserExtended withJoinedAt(Date joinedAt);
+	TraktUserExtended withJoinedAt(Instant joinedAt);
 
 	String getLocation();
 

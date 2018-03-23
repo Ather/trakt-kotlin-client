@@ -3,14 +3,15 @@ package media.thehoard.thirdparty.api.trakt.objects.get.calendars;
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie;
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktCalendarMovie extends TraktMovie<TraktCalendarMovie> {
-	Date getReleased();
+	Instant getReleased();
 
-	void setReleased(Date released);
+	void setReleased(Instant released);
 
-	TraktCalendarMovie withReleased(Date released);
+	TraktCalendarMovie withReleased(Instant released);
 
 	TraktMovieImpl getMovie();
 

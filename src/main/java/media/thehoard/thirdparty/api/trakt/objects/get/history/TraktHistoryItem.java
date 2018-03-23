@@ -7,7 +7,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktHistoryItem {
 	long getId();
@@ -16,11 +16,11 @@ public interface TraktHistoryItem {
 
 	TraktHistoryItem withId(long id);
 
-	Date getWatchedAt();
+	Instant getWatchedAt();
 
-	void setWatchedAt(Date watchedAt);
+	void setWatchedAt(Instant watchedAt);
 
-	TraktHistoryItem withWatchedAt(Date watchedAt);
+	TraktHistoryItem withWatchedAt(Instant watchedAt);
 
 	TraktHistoryActionType getAction();
 

@@ -1,47 +1,48 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktSyncMoviesLastActivities {
-	Date getWatchedAt();
+	Instant getWatchedAt();
 
-	void setWatchedAt(Date watchedAt);
+	void setWatchedAt(Instant watchedAt);
 
-	TraktSyncMoviesLastActivities withWatchedAt(Date watchedAt);
+	TraktSyncMoviesLastActivities withWatchedAt(Instant watchedAt);
 
-	Date getCollectedAt();
+	Instant getCollectedAt();
 
-	void setCollectedAt(Date collectedAt);
+	void setCollectedAt(Instant collectedAt);
 
-	TraktSyncMoviesLastActivities withCollectedAt(Date collectedAt);
+	TraktSyncMoviesLastActivities withCollectedAt(Instant collectedAt);
 
-	Date getRatedAt();
+	Instant getRatedAt();
 
-	void setRatedAt(Date ratedAt);
+	void setRatedAt(Instant ratedAt);
 
-	TraktSyncMoviesLastActivities withRatedAt(Date ratedAt);
+	TraktSyncMoviesLastActivities withRatedAt(Instant ratedAt);
 
-	Date getWatchlistedAt();
+	Instant getWatchlistedAt();
 
-	void setWatchlistedAt(Date watchlistedAt);
+	void setWatchlistedAt(Instant watchlistedAt);
 
-	TraktSyncMoviesLastActivities withWatchlistedAt(Date watchlistedAt);
+	TraktSyncMoviesLastActivities withWatchlistedAt(Instant watchlistedAt);
 
-	Date getCommentedAt();
+	Instant getCommentedAt();
 
-	void setCommentedAt(Date commentedAt);
+	void setCommentedAt(Instant commentedAt);
 
-	TraktSyncMoviesLastActivities withCommentedAt(Date commentedAt);
+	TraktSyncMoviesLastActivities withCommentedAt(Instant commentedAt);
 
-	Date getPausedAt();
+	Instant getPausedAt();
 
-	void setPausedAt(Date pausedAt);
+	void setPausedAt(Instant pausedAt);
 
-	TraktSyncMoviesLastActivities withPausedAt(Date pausedAt);
+	TraktSyncMoviesLastActivities withPausedAt(Instant pausedAt);
 
-	Date getHiddenAt();
+	Instant getHiddenAt();
 
-	void setHiddenAt(Date hiddenAt);
+	void setHiddenAt(Instant hiddenAt);
 
-	TraktSyncMoviesLastActivities withHiddenAt(Date hiddenAt);
+	TraktSyncMoviesLastActivities withHiddenAt(Instant hiddenAt);
 }

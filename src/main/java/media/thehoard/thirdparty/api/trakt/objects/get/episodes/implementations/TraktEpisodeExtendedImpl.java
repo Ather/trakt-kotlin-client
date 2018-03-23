@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeExtended;
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
@@ -17,9 +17,9 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	private Integer numberAbsolute;
 	private String overview;
 	@SerializedName("first_aired")
-	private Date firstAired;
+	private Instant firstAired;
 	@SerializedName("updated_at")
-	private Date updatedAt;
+	private Instant updatedAt;
 	private Float rating;
 	private Integer votes;
 	@SerializedName("comment_count")
@@ -125,33 +125,33 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public Date getFirstAired() {
+	public Instant getFirstAired() {
 		return firstAired;
 	}
 
 	@Override
-	public void setFirstAired(Date firstAired) {
+	public void setFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 	}
 
 	@Override
-	public TraktEpisodeExtended withFirstAired(Date firstAired) {
+	public TraktEpisodeExtended withFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 		return this;
 	}
 
 	@Override
-	public Date getUpdatedAt() {
+	public Instant getUpdatedAt() {
 		return updatedAt;
 	}
 
 	@Override
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
 	@Override
-	public TraktEpisodeExtended withUpdatedAt(Date updatedAt) {
+	public TraktEpisodeExtended withUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 		return this;
 	}

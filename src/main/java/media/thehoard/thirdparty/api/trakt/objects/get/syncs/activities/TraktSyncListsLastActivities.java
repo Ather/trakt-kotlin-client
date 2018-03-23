@@ -1,23 +1,24 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktSyncListsLastActivities {
-	Date getLikedAt();
+	Instant getLikedAt();
 
-	void setLikedAt(Date likedAt);
+	void setLikedAt(Instant likedAt);
 
-	TraktSyncListsLastActivities withLikedAt(Date likedAt);
+	TraktSyncListsLastActivities withLikedAt(Instant likedAt);
 
-	Date getUpdatedAt();
+	Instant getUpdatedAt();
 
-	void setUpdatedAt(Date updatedAt);
+	void setUpdatedAt(Instant updatedAt);
 
-	TraktSyncListsLastActivities withUpdatedAt(Date updatedAt);
+	TraktSyncListsLastActivities withUpdatedAt(Instant updatedAt);
 
-	Date getCommentedAt();
+	Instant getCommentedAt();
 
-	void setCommentedAt(Date commentedAt);
+	void setCommentedAt(Instant commentedAt);
 
-	TraktSyncListsLastActivities withCommentedAt(Date commentedAt);
+	TraktSyncListsLastActivities withCommentedAt(Instant commentedAt);
 }

@@ -2,14 +2,14 @@ package media.thehoard.thirdparty.api.trakt.objects.get.users;
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public interface TraktUserFollower {
-	Date getFollowedAt();
+	Instant getFollowedAt();
 
-	void setFollowedAt(Date followedAt);
+	void setFollowedAt(Instant followedAt);
 
-	TraktUserFollower withFollowedAt(Date followedAt);
+	TraktUserFollower withFollowedAt(Instant followedAt);
 
 	TraktUser getUser();
 

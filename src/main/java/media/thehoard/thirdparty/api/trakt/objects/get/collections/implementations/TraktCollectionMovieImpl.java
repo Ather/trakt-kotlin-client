@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktMetadata;
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionMovie;
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovieIds;
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktCollectionMovieImpl implements TraktCollectionMovie {
 	@SerializedName("collected_at")
-	private Date collectedAt;
+	private Instant collectedAt;
 	private TraktMovieImpl movie;
 	private TraktMetadataImpl metadata;
 
@@ -40,29 +40,29 @@ public class TraktCollectionMovieImpl implements TraktCollectionMovie {
 	}
 
 	@Override
-	public TraktMovieIds getIds() {return movie != null ? movie.getIds() : null;}
+	public TraktMovieIdsImpl getIds() {return movie != null ? movie.getIds() : null;}
 
 	@Override
-	public void setIds(TraktMovieIds ids) {if (movie != null) movie.setIds(ids);}
+	public void setIds(TraktMovieIdsImpl ids) {if (movie != null) movie.setIds(ids);}
 
 	@Override
-	public TraktCollectionMovieImpl withIds(TraktMovieIds ids) {
+	public TraktCollectionMovieImpl withIds(TraktMovieIdsImpl ids) {
 		if (movie != null) movie.setIds(ids);
 		return this;
 	}
 
 	@Override
-	public Date getCollectedAt() {
+	public Instant getCollectedAt() {
 		return collectedAt;
 	}
 
 	@Override
-	public void setCollectedAt(Date collectedAt) {
+	public void setCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 	}
 
 	@Override
-	public TraktCollectionMovie withCollectedAt(Date collectedAt) {
+	public TraktCollectionMovie withCollectedAt(Instant collectedAt) {
 		this.collectedAt = collectedAt;
 		return this;
 	}

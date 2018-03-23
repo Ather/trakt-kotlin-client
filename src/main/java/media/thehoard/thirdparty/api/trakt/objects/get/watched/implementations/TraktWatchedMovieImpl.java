@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedMovie;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktWatchedMovieImpl implements TraktWatchedMovie {
 	private Integer plays;
 	@SerializedName("last_watched_at")
-	private Date lastWatchedAt;
+	private Instant lastWatchedAt;
 	private TraktMovieImpl movie;
 
 	@Override
@@ -29,17 +29,17 @@ public class TraktWatchedMovieImpl implements TraktWatchedMovie {
 	}
 
 	@Override
-	public Date getLastWatchedAt() {
+	public Instant getLastWatchedAt() {
 		return lastWatchedAt;
 	}
 
 	@Override
-	public void setLastWatchedAt(Date lastWatchedAt) {
+	public void setLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 	}
 
 	@Override
-	public TraktWatchedMovie withLastWatchedAt(Date lastWatchedAt) {
+	public TraktWatchedMovie withLastWatchedAt(Instant lastWatchedAt) {
 		this.lastWatchedAt = lastWatchedAt;
 		return this;
 	}

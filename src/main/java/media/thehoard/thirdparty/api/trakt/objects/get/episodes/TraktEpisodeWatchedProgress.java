@@ -1,11 +1,12 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.episodes;
 
+import java.time.Instant;
 import java.util.Date;
 
 public interface TraktEpisodeWatchedProgress extends TraktEpisodeProgress<TraktEpisodeWatchedProgress> {
-	Date getLastWatchedAt();
+	Instant getLastWatchedAt();
 
-	void setLastWatchedAt(Date lastWatchedAt);
+	void setLastWatchedAt(Instant lastWatchedAt);
 
-	TraktEpisodeWatchedProgress withLastWatchedAt(Date lastWatchedAt);
+	TraktEpisodeWatchedProgress withLastWatchedAt(Instant lastWatchedAt);
 }

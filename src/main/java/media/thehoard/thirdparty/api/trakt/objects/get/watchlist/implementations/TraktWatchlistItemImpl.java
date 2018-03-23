@@ -8,11 +8,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.T
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.watchlist.TraktWatchlistItem;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktWatchlistItemImpl implements TraktWatchlistItem {
 	@SerializedName("listed_at")
-	private Date listedAt;
+	private Instant listedAt;
 	private TraktSyncItemType type;
 	private TraktMovieImpl movie;
 	private TraktShowImpl show;
@@ -20,17 +20,17 @@ public class TraktWatchlistItemImpl implements TraktWatchlistItem {
 	private TraktEpisodeImpl episode;
 
 	@Override
-	public Date getListedAt() {
+	public Instant getListedAt() {
 		return listedAt;
 	}
 
 	@Override
-	public void setListedAt(Date listedAt) {
+	public void setListedAt(Instant listedAt) {
 		this.listedAt = listedAt;
 	}
 
 	@Override
-	public TraktWatchlistItem withListedAt(Date listedAt) {
+	public TraktWatchlistItem withListedAt(Instant listedAt) {
 		this.listedAt = listedAt;
 		return this;
 	}

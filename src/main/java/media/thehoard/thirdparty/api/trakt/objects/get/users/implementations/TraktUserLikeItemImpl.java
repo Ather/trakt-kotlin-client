@@ -6,27 +6,27 @@ import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCo
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserLikeItem;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktUserLikeItemImpl implements media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserLikeItem {
 	@SerializedName("liked_at")
-	private Date likedAt;
+	private Instant likedAt;
 	private TraktUserLikeType type;
 	private TraktCommentImpl comment;
 	private TraktList list;
 
 	@Override
-	public Date getLikedAt() {
+	public Instant getLikedAt() {
 		return likedAt;
 	}
 
 	@Override
-	public void setLikedAt(Date likedAt) {
+	public void setLikedAt(Instant likedAt) {
 		this.likedAt = likedAt;
 	}
 
 	@Override
-	public TraktUserLikeItem withLikedAt(Date likedAt) {
+	public TraktUserLikeItem withLikedAt(Instant likedAt) {
 		this.likedAt = likedAt;
 		return this;
 	}

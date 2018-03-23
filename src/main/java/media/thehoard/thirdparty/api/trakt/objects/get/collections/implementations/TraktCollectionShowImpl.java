@@ -6,27 +6,27 @@ import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollecti
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl;
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public class TraktCollectionShowImpl implements TraktCollectionShow {
 	@SerializedName("last_collected_at")
-	private Date lastCollectedAt;
+	private Instant lastCollectedAt;
 	private TraktShowImpl show;
 	private List<TraktCollectionShowSeason> seasons;
 
 	@Override
-	public Date getLastCollectedAt() {
+	public Instant getLastCollectedAt() {
 		return lastCollectedAt;
 	}
 
 	@Override
-	public void setLastCollectedAt(Date lastCollectedAt) {
+	public void setLastCollectedAt(Instant lastCollectedAt) {
 		this.lastCollectedAt = lastCollectedAt;
 	}
 
 	@Override
-	public TraktCollectionShow withLastCollectedAt(Date lastCollectedAt) {
+	public TraktCollectionShow withLastCollectedAt(Instant lastCollectedAt) {
 		this.lastCollectedAt = lastCollectedAt;
 		return this;
 	}

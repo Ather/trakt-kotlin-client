@@ -4,25 +4,25 @@ import com.google.gson.annotations.SerializedName;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser;
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserFriend;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class TraktUserFriendImpl implements TraktUserFriend {
 	@SerializedName("friends_at")
-	private Date friendsAt;
+	private Instant friendsAt;
 	private TraktUserImpl user;
 
 	@Override
-	public Date getFriendsAt() {
+	public Instant getFriendsAt() {
 		return friendsAt;
 	}
 
 	@Override
-	public void setFriendsAt(Date friendsAt) {
+	public void setFriendsAt(Instant friendsAt) {
 		this.friendsAt = friendsAt;
 	}
 
 	@Override
-	public TraktUserFriend withFriendsAt(Date friendsAt) {
+	public TraktUserFriend withFriendsAt(Instant friendsAt) {
 		this.friendsAt = friendsAt;
 		return this;
 	}

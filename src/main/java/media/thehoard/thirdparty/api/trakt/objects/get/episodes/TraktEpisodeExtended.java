@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.episodes;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 public interface TraktEpisodeExtended extends TraktEpisode<TraktEpisodeExtended> {
@@ -16,17 +16,17 @@ public interface TraktEpisodeExtended extends TraktEpisode<TraktEpisodeExtended>
 
 	TraktEpisodeExtended withOverview(String overview);
 
-	Date getFirstAired();
+	Instant getFirstAired();
 
-	void setFirstAired(Date firstAired);
+	void setFirstAired(Instant firstAired);
 
-	TraktEpisodeExtended withFirstAired(Date firstAired);
+	TraktEpisodeExtended withFirstAired(Instant firstAired);
 
-	Date getUpdatedAt();
+	Instant getUpdatedAt();
 
-	void setUpdatedAt(Date updatedAt);
+	void setUpdatedAt(Instant updatedAt);
 
-	TraktEpisodeExtended withUpdatedAt(Date updatedAt);
+	TraktEpisodeExtended withUpdatedAt(Instant updatedAt);
 
 	Float getRating();
 
