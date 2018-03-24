@@ -1,13 +1,13 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations;
 
 import com.google.gson.annotations.SerializedName;
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeExtended;
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeExtendedFull;
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds;
 
 import java.time.Instant;
 import java.util.List;
 
-public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
+public class TraktEpisodeExtendedFullImpl implements TraktEpisodeExtendedFull {
 	private Integer season;
 	private Integer number;
 	private String title;
@@ -39,7 +39,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtendedImpl withSeason(Integer season) {
+	public TraktEpisodeExtendedFullImpl withSeason(Integer season) {
 		this.season = season;
 		return this;
 	}
@@ -55,7 +55,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtendedImpl withNumber(Integer number) {
+	public TraktEpisodeExtendedFullImpl withNumber(Integer number) {
 		this.number = number;
 		return this;
 	}
@@ -71,7 +71,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtendedImpl withTitle(String title) {
+	public TraktEpisodeExtendedFullImpl withTitle(String title) {
 		this.title = title;
 		return this;
 	}
@@ -87,7 +87,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtendedImpl withIds(TraktEpisodeIdsImpl ids) {
+	public TraktEpisodeExtendedFullImpl withIds(TraktEpisodeIdsImpl ids) {
 		this.ids = ids;
 		return this;
 	}
@@ -103,7 +103,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withNumberAbsolute(Integer numberAbsolute) {
+	public TraktEpisodeExtendedFull withNumberAbsolute(Integer numberAbsolute) {
 		this.numberAbsolute = numberAbsolute;
 		return this;
 	}
@@ -119,7 +119,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withOverview(String overview) {
+	public TraktEpisodeExtendedFull withOverview(String overview) {
 		this.overview = overview;
 		return this;
 	}
@@ -135,7 +135,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withFirstAired(Instant firstAired) {
+	public TraktEpisodeExtendedFull withFirstAired(Instant firstAired) {
 		this.firstAired = firstAired;
 		return this;
 	}
@@ -151,7 +151,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withUpdatedAt(Instant updatedAt) {
+	public TraktEpisodeExtendedFull withUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 		return this;
 	}
@@ -167,7 +167,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withRating(Float rating) {
+	public TraktEpisodeExtendedFull withRating(Float rating) {
 		this.rating = rating;
 		return this;
 	}
@@ -183,7 +183,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withVotes(Integer votes) {
+	public TraktEpisodeExtendedFull withVotes(Integer votes) {
 		this.votes = votes;
 		return this;
 	}
@@ -199,7 +199,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withCommentCount(Integer commentCount) {
+	public TraktEpisodeExtendedFull withCommentCount(Integer commentCount) {
 		this.commentCount = commentCount;
 		return this;
 	}
@@ -215,7 +215,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withAvailableTranslations(List<String> availableTranslations) {
+	public TraktEpisodeExtendedFull withAvailableTranslations(List<String> availableTranslations) {
 		this.availableTranslations = availableTranslations;
 		return this;
 	}
@@ -231,7 +231,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 	}
 
 	@Override
-	public TraktEpisodeExtended withRuntime(Integer runtime) {
+	public TraktEpisodeExtendedFull withRuntime(Integer runtime) {
 		this.runtime = runtime;
 		return this;
 	}
@@ -241,7 +241,7 @@ public class TraktEpisodeExtendedImpl implements TraktEpisodeExtended {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		TraktEpisodeExtendedImpl that = (TraktEpisodeExtendedImpl) o;
+		TraktEpisodeExtendedFullImpl that = (TraktEpisodeExtendedFullImpl) o;
 
 		return (season != null ? season.equals(that.season) : that.season == null) && (number != null ? number
 				.equals(that.number) : that.number == null) && (title != null ? title.equals(that.title)

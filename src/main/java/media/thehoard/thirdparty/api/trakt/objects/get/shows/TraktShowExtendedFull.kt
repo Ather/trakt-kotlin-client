@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 
 import java.time.Instant
 
-interface TraktShowExtended : TraktShow {
+interface TraktShowExtendedFull : TraktShow {
     var overview: String
 
     var firstAired: Instant?

@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.movies
 import java.time.Instant
 import java.util.Date
 
-interface TraktMovieExtended : TraktMovie {
+interface TraktMovieExtendedFull : TraktMovie {
     var tagline: String
 
     var overview: String
