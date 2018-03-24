@@ -10,7 +10,7 @@
     </properties>
     <groupId>media.thehoard.thirdparty</groupId>
     <artifactId>trakt-api-java-wrapper</artifactId>
-    <version>0.0.5.29</version>
+    <version>0.0.5.30</version>
     <dependencies>
         <dependency>
             <groupId>com.google.http-client</groupId>
