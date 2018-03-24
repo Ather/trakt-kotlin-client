@@ -8,9 +8,9 @@ interface TraktShowProgress {
 
     var completed: Int?
 
-    var hiddenSeasons: List<TraktSeasonImpl>
+    var hiddenSeasons: MutableList<TraktSeasonImpl>
 
-    val nextEpisode: TraktEpisodeImpl
+    var nextEpisode: TraktEpisodeImpl
 
-    val lastEpisode: TraktEpisodeImpl
+    var lastEpisode: TraktEpisodeImpl
 }

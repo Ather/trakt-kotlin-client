@@ -5,6 +5,6 @@ import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.T
 interface TraktWatchedShowSeason {
     var number: Int?
 
-    var episodes: List<TraktWatchedShowEpisodeImpl>
+    var episodes: MutableList<TraktWatchedShowEpisodeImpl>
 
 }

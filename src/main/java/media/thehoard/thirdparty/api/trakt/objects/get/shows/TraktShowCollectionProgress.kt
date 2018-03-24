@@ -6,5 +6,5 @@ import java.time.Instant
 interface TraktShowCollectionProgress : TraktShowProgress {
     var lastCollectedAt: Instant?
 
-    var seasons: List<TraktSeasonCollectionProgressImpl>
+    var seasons: MutableList<TraktSeasonCollectionProgressImpl>
 }

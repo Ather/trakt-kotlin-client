@@ -6,10 +6,12 @@ import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.T
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowCollectionProgress
 import java.time.Instant
 
-data class TraktShowCollectionProgressImpl(override var lastCollectedAt: Instant? = null,
-                                           override var seasons: List<TraktSeasonCollectionProgressImpl> = listOf(),
-                                           override var aired: Int? = null,
-                                           override var completed: Int? = null,
-                                           override var hiddenSeasons: List<TraktSeasonImpl> = listOf(),
-                                           override val nextEpisode: TraktEpisodeImpl = TraktEpisodeImpl(),
-                                           override val lastEpisode: TraktEpisodeImpl = TraktEpisodeImpl()) : TraktShowCollectionProgress
+data class TraktShowCollectionProgressImpl(
+        override var lastCollectedAt: Instant? = null,
+        override var seasons: MutableList<TraktSeasonCollectionProgressImpl> = mutableListOf(),
+        override var aired: Int? = null,
+        override var completed: Int? = null,
+        override var hiddenSeasons: MutableList<TraktSeasonImpl> = mutableListOf(),
+        override var nextEpisode: TraktEpisodeImpl = TraktEpisodeImpl(),
+        override var lastEpisode: TraktEpisodeImpl = TraktEpisodeImpl()
+) : TraktShowCollectionProgress

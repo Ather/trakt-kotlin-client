@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.watched
 
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.TraktWatchedShowSeasonImpl
+import org.jetbrains.annotations.Mutable
 
 import java.time.Instant
 
@@ -12,6 +13,6 @@ interface TraktWatchedShow {
 
     var show: TraktShowImpl
 
-    var seasons: List<TraktWatchedShowSeasonImpl>
+    var seasons: MutableList<TraktWatchedShowSeasonImpl>
 
 }

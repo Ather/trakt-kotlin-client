@@ -11,6 +11,6 @@ interface TraktCollectionShow<EpisodeType : TraktCollectionShowEpisode> : TraktS
 
     var show: TraktShowImpl
 
-    var seasons: List<TraktCollectionShowSeasonImpl<EpisodeType>>
+    var seasons: MutableList<TraktCollectionShowSeasonImpl<EpisodeType>>
 
 }

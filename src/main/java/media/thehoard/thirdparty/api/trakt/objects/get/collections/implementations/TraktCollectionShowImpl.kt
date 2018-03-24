@@ -11,7 +11,7 @@ data class TraktCollectionShowImpl<ConcreteEpisodeType : TraktCollectionShowEpis
         @SerializedName("last_collected_at")
         override var lastCollectedAt: Instant? = null,
         override var show: TraktShowImpl = TraktShowImpl(),
-        override var seasons: List<TraktCollectionShowSeasonImpl<ConcreteEpisodeType>> = listOf()
+        override var seasons: MutableList<TraktCollectionShowSeasonImpl<ConcreteEpisodeType>> = mutableListOf()
 ) : TraktCollectionShow<ConcreteEpisodeType> {
 
     override var title: String
