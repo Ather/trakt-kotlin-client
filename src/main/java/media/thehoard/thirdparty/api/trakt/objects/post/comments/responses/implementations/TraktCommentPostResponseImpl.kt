@@ -1,7 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.implementations
 
 import com.google.gson.annotations.SerializedName
-import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.TraktCommentPostResponse
@@ -21,4 +20,4 @@ data class TraktCommentPostResponseImpl(override var id: Int = 0,
                                         @SerializedName("user_rating")
                                         override var userRating: Float? = null,
                                         override var user: TraktUserImpl = TraktUserImpl(),
-                                        override var sharing: TraktSharingImpl = TraktSharingImpl()) : TraktComment, TraktCommentPostResponse
+                                        override var sharing: TraktSharingImpl = TraktSharingImpl()) : TraktCommentPostResponse
