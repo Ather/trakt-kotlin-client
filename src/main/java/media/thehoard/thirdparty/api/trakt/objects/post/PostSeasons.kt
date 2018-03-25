@@ -1,5 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.objects.post
 
+import java.time.Instant
+
+@PostSeasonsDsl
 class PostSeasons(vararg seasons: PostSeason = arrayOf()) : MutableCollection<PostSeason> {
     private val seasons: MutableList<PostSeason> = seasons.toMutableList()
 
@@ -21,6 +24,7 @@ class PostSeasons(vararg seasons: PostSeason = arrayOf()) : MutableCollection<Po
     override fun retainAll(elements: Collection<PostSeason>): Boolean = seasons.retainAll(elements)
 }
 
+@PostSeasonDsl
 class PostSeason(var number: Int = -1, var episodes: PostEpisodes = PostEpisodes())
 
 class PostEpisodes(vararg episodes: Int = intArrayOf()) : MutableCollection<Int> {

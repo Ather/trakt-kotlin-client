@@ -3,6 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post
 import com.google.gson.annotations.SerializedName
 import java.time.Instant
 
+@PostSeasonsDsl
 class PostRatingsSeasons(vararg seasons: PostRatingsSeason = arrayOf()) : MutableList<PostRatingsSeason> {
 
     private val seasons: MutableList<PostRatingsSeason> = seasons.toMutableList()
@@ -37,6 +38,7 @@ class PostRatingsSeasons(vararg seasons: PostRatingsSeason = arrayOf()) : Mutabl
     override fun subList(fromIndex: Int, toIndex: Int): MutableList<PostRatingsSeason> = subList(fromIndex, toIndex)
 }
 
+@PostSeasonDsl
 class PostRatingsSeason(
         var number: Int = -1,
         var rating: Int? = null,
@@ -80,6 +82,7 @@ class PostRatingsEpisodes(vararg episodes: PostRatingsEpisode = arrayOf()) : Mut
     override fun subList(fromIndex: Int, toIndex: Int): MutableList<PostRatingsEpisode> = subList(fromIndex, toIndex)
 }
 
+@PostEpisodeDsl
 class PostRatingsEpisode(
         var number: Int = -1,
         var rating: Int? = null,

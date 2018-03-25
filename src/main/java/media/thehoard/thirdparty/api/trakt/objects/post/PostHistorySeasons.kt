@@ -35,6 +35,7 @@ class PostHistorySeasons(vararg seasons: PostHistorySeason = arrayOf()) : Mutabl
     override fun subList(fromIndex: Int, toIndex: Int): MutableList<PostHistorySeason> = subList(fromIndex, toIndex)
 }
 
+@PostSeasonDsl
 class PostHistorySeason(
         var number: Int = -1,
         @SerializedName("watched_at")
@@ -42,8 +43,8 @@ class PostHistorySeason(
         var episodes: PostHistoryEpisodes = PostHistoryEpisodes()
 )
 
-class PostHistoryEpisodes : MutableList<PostHistoryEpisode> {
-    private val episodes: MutableList<PostHistoryEpisode> = mutableListOf()
+class PostHistoryEpisodes(vararg episodes: PostHistoryEpisode = arrayOf()) : MutableList<PostHistoryEpisode> {
+    private val episodes: MutableList<PostHistoryEpisode> = episodes.toMutableList()
 
     override val size: Int
         get() = episodes.size
