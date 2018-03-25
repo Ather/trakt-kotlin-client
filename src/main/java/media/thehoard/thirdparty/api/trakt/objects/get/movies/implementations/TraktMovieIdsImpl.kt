@@ -1,25 +1,37 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations
 
+import media.thehoard.thirdparty.api.trakt.core.TraktDefaultIds
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovieIds
-import media.thehoard.thirdparty.api.trakt.utils.TraktUtils
 
-class TraktMovieIdsImpl : TraktMovieIds {
-    override var trakt: Int = 0
-    override var slug: String = ""
-    override var imdb: String = ""
-    override var tmdb: Int? = null
+data class TraktMovieIdsImpl(
+        override var trakt: Int = 0,
+        override var slug: String = "",
+        override var imdb: String = "",
+        override var tmdb: Int? = null
+) : TraktMovieIds {
 
     override fun hasAnyId(): Boolean {
-        return trakt > 0 || !slug.isEmpty() || !imdb.isEmpty() || (tmdb?.compareTo(0) ?: 0) > 0
+        return getBestId().isNotEmpty()
     }
 
     override fun getBestId(): String {
-        if (trakt > 0) return trakt.toString()
+        return when {
+            isValid(trakt) -> trakt.toString()
+            isValid(slug) -> slug
+            isValid(imdb) -> imdb
+            isValid(tmdb) -> tmdb.toString()
+            else -> ""
+        }
+    }
 
-        if (!slug.isEmpty()) return slug
-
-        if (!imdb.isEmpty()) return imdb
-
-        return if (tmdb != null && tmdb!! > 0) tmdb!!.toString() else ""
+    override fun hasIdMatch(ids: TraktDefaultIds): Boolean {
+        return if (ids is TraktMovieIdsImpl) {
+            val (trakt1, slug1, imdb1, tmdb1) = ids
+            return ((isValid(trakt) && isValid(trakt1) && trakt == trakt1) ||
+                    (isValid(slug) && isValid(slug1) && slug == slug1) ||
+                    (isValid(imdb) && isValid(imdb1) && imdb == imdb1) ||
+                    (isValid(tmdb) && isValid(tmdb1) && tmdb == tmdb1))
+        } else
+            false
     }
 }

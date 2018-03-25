@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations
 
+import media.thehoard.thirdparty.api.trakt.core.TraktDefaultIds
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktListIds
-import media.thehoard.thirdparty.api.trakt.utils.TraktUtils
 
 data class TraktListIdsImpl(
         override var trakt: Int = 0,
@@ -9,12 +9,23 @@ data class TraktListIdsImpl(
 ) : TraktListIds {
 
     override fun hasAnyId(): Boolean {
-        return trakt > 0 || !TraktUtils.isNullOrEmpty(slug)
+        return getBestId().isNotEmpty()
     }
 
     override fun getBestId(): String {
-        if (trakt > 0) return trakt.toString()
+        return when {
+            isValid(trakt) -> trakt.toString()
+            isValid(slug) -> slug
+            else -> ""
+        }
+    }
 
-        return if (!TraktUtils.isNullOrEmpty(slug)) slug else ""
+    override fun hasIdMatch(ids: TraktDefaultIds): Boolean {
+        return if (ids is TraktListIdsImpl) {
+            val (trakt1, slug1) = ids
+            return ((isValid(trakt) && isValid(trakt1) && trakt == trakt1) ||
+                    (isValid(slug) && isValid(slug1) && slug == slug1))
+        } else
+            false
     }
 }
