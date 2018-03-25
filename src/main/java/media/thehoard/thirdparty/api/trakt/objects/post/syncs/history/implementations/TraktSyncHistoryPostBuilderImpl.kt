@@ -133,8 +133,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
     }
 
     private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>? = null, watchedAt: Instant? = null) {
-        val existingShow = historyPost.shows.stream().filter { s -> s.ids like show.ids }
-                .findFirst().orElseGet({ TraktSyncHistoryPostShowImpl() })
+        val existingShow = historyPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null && showSeasons != null)
             existingShow.seasons = showSeasons

@@ -144,15 +144,15 @@ public class TraktSyncWatchlistPostImpl {
 				showSeasons = new ArrayList<>();
 
 				for (PostSeasons.PostSeason season : seasons) {
-					if (season.number < 0)
+					if (season.getNumber() < 0)
 						throw new IllegalArgumentException("at least one season number not valid");
 
-					TraktSyncWatchlistPostShowSeasonImpl showSingleSeason = new TraktSyncWatchlistPostShowSeasonImpl(season.number);
+					TraktSyncWatchlistPostShowSeasonImpl showSingleSeason = new TraktSyncWatchlistPostShowSeasonImpl(season.getNumber());
 
-					if (season.episodes != null && season.episodes.size() > 0) {
+					if (season.getEpisodes() != null && season.getEpisodes().size() > 0) {
 						List<TraktSyncWatchlistPostShowEpisodeImpl> showEpisodes = new ArrayList<>();
 
-						for (int episode : season.episodes) {
+						for (int episode : season.getEpisodes()) {
 							if (episode < 0)
 								throw new IllegalArgumentException("at least one episode number not valid");
 

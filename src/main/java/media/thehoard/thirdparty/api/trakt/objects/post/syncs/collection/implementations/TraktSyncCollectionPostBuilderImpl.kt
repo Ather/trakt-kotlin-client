@@ -172,8 +172,7 @@ class TraktSyncCollectionPostBuilderImpl {
 
     //TODO Equality check
     private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncCollectionPostShowSeasonImpl>, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null) {
-        val existingShow = collectionPost.shows.stream().filter { s -> s.ids like show.ids }
-                .findFirst().orElseGet({ TraktSyncCollectionPostShowImpl() })
+        val existingShow = collectionPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)
             existingShow.seasons = showSeasons
