@@ -111,7 +111,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
     }
 
     private fun containsEpisode(episode: TraktEpisode): Boolean {
-        for ((_, ids) in ratingsPost.episodes)
+        for ((ids) in ratingsPost.episodes)
             if (ids like episode.ids) return true
 
         return false
@@ -131,7 +131,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
 
     private fun addEpisodeOrIgnore(episode: TraktEpisode, rating: Int? = null, ratedAt: Instant? = null): TraktSyncRatingsPostBuilder {
         if (containsEpisode(episode)) return this
-        ratingsPost.episodes.add(TraktSyncRatingsPostEpisodeImpl(rating, episode.ids, ratedAt))
+        ratingsPost.episodes.add(TraktSyncRatingsPostEpisodeImpl(episode.ids, rating, ratedAt))
         return this
     }
 
