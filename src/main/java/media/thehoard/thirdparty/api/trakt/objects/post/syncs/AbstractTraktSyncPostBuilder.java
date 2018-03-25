@@ -53,11 +53,5 @@ public abstract class AbstractTraktSyncPostBuilder<BuildResult, BuilderReturn ex
 
 	protected abstract boolean containsEpisode(TraktEpisode episode);*/
 
-	protected abstract void ensureMoviesListExists();
-
-	protected abstract void ensureShowsListExists();
-
-	protected abstract void ensureEpisodesListExists();
-
 	protected abstract BuilderReturn self();
 }
