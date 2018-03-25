@@ -12,4 +12,6 @@ interface TraktDefaultIds {
     fun isValid(intId: Int?): Boolean {
         return intId != null && intId > 0
     }
+
+    infix fun like(ids: TraktDefaultIds): Boolean = hasIdMatch(ids)
 }
