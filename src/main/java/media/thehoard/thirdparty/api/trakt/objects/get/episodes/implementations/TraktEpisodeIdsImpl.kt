@@ -2,7 +2,6 @@ package media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations
 
 import media.thehoard.thirdparty.api.trakt.core.TraktDefaultIds
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds
-import media.thehoard.thirdparty.api.trakt.utils.TraktUtils
 
 data class TraktEpisodeIdsImpl(
         override var trakt: Int = 0,

@@ -5,9 +5,7 @@ import media.thehoard.thirdparty.api.trakt.authentication.TraktDeviceAuth
 import media.thehoard.thirdparty.api.trakt.authentication.TraktOAuth
 import media.thehoard.thirdparty.api.trakt.core.TraktConfiguration
 import media.thehoard.thirdparty.api.trakt.modules.*
-import media.thehoard.thirdparty.api.trakt.utils.TraktUtils
 
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class TraktClient internal constructor() {
@@ -58,13 +56,13 @@ class TraktClient internal constructor() {
         get() = authentication.clientSecret
 
     val isValidForUseWithoutAuthorization: Boolean?
-        get() = TraktUtils.isNullOrEmpty(clientId) && !clientId.contains(" ")
+        get() = clientId.isBlank() && !clientId.contains(" ")
 
     val isValidForUseWithAuthorization: Boolean?
         get() = isValidForUseWithoutAuthorization!! && authentication.isAuthorized
 
     val isValidForAuthenticationProcess: Boolean?
-        get() = isValidForUseWithoutAuthorization!! && !TraktUtils.isNullOrEmpty(clientSecret) && !clientSecret
+        get() = isValidForUseWithoutAuthorization!! && !clientSecret.isBlank() && !clientSecret
                 .contains(" ")
 
     constructor(clientId: String) : this() {
