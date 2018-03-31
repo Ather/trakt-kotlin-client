@@ -1,9 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.exceptions
 
-import com.google.api.client.http.HttpStatusCodes
+import java.net.HttpURLConnection
 
-class TraktPreconditionFailedException @JvmOverloads constructor(message: String = "Precondition Failed - use application/json content type") : TraktException(message) {
+class TraktPreconditionFailedException(message: String = "Precondition Failed - use application/json content type") : TraktException(message) {
     init {
-        this.statusCode = HttpStatusCodes.STATUS_CODE_PRECONDITION_FAILED
+        this.statusCode = HttpURLConnection.HTTP_PRECON_FAILED
     }
 }

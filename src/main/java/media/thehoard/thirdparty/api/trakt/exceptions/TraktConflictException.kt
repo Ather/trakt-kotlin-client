@@ -1,9 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.exceptions
 
-import com.google.api.client.http.HttpStatusCodes
+import java.net.HttpURLConnection
 
-class TraktConflictException @JvmOverloads constructor(message: String = "Conflict - resource already created") : TraktException(message) {
+class TraktConflictException(message: String = "Conflict - resource already created") : TraktException(message) {
     init {
-        this.statusCode = HttpStatusCodes.STATUS_CODE_CONFLICT
+        this.statusCode = HttpURLConnection.HTTP_CONFLICT
     }
 }

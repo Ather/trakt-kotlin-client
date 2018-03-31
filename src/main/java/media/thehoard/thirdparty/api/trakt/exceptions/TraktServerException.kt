@@ -1,9 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.exceptions
 
-import com.google.api.client.http.HttpStatusCodes
+import java.net.HttpURLConnection
 
-class TraktServerException @JvmOverloads constructor(message: String = "Server Error") : TraktException(message) {
+class TraktServerException(message: String = "Server Error") : TraktException(message) {
     init {
-        this.statusCode = HttpStatusCodes.STATUS_CODE_SERVER_ERROR
+        this.statusCode = HttpURLConnection.HTTP_INTERNAL_ERROR
     }
 }

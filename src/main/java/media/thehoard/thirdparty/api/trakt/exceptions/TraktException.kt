@@ -12,7 +12,7 @@ open class TraktException : RuntimeException {
 
     var serverReasonPhrase: String? = null
 
-    constructor(message: String, innerException: Throwable) : super(message, innerException) {}
+    constructor(message: String, innerException: Throwable) : super(message, innerException)
 
-    constructor(message: String) : super(message) {}
+    constructor(message: String) : super(message)
 }
