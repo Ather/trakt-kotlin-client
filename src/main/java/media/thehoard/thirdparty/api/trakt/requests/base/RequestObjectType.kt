@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.requests.base
 
-enum class RequestObjectType {
+internal enum class RequestObjectType {
     Unspecified,
     Movies,
     Shows,
