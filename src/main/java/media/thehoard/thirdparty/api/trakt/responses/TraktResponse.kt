@@ -4,9 +4,9 @@ import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktResponse
 
 import java.time.Instant
 
-open class TraktResponse<out TResponseContentType> : TraktNoContentResponse(), ITraktResponse<TResponseContentType> {
+open class TraktResponse<TResponseContentType> : TraktNoContentResponse(), ITraktResponse<TResponseContentType> {
     override var hasValue: Boolean = false
-    override val value: TResponseContentType? = null
+    override var value: TResponseContentType? = null
     override var sortBy: String = ""
     override var sortHow: String = ""
     override var startDate: Instant? = null
