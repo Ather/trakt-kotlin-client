@@ -2,11 +2,9 @@ package media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.i
 
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.PostSeasons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.AbstractTraktSyncPostBuilder
-import media.thehoard.thirdparty.api.trakt.utils.TraktUtils
 import java.util.*
 
 class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUserCustomListItemsPostImpl, TraktUserCustomListItemsPostBuilder>() {

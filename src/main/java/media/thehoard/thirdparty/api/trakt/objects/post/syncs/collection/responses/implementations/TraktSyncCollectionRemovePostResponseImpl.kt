@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.respons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.implementations.TraktSyncPostResponseGroupImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.implementations.TraktSyncPostResponseNotFoundGroupImpl
 
-class TraktSyncCollectionRemovePostResponseImpl(
+data class TraktSyncCollectionRemovePostResponseImpl(
         override var deleted: TraktSyncPostResponseGroupImpl = TraktSyncPostResponseGroupImpl(),
         @SerializedName("not_found")
         override var notFound: TraktSyncPostResponseNotFoundGroupImpl = TraktSyncPostResponseNotFoundGroupImpl()
