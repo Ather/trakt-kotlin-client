@@ -174,7 +174,7 @@ internal class MovieReleasesRequest(
     }
 }
 
-internal class MoviesBoxOfficRequest(
+internal class MoviesBoxOfficeRequest(
         override var extendedInfo: TraktExtendedInfo? = null
 ) : AGetRequestHasResponse<TraktCastAndCrewImpl>(), ISupportsExtendedInfo {
     override val uriTemplate: String = "movies/boxoffice{?extended}"
