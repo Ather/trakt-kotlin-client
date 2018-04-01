@@ -9,11 +9,11 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
 import java.util.concurrent.CompletableFuture
 
 interface IRequestHandler : IPostRequestHandler, IPutRequestHandler {
-    fun executeNoContentRequest(request: IRequest): CompletableFuture<TraktNoContentResponse>
+    fun executeNoContentRequestAsync(request: IRequest): CompletableFuture<TraktNoContentResponse>
 
-    fun <TResponseContentType> executeSingleItemRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktResponse<TResponseContentType>>
+    fun <TResponseContentType> executeSingleItemRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktResponse<TResponseContentType>>
 
-    fun <TResponseContentType> executeListRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktListResponse<TResponseContentType>>
+    fun <TResponseContentType> executeListRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktListResponse<TResponseContentType>>
 
-    fun <TResponseContentType> executePagedRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktPagedResponse<TResponseContentType>>
+    fun <TResponseContentType> executePagedRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktPagedResponse<TResponseContentType>>
 }

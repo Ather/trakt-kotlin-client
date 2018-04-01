@@ -30,62 +30,62 @@ internal class RequestHandler(
         private val requestMessageBuilder: RequestMessageBuilder
 ) : IRequestHandler {
 
-    override fun executeNoContentRequest(request: IRequest): CompletableFuture<TraktNoContentResponse> {
+    override fun executeNoContentRequestAsync(request: IRequest): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
         return queryNoContentAsync(requestMessageBuilder.reset(request).build())
     }
 
-    override fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPostRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
+    override fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPostRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
         return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPutRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
+    override fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPutRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
         return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType> executeSingleItemRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktResponse<TResponseContentType>> {
+    override fun <TResponseContentType> executeSingleItemRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return querySingleItemAsync(requestMessageBuilder.reset(request).build(), false)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request is CheckinRequest<TResponseContentType, TRequestBodyType>)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), false)
     }
 
-    override fun <TResponseContentType> executeListRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
+    override fun <TResponseContentType> executeListRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return queryListAsync(requestMessageBuilder.reset(request).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType> executePagedRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
+    override fun <TResponseContentType> executePagedRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return queryPagedListAsync(requestMessageBuilder.reset(request).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
         return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
