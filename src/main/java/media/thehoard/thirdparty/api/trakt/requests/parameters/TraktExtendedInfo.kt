@@ -6,16 +6,18 @@ class TraktExtendedInfo(
         var metadata: Boolean = false,
         var full: Boolean = false,
         var noSeasons: Boolean = false,
-        var episodes: Boolean = false
+        var episodes: Boolean = false,
+        var vip: Boolean = false
 ) {
     val hasAnySet
-        get() = metadata || full || noSeasons || episodes
+        get() = metadata || full || noSeasons || episodes || vip
 
     fun reset() {
         metadata = false
         full = false
         noSeasons = false
         episodes = false
+        vip = false
     }
 
     fun resolve(): List<String> {
@@ -24,6 +26,7 @@ class TraktExtendedInfo(
             if (full) add("full")
             if (noSeasons) add("noseasons")
             if (episodes) add("episodes")
+            if (vip) add ("vip")
         }
     }
 

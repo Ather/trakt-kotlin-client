@@ -9,12 +9,12 @@ import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCastAndCrewImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeExtendedFullImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.*
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktRecentlyUpdatedShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowAliasImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowExtendedFullImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserExtendedFullImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
@@ -105,7 +105,7 @@ internal class ShowCommentsRequest(
 internal class ShowLastEpisodeRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktEpisodeExtendedFullImpl>(
+) : AShowRequest<TraktEpisodeImpl>(
         "shows/{id}/last_episode{?extended}",
         id
 ), ISupportsExtendedInfo {
@@ -140,7 +140,7 @@ internal class ShowListsRequest(
 internal class ShowNextEpisodeRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktEpisodeExtendedFullImpl>(
+) : AShowRequest<TraktEpisodeImpl>(
         "shows/{id}/next_episode{?extended}",
         id
 ), ISupportsExtendedInfo {
@@ -177,7 +177,7 @@ internal class ShowRelatedShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AShowRequest<TraktShowExtendedFullImpl>(
+) : AShowRequest<TraktShowImpl>(
         "shows/{id}/related{?extended,page,limit}",
         id
 ), ISupportsExtendedInfo, ISupportsPagination {
@@ -273,7 +273,7 @@ internal class ShowsTrendingRequest : AShowsRequest<TraktTrendingMovieImpl>(
 internal class ShowSummaryRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktMovieExtendedFullImpl>("shows/{id}{?extended}", id), ISupportsExtendedInfo {
+) : AShowRequest<TraktMovieImpl>("shows/{id}{?extended}", id), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -304,7 +304,7 @@ internal class ShowTranslationsRequest(
 internal class ShowWatchingUsersRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktUserExtendedFullImpl>(
+) : AShowRequest<TraktUserImpl>(
         "shows/{id}/watching{?extended}",
         id
 ), ISupportsExtendedInfo {

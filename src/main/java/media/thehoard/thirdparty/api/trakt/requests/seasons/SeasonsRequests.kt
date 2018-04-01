@@ -6,10 +6,9 @@ import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktStatisticsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeExtendedFullImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserExtendedFullImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
@@ -124,7 +123,7 @@ internal class SeasonSingleRequest(
         seasonNumber: Int,
         internal var translationLanguageCode: String? = null,
         override var extendedInfo: TraktExtendedInfo? = null
-): ASeasonRequest<TraktEpisodeExtendedFullImpl>(
+): ASeasonRequest<TraktEpisodeImpl>(
         "shows/{id}/seasons/{season}{?extended,translations}",
         id,
         seasonNumber
@@ -157,7 +156,7 @@ internal class SeasonWatchingUsersRequest(
         override var id: String,
         seasonNumber: Int,
         override var extendedInfo: TraktExtendedInfo? = null
-): ASeasonRequest<TraktUserExtendedFullImpl>(
+): ASeasonRequest<TraktUserImpl>(
         "shows/{id}/seasons/{season}/watching{?extended}",
         id,
         seasonNumber

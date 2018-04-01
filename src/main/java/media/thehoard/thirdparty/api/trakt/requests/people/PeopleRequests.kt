@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.requests.people
 
 import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.implementations.TraktPersonMovieCreditsImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.implementations.TraktPersonShowCreditsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonExtendedFullImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
@@ -46,7 +46,7 @@ internal class PersonShowCreditsRequest(
 internal class PersonSummaryRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : APersonRequest<TraktPersonExtendedFullImpl>(
+) : APersonRequest<TraktPersonImpl>(
         "people/{id}{?extended}",
         id,
         extendedInfo

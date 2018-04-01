@@ -566,7 +566,7 @@ internal class UserListUnlikeRequest(
 internal class UserProfileRequest(
         extendedInfo: TraktExtendedInfo? = null,
         internal var username: String
-) : AUsersGetRequest<TraktUserExtendedFullImpl>(
+) : AUsersGetRequest<TraktUserImpl>(
         "users/{username}/friends{?extended}",
         extendedInfo
 ) {

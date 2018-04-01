@@ -10,7 +10,7 @@ import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCa
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.*
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserExtendedFullImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
@@ -142,7 +142,7 @@ internal class MovieRelatedMoviesRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AMovieRequest<TraktMovieExtendedFullImpl>(
+) : AMovieRequest<TraktMovieImpl>(
         "movies/{id}/related{?extended,page,limit}",
         id
 ), ISupportsExtendedInfo, ISupportsPagination {
@@ -269,7 +269,7 @@ internal class MoviesTrendingRequest : AMoviesRequest<TraktTrendingMovieImpl>(
 internal class MovieSummaryRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AMovieRequest<TraktMovieExtendedFullImpl>("movies/{id}{?extended}", id), ISupportsExtendedInfo {
+) : AMovieRequest<TraktMovieImpl>("movies/{id}{?extended}", id), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -300,7 +300,7 @@ internal class MovieTranslationsRequest(
 internal class MovieWatchingUsersRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AMovieRequest<TraktUserExtendedFullImpl>(
+) : AMovieRequest<TraktUserImpl>(
         "movies/{id}/watching{?extended}",
         id
 ), ISupportsExtendedInfo {

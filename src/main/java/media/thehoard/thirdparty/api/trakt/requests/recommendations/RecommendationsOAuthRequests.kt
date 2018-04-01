@@ -1,8 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.requests.recommendations
 
 import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieExtendedFullImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowExtendedFullImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.ADeleteRequest
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
@@ -43,7 +43,7 @@ internal sealed class AUserRecommendationsRequest<TResponseContentType>(
 
 internal class UserMovieRecommendationsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : AUserRecommendationsRequest<TraktMovieExtendedFullImpl>(
+) : AUserRecommendationsRequest<TraktMovieImpl>(
         "recommendations/movies{?extended,limit}",
         extendedInfo
 ) {
@@ -68,7 +68,7 @@ internal class UserRecommendationHideShowRequest(
 
 internal class UserShowRecommendationsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : AUserRecommendationsRequest<TraktShowExtendedFullImpl>(
+) : AUserRecommendationsRequest<TraktShowImpl>(
         "recommendations/shows{?extended,limit}",
         extendedInfo
 ) {
