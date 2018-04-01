@@ -14,8 +14,7 @@ internal class CheckinRequest<TResponseContentType, TRequestBodyType : IRequestB
 }
 
 internal class CheckinsDeleteRequest : ADeleteRequest() {
-    override val uriTemplate: String
-        get() = "checkin"
+    override val uriTemplate: String = "checkin"
 
     override val uriPathParameters: Map<String, Any>? = mapOf()
 

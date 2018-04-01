@@ -10,7 +10,7 @@ import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktCommonFilter
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.time.Instant
 
-internal abstract class ACalendarRequest<TResponseConentType> : AGetRequestHasResponse<TResponseConentType>(), ISupportsExtendedInfo, ISupportsFilter {
+internal abstract class ACalendarRequest<TResponseConentType>(override val uriTemplate: String) : AGetRequestHasResponse<TResponseConentType>(), ISupportsExtendedInfo, ISupportsFilter {
     internal var startDate: Instant? = null
 
     internal var days: Int? = null
@@ -19,22 +19,23 @@ internal abstract class ACalendarRequest<TResponseConentType> : AGetRequestHasRe
 
     override var filter: TraktCommonFilter? = null
 
-    override val uriPathParameters: Map<String, Any>? = hashMapOf<String, String>().apply {
-        if (startDate != null)
-            this["start_date"] = startDate!!.toTraktDateString()
-        if (days != null) {
-            this["days"] = days!!.toString()
-            if (startDate == null)
-                this["start_date"] = Instant.now().toTraktDateString()
+    override val uriPathParameters: Map<String, Any>?
+        get() = hashMapOf<String, String>().apply {
+            if (startDate != null)
+                this["start_date"] = startDate!!.toTraktDateString()
+            if (days != null) {
+                this["days"] = days!!.toString()
+                if (startDate == null)
+                    this["start_date"] = Instant.now().toTraktDateString()
+            }
+
+            if (extendedInfo?.hasAnySet == true)
+                this["extended"] = extendedInfo.toString()
+
+            if (filter?.hasValues == true)
+                for (parameter in filter!!.getParameters())
+                    this[parameter.key] = parameter.value
         }
-
-        if (extendedInfo?.hasAnySet == true)
-            this["extended"] = extendedInfo.toString()
-
-        if (filter?.hasValues == true)
-            for (parameter in filter!!.getParameters())
-                this[parameter.key] = parameter.value
-    }
 
     override fun validate() {
         if (days != null && days!! !in 1..31)
@@ -42,27 +43,12 @@ internal abstract class ACalendarRequest<TResponseConentType> : AGetRequestHasRe
     }
 }
 
-internal class CalendarAllDVDMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>() {
-    override val uriTemplate: String
-        get() = "calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}"
-}
+internal class CalendarAllDVDMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>("calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}")
 
-internal class CalendarAllMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>() {
-    override val uriTemplate: String
-        get() = "calendars/all/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}"
-}
+internal class CalendarAllMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>("calendars/all/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}")
 
-internal class CalendarAllNewShowsRequest : ACalendarRequest<TraktCalendarShowImpl>() {
-    override val uriTemplate: String
-        get() = "calendars/all/shows/new{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}"
-}
+internal class CalendarAllNewShowsRequest : ACalendarRequest<TraktCalendarShowImpl>("calendars/all/shows/new{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}")
 
-internal class CalendarAllSeasonPremieresRequest : ACalendarRequest<TraktCalendarShowImpl>() {
-    override val uriTemplate: String
-        get() = "calendars/all/shows/premieres{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}"
-}
+internal class CalendarAllSeasonPremieresRequest : ACalendarRequest<TraktCalendarShowImpl>("calendars/all/shows/premieres{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}")
 
-internal class CalendarAllShowsRequest : ACalendarRequest<TraktCalendarShowImpl>() {
-    override val uriTemplate: String
-        get() = "calendars/all/shows{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}"
-}
+internal class CalendarAllShowsRequest : ACalendarRequest<TraktCalendarShowImpl>("calendars/all/shows{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}")
