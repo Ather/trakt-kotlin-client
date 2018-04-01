@@ -47,7 +47,7 @@ internal class RequestMessageBuilder(
 
         val requestUriParameters = request!!.uriPathParameters
 
-        if (requestUriParameters.isNotEmpty()) {
+        if (requestUriParameters?.isNotEmpty() == true) {
             if (requestUriParameters.containsKey(SEASON_KEY)) {
                 val strSeasonNumber: String = requestUriParameters[SEASON_KEY] as String
                 try {
@@ -73,7 +73,7 @@ internal class RequestMessageBuilder(
     private fun buildUrl(): String {
         val uriTemplate = UriTemplate.fromTemplate(request!!.uriTemplate)
 
-        for ((key, value) in request!!.uriPathParameters)
+        for ((key, value) in request!!.uriPathParameters!!)
             uriTemplate.set(key, value)
 
         return client.configuration.baseUrl + uriTemplate.expand()
