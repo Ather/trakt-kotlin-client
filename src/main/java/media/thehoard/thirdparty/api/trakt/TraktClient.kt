@@ -84,6 +84,6 @@ class TraktClient internal constructor() {
     }
 
     companion object {
-        val MAIN_THREAD_POOL = Executors.newCachedThreadPool()
+        internal val MAIN_THREAD_POOL = Executors.newCachedThreadPool()
     }
 }

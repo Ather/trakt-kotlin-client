@@ -7,13 +7,14 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktListResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktNoContentResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktPagedResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
+import java.util.concurrent.CompletableFuture
 
 interface IPutRequestHandler {
-    fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPutRequest<TRequestBodyType>): TraktNoContentResponse
+    fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPutRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse>
 
-    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktResponse<TResponseContentType>
+    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>>
 
-    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktListResponse<TResponseContentType>
+    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>>
 
-    fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktPagedResponse<TResponseContentType>
+    fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>>
 }

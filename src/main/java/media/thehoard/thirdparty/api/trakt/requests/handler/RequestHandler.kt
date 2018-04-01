@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import jdk.incubator.http.HttpClient
 import jdk.incubator.http.HttpResponse
 import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.TraktClient.Companion.MAIN_THREAD_POOL
 import media.thehoard.thirdparty.api.trakt.core.Constants
 import media.thehoard.thirdparty.api.trakt.exceptions.*
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktError
@@ -22,188 +23,194 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktPagedResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
 import media.thehoard.thirdparty.api.trakt.utils.Json
 import java.net.HttpURLConnection
+import java.util.concurrent.CompletableFuture
 
 internal class RequestHandler(
         private val client: TraktClient,
         private val requestMessageBuilder: RequestMessageBuilder
 ) : IRequestHandler {
 
-    override fun executeNoContentRequest(request: IRequest): TraktNoContentResponse {
+    override fun executeNoContentRequest(request: IRequest): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
-        return queryNoContent(requestMessageBuilder.reset(request).build())
+        return queryNoContentAsync(requestMessageBuilder.reset(request).build())
     }
 
-    override fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPostRequest<TRequestBodyType>): TraktNoContentResponse {
+    override fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPostRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
-        return queryNoContent(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPutRequest<TRequestBodyType>): TraktNoContentResponse {
+    override fun <TRequestBodyType : IRequestBody> executeNoContentRequest(request: IPutRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
-        return queryNoContent(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType> executeSingleItemRequest(request: IRequestHasResponse<TResponseContentType>): TraktResponse<TResponseContentType> {
+    override fun <TResponseContentType> executeSingleItemRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return querySingleItem(requestMessageBuilder.reset(request).build(), false)
+        return querySingleItemAsync(requestMessageBuilder.reset(request).build(), false)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktResponse<TResponseContentType> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return querySingleItem(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request is CheckinRequest<TResponseContentType, TRequestBodyType>)
+        return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request is CheckinRequest<TResponseContentType, TRequestBodyType>)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktResponse<TResponseContentType> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return querySingleItem(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), false)
+        return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), false)
     }
 
-    override fun <TResponseContentType> executeListRequest(request: IRequestHasResponse<TResponseContentType>): TraktListResponse<TResponseContentType> {
+    override fun <TResponseContentType> executeListRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryList(requestMessageBuilder.reset(request).build())
+        return queryListAsync(requestMessageBuilder.reset(request).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktListResponse<TResponseContentType> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryList(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktListResponse<TResponseContentType> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryList(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType> executePagedRequest(request: IRequestHasResponse<TResponseContentType>): TraktPagedResponse<TResponseContentType> {
+    override fun <TResponseContentType> executePagedRequest(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryPagedList(requestMessageBuilder.reset(request).build())
+        return queryPagedListAsync(requestMessageBuilder.reset(request).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktPagedResponse<TResponseContentType> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryPagedList(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): TraktPagedResponse<TResponseContentType> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequest(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryPagedList(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
     }
 
-    private fun queryNoContent(requestMessage: ExtendedHttpRequestMessage): TraktNoContentResponse {
-        val httpResponse: HttpResponse<String>?
-
+    private fun queryNoContentAsync(requestMessage: ExtendedHttpRequestMessage): CompletableFuture<TraktNoContentResponse> {
         return try {
-            httpResponse = executeRequest(requestMessage, false)
-            checkNotNull(httpResponse)
-            check(httpResponse.statusCode() == HttpURLConnection.HTTP_NO_CONTENT)
-            TraktNoContentResponse().apply { isSuccess = true }
+            return executeRequestAsync(requestMessage, false).thenApply {
+                checkNotNull(it)
+                check(it.statusCode() == HttpURLConnection.HTTP_NO_CONTENT)
+                TraktNoContentResponse().apply { isSuccess = true }
+            }
         } catch (e: Exception) {
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            TraktNoContentResponse().apply {
-                isSuccess = false
-                exception = e
+            CompletableFuture.supplyAsync {
+                TraktNoContentResponse().apply {
+                    isSuccess = false
+                    exception = e
+                }
             }
         }
     }
 
-    private fun <TResponseContentType> querySingleItem(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): TraktResponse<TResponseContentType> {
-        val httpResponse: HttpResponse<String>?
-
+    private fun <TResponseContentType> querySingleItemAsync(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): CompletableFuture<TraktResponse<TResponseContentType>> {
         try {
-            httpResponse = executeRequest(requestMessage, isCheckinRequest)
-            checkNotNull(httpResponse)
-            check(httpResponse.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
-            val contentObject = Json.gson.fromJson<TResponseContentType>(httpResponse.body(), object : TypeToken<TResponseContentType>() {}.type)
+            return executeRequestAsync(requestMessage, isCheckinRequest).thenApply {
+                checkNotNull(it)
+                check(it.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
+                val contentObject = Json.gson.fromJson<TResponseContentType>(it.body(), object : TypeToken<TResponseContentType>() {}.type)
 
-            val response = TraktResponse<TResponseContentType>().apply {
-                isSuccess = true
-                hasValue = true
-                value = contentObject
+                val response = TraktResponse<TResponseContentType>().apply {
+                    isSuccess = true
+                    hasValue = true
+                    value = contentObject
+                }
+
+                if (it.headers() != null)
+                    ResponseHeaderParser.parseResponseHeaderValues(response, it.headers())
+
+                return@thenApply response
             }
-
-            if (httpResponse.headers() != null)
-                ResponseHeaderParser.parseResponseHeaderValues(response, httpResponse.headers())
-
-            return response
         } catch (e: Exception) {
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            return TraktResponse<TResponseContentType>().apply {
-                isSuccess = false
-                exception = e
+            return CompletableFuture.supplyAsync {
+                TraktResponse<TResponseContentType>().apply {
+                    isSuccess = false
+                    exception = e
+                }
             }
         }
     }
 
-    private fun <TResponseContentType> queryList(requestMessage: ExtendedHttpRequestMessage): TraktListResponse<TResponseContentType> {
-        val httpResponse: HttpResponse<String>?
-
+    private fun <TResponseContentType> queryListAsync(requestMessage: ExtendedHttpRequestMessage): CompletableFuture<TraktListResponse<TResponseContentType>> {
         try {
-            httpResponse = executeRequest(requestMessage, false)
-            checkNotNull(httpResponse)
-            check(httpResponse.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
-            val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(httpResponse.body())
+            return executeRequestAsync(requestMessage, false).thenApply {
+                checkNotNull(it)
+                check(it.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
+                val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(it.body())
 
-            val response = TraktListResponse<TResponseContentType>().apply {
-                isSuccess = true
-                hasValue = true
-                value = contentObject
+                val response = TraktListResponse<TResponseContentType>().apply {
+                    isSuccess = true
+                    hasValue = true
+                    value = contentObject
+                }
+
+                if (it.headers() != null)
+                    ResponseHeaderParser.parseResponseHeaderValues(response, it.headers())
+
+                return@thenApply response
             }
-
-            if (httpResponse.headers() != null)
-                ResponseHeaderParser.parseResponseHeaderValues(response, httpResponse.headers())
-
-            return response
         } catch (e: Exception) {
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            return TraktListResponse<TResponseContentType>().apply {
-                isSuccess = false
-                exception = e
+            return CompletableFuture.supplyAsync {
+                TraktListResponse<TResponseContentType>().apply {
+                    isSuccess = false
+                    exception = e
+                }
             }
         }
     }
 
-    private fun <TResponseContentType> queryPagedList(requestMessage: ExtendedHttpRequestMessage): TraktPagedResponse<TResponseContentType> {
-        val httpResponse: HttpResponse<String>?
-
+    private fun <TResponseContentType> queryPagedListAsync(requestMessage: ExtendedHttpRequestMessage): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         try {
-            httpResponse = executeRequest(requestMessage, false)
-            checkNotNull(httpResponse)
-            check(httpResponse.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
-            val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(httpResponse.body())
+            return executeRequestAsync(requestMessage, false).thenApply {
+                checkNotNull(it)
+                check(it.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
+                val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(it.body())
 
-            val response = TraktPagedResponse<TResponseContentType>().apply {
-                isSuccess = true
-                hasValue = true
-                value = contentObject
+                val response = TraktPagedResponse<TResponseContentType>().apply {
+                    isSuccess = true
+                    hasValue = true
+                    value = contentObject
+                }
+
+                if (it.headers() != null)
+                    ResponseHeaderParser.parsePagedResponseHeaderValue(response, it.headers())
+
+                return@thenApply response
             }
-
-            if (httpResponse.headers() != null)
-                ResponseHeaderParser.parsePagedResponseHeaderValue(response, httpResponse.headers())
-
-            return response
         } catch (e: Exception) {
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            return TraktPagedResponse<TResponseContentType>().apply {
-                isSuccess = false
-                exception = e
+            return CompletableFuture.supplyAsync {
+                TraktPagedResponse<TResponseContentType>().apply {
+                    isSuccess = false
+                    exception = e
+                }
             }
         }
     }
 
-    private fun executeRequest(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): HttpResponse<String> {
+    private fun executeRequestAsync(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): CompletableFuture<HttpResponse<String>> {
         setDefaultRequestHeaders(requestMessage)
-        val response = httpClient!!.send(requestMessage.build(), HttpResponse.BodyHandler.asString())
-        if (response.statusCode() !in 200..299)
-            errorHandling(response, requestMessage, isCheckinRequest)
 
-        return response
+        return httpClient!!.sendAsync(requestMessage.build(), HttpResponse.BodyHandler.asString()).thenApply {
+            if (it.statusCode() !in 200..299)
+                errorHandling(it, requestMessage, isCheckinRequest)
+            return@thenApply it
+        }
     }
 
     private fun preExecuteRequest(request: IRequest) {
@@ -217,7 +224,7 @@ internal class RequestHandler(
 
     private fun setupHttpClient() {
         if (httpClient == null)
-            httpClient = HttpClient.newHttpClient()
+            httpClient = HttpClient.newBuilder().executor(MAIN_THREAD_POOL).build()
     }
 
     private fun setDefaultRequestHeaders(requestMessage: ExtendedHttpRequestMessage) {
