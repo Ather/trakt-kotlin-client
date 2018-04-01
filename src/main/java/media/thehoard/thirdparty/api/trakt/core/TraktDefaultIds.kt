@@ -6,7 +6,7 @@ interface TraktDefaultIds {
     fun hasIdMatch(ids: TraktDefaultIds): Boolean
 
     fun isValid(stringId: String?): Boolean {
-        return !stringId.isNullOrEmpty()
+        return !stringId.isNullOrBlank()
     }
 
     fun isValid(intId: Int?): Boolean {

@@ -11,7 +11,7 @@ data class TraktPersonIdsImpl(
 ) : TraktPersonIds {
 
     override fun hasAnyId(): Boolean {
-        return getBestId().isNotEmpty()
+        return getBestId().isNotBlank()
     }
 
     override fun getBestId(): String {
