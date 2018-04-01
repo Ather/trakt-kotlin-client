@@ -26,9 +26,10 @@ import java.net.HttpURLConnection
 import java.util.concurrent.CompletableFuture
 
 internal class RequestHandler(
-        private val client: TraktClient,
-        private val requestMessageBuilder: RequestMessageBuilder
+        private val client: TraktClient
 ) : IRequestHandler {
+
+    private val requestMessageBuilder: RequestMessageBuilder = RequestMessageBuilder(client)
 
     override fun executeNoContentRequestAsync(request: IRequest): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
