@@ -10,7 +10,7 @@ internal abstract class ARequestHasResponse<TResponseContentType> : IRequestHasR
 
     abstract override val uriTemplate: String
 
-    abstract override val uriPathParameters: Map<String, Any>
+    abstract override val uriPathParameters: Map<String, Any>?
 
     abstract override fun validate()
 }
