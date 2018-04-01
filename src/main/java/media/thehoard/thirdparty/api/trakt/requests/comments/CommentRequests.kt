@@ -7,26 +7,26 @@ import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsPagination
 
-internal class CommentRepliesRequest : AGetRequestHasResponse<TraktCommentImpl>(), IHasId, ISupportsPagination {
-    override var id: String = ""
+internal class CommentRepliesRequest(
+        override var id: String,
+        override var page: Int? = null,
+        override var limit: Int? = null
+) : AGetRequestHasResponse<TraktCommentImpl>(), IHasId, ISupportsPagination {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
-    override var page: Int? = null
-
-    override var limit: Int? = null
-
     override val uriTemplate: String = "comments/{id}/replies{?page,limit}"
 
-    override val uriPathParameters: Map<String, Any>? = hashMapOf<String, String>().apply {
-        this["id"] = id
+    override val uriPathParameters: Map<String, Any>?
+        get() = hashMapOf<String, String>().apply {
+            this["id"] = id
 
-        if (page != null)
-            this["page"] = page!!.toString()
+            if (page != null)
+                this["page"] = page!!.toString()
 
-        if (limit != null)
-            this["limit"] = limit!!.toString()
-    }
+            if (limit != null)
+                this["limit"] = limit!!.toString()
+        }
 
     override fun validate() {
         if (id.isBlank() || id.containsSpace())
@@ -34,14 +34,15 @@ internal class CommentRepliesRequest : AGetRequestHasResponse<TraktCommentImpl>(
     }
 }
 
-internal class CommentSummaryRequest : AGetRequestHasResponse<TraktCommentImpl>(), IHasId {
-    override var id: String = ""
+internal class CommentSummaryRequest(
+        override var id: String
+) : AGetRequestHasResponse<TraktCommentImpl>(), IHasId {
+    override val uriTemplate: String = "comments/{id}"
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
-    override val uriTemplate: String = "comments/{id}"
-
-    override val uriPathParameters: Map<String, Any>? = mapOf("id" to id)
+    override val uriPathParameters: Map<String, Any>?
+        get() = mapOf("id" to id)
 
     override fun validate() {
         if (id.isBlank() || id.containsSpace())

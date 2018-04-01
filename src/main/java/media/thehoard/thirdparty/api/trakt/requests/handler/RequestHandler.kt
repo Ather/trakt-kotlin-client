@@ -13,6 +13,7 @@ import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktEr
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostErrorResponse
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktCheckinPostErrorResponseImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType.*
+import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinRequest
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.*
 import media.thehoard.thirdparty.api.trakt.responses.TraktListResponse

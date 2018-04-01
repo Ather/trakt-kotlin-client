@@ -11,8 +11,9 @@ import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
 
-internal class CommentDeleteRequest : ADeleteRequest(), IHasId {
-    override var id: String = ""
+internal class CommentDeleteRequest(
+        override var id: String
+) : ADeleteRequest(), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -27,8 +28,9 @@ internal class CommentDeleteRequest : ADeleteRequest(), IHasId {
     }
 }
 
-internal class CommentLikeRequest : ABodylessPostRequest(), IHasId {
-    override var id: String = ""
+internal class CommentLikeRequest(
+        override var id: String
+) : ABodylessPostRequest(), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -51,10 +53,10 @@ internal class CommentPostRequest<TRequestBodyType : IRequestBody> : APostReques
     override val uriPathParameters: Map<String, Any>? = mapOf()
 }
 
-internal class CommentReplyPost : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentReplyPostImpl>(), IHasId {
-    override var id: String = ""
-
-    override var requestBody: TraktCommentReplyPostImpl? = null
+internal class CommentReplyPost(
+        override var id: String,
+        override var requestBody: TraktCommentReplyPostImpl? = null
+) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentReplyPostImpl>(), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -71,8 +73,9 @@ internal class CommentReplyPost : APostRequestHasResponse<TraktCommentPostRespon
     }
 }
 
-internal class CommentUnlikeRequest : ADeleteRequest(), IHasId {
-    override var id: String = ""
+internal class CommentUnlikeRequest(
+        override var id: String
+) : ADeleteRequest(), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -87,10 +90,10 @@ internal class CommentUnlikeRequest : ADeleteRequest(), IHasId {
     }
 }
 
-internal class CommentUpdateRequest : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentUpdatePostImpl>(), IHasId {
-    override var id: String = ""
-
-    override var requestBody: TraktCommentUpdatePostImpl? = null
+internal class CommentUpdateRequest(
+        override var id: String,
+        override var requestBody: TraktCommentUpdatePostImpl? = null
+) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentUpdatePostImpl>(), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
