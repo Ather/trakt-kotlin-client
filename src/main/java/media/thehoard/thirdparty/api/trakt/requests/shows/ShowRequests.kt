@@ -9,8 +9,11 @@ import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCastAndCrewImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeExtendedFullImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.*
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktRecentlyUpdatedShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowAliasImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowExtendedFullImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserExtendedFullImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
@@ -99,6 +102,20 @@ internal class ShowCommentsRequest(
         }
 }
 
+internal class ShowLastEpisodeRequest(
+        override var id: String,
+        override var extendedInfo: TraktExtendedInfo? = null
+) : AShowRequest<TraktEpisodeExtendedFullImpl>(
+        "shows/{id}/last_episode{?extended}",
+        id
+), ISupportsExtendedInfo {
+    override val uriPathParameters: Map<String, Any>?
+        get() = (super.uriPathParameters as HashMap<String, Any>).apply {
+            if (extendedInfo != null && extendedInfo!!.hasAnySet)
+                this["extended"] = extendedInfo!!.toString()
+        }
+}
+
 internal class ShowListsRequest(
         override var id: String,
         internal var type: TraktListType? = null,
@@ -120,10 +137,27 @@ internal class ShowListsRequest(
         }
 }
 
+internal class ShowNextEpisodeRequest(
+        override var id: String,
+        override var extendedInfo: TraktExtendedInfo? = null
+) : AShowRequest<TraktEpisodeExtendedFullImpl>(
+        "shows/{id}/next_episode{?extended}",
+        id
+), ISupportsExtendedInfo {
+    override val uriPathParameters: Map<String, Any>?
+        get() = (super.uriPathParameters as HashMap<String, Any>).apply {
+            if (extendedInfo != null && extendedInfo!!.hasAnySet)
+                this["extended"] = extendedInfo!!.toString()
+        }
+}
+
 internal class ShowPeopleRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktCastAndCrewImpl>("shows/{id}/people{?extended}", id), ISupportsExtendedInfo {
+) : AShowRequest<TraktCastAndCrewImpl>(
+        "shows/{id}/people{?extended}",
+        id
+), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -143,7 +177,7 @@ internal class ShowRelatedShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AShowRequest<TraktMovieExtendedFullImpl>(
+) : AShowRequest<TraktShowExtendedFullImpl>(
         "shows/{id}/related{?extended,page,limit}",
         id
 ), ISupportsExtendedInfo, ISupportsPagination {
@@ -159,7 +193,7 @@ internal class ShowRelatedShowsRequest(
 }
 
 internal class ShowsMostAnticipatedRequest : AShowsRequest<TraktMostAnticipatedMovieImpl>(
-        "shows/anticipated{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}"
+        "shows/anticipated{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}"
 ) {
     override fun validate() {}
 }
@@ -167,7 +201,7 @@ internal class ShowsMostAnticipatedRequest : AShowsRequest<TraktMostAnticipatedM
 internal class ShowsMostCollectedRequest(
         override var id: String
 ) : AShowsMostPWCRequest<TraktMostPWCMovieImpl>(
-        "shows/collected{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
+        "shows/collected{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         id
 ) {
     override fun validate() {}
@@ -176,7 +210,7 @@ internal class ShowsMostCollectedRequest(
 internal class ShowsMostPlayedRequest(
         override var id: String
 ) : AShowsMostPWCRequest<TraktMostPWCMovieImpl>(
-        "shows/played{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
+        "shows/played{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         id
 ) {
     override fun validate() {}
@@ -185,7 +219,7 @@ internal class ShowsMostPlayedRequest(
 internal class ShowsMostWatchedRequest(
         override var id: String
 ) : AShowsMostPWCRequest<TraktMostPWCMovieImpl>(
-        "shows/watched{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
+        "shows/watched{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         id
 ) {
     override fun validate() {}
@@ -194,7 +228,7 @@ internal class ShowsMostWatchedRequest(
 internal class ShowsPopularRequest(
         override var id: String
 ) : AShowsMostPWCRequest<TraktMostPWCMovieImpl>(
-        "shows/popular{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
+        "shows/popular{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         id
 ) {
     override fun validate() {}
@@ -205,7 +239,7 @@ internal class ShowsRecentlyUpdatedRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktRecentlyUpdatedMovieImpl>(), ISupportsExtendedInfo, ISupportsPagination {
+) : AGetRequestHasResponse<TraktRecentlyUpdatedShowImpl>(), ISupportsExtendedInfo, ISupportsPagination {
     override val uriTemplate: String = "shows/updates{/start_date}{?extended,page,limit}"
 
     override val uriPathParameters: Map<String, Any>?
@@ -231,7 +265,7 @@ internal class ShowStatisticsRequest(
 )
 
 internal class ShowsTrendingRequest : AShowsRequest<TraktTrendingMovieImpl>(
-        "shows/trending{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}"
+        "shows/trending{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}"
 ) {
     override fun validate() {}
 }
@@ -239,7 +273,7 @@ internal class ShowsTrendingRequest : AShowsRequest<TraktTrendingMovieImpl>(
 internal class ShowSummaryRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktMovieExtendedFullImpl>("movies/{id}{?extended}", id), ISupportsExtendedInfo {
+) : AShowRequest<TraktMovieExtendedFullImpl>("shows/{id}{?extended}", id), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
