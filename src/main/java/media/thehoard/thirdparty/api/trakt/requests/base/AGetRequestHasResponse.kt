@@ -4,9 +4,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IGetRequestH
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
 
 internal abstract class AGetRequestHasResponse<TResponseContentType> : ARequestHasResponse<TResponseContentType>(), IGetRequestHasResponse<TResponseContentType> {
-    override val authorizationRequirement: AuthorizationRequirement
-        get() = AuthorizationRequirement.NotRequired
+    override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.NotRequired
 
-    override val method: HttpMethod
-        get() = HttpMethod.GET
+    override val method: HttpMethod = HttpMethod.GET
 }

@@ -4,9 +4,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IDeleteReque
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
 
 internal abstract class ADeleteRequest : ARequest(), IDeleteRequest {
-    override val authorizationRequirement: AuthorizationRequirement
-        get() = AuthorizationRequirement.Required
+    override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
-    override val method: HttpMethod
-        get() = HttpMethod.DELETE
+    override val method: HttpMethod = HttpMethod.DELETE
 }

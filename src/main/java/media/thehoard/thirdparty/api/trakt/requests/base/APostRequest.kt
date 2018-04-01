@@ -5,15 +5,11 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IPostRequest
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
 
 internal abstract class APostRequest<TRequestBodyType : IRequestBody> : ARequest(), IPostRequest<TRequestBodyType> {
-    override val authorizationRequirement: AuthorizationRequirement
-        get() = AuthorizationRequirement.Required
+    override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
-    override val method: HttpMethod
-        get() = HttpMethod.POST
+    override val method: HttpMethod = HttpMethod.POST
 
     override var requestBody: TRequestBodyType? = null
 
-    override fun validate() {
-        requestBody?.validate()
-    }
+    override fun validate() { requestBody?.validate() }
 }

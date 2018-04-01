@@ -4,9 +4,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IBodylessPos
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
 
 internal abstract class ABodylessPostRequest : ARequest(), IBodylessPostRequest {
-    override val authorizationRequirement: AuthorizationRequirement
-        get() = AuthorizationRequirement.Required
+    override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
-    override val method: HttpMethod
-        get() = HttpMethod.POST
+    override val method: HttpMethod = HttpMethod.POST
 }
