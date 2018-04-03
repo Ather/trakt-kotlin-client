@@ -13,9 +13,9 @@ class TraktClient internal constructor() {
 
     val authentication: TraktAuthentication = TraktAuthentication(this)
 
-    val oAuth: TraktOAuth = TraktOAuth(this)
+    val oAuth: TraktOAuth = TraktOAuth()
 
-    val deviceAuth: TraktDeviceAuth = TraktDeviceAuth(this)
+    val deviceAuth: TraktDeviceAuth = TraktDeviceAuth()
 
     val calendars: TraktCalendarsModule = TraktCalendarsModule(this)
 

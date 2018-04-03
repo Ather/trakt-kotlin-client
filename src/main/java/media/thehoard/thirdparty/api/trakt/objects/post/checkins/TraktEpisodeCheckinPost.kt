@@ -6,5 +6,5 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 interface TraktEpisodeCheckinPost : TraktCheckinPost {
     var episode: TraktEpisodeImpl
 
-    var show: TraktShowImpl
+    var show: TraktShowImpl?
 }
