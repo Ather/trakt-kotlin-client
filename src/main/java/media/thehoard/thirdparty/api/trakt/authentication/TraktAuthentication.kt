@@ -83,7 +83,7 @@ class TraktAuthentication(val client: TraktClient) {
         this.authorization = authorization
 
         return CompletableFuture.supplyAsync {
-            var result: Pair<Boolean, TraktAuthorization?> = true to null
+            val result: Pair<Boolean, TraktAuthorization?>
 
             try {
                 result = checkIfAuthorizationIsExpiredOrWasRevokedAsync(autoRefresh).get()
@@ -172,8 +172,10 @@ class TraktAuthentication(val client: TraktClient) {
         }
     }
 
-    fun revokeAuthorizationAsync(accessToken: String = authorization.accessToken
-            ?: "", clientId: String = client.clientId): CompletableFuture<Unit>? {
+    fun revokeAuthorizationAsync(
+            accessToken: String = authorization.accessToken ?: "",
+            clientId: String = client.clientId
+    ): CompletableFuture<Unit>? {
         if (!isAuthorized && (accessToken.isBlank() || accessToken.containsSpace()))
             throw TraktAuthorizationException("not authorized")
 
