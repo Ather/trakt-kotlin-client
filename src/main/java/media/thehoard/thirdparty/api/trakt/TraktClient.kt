@@ -4,6 +4,7 @@ import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthentication
 import media.thehoard.thirdparty.api.trakt.authentication.TraktDeviceAuth
 import media.thehoard.thirdparty.api.trakt.authentication.TraktOAuth
 import media.thehoard.thirdparty.api.trakt.core.TraktConfiguration
+import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
 import media.thehoard.thirdparty.api.trakt.modules.*
 
 import java.util.concurrent.Executors
@@ -13,9 +14,9 @@ class TraktClient internal constructor() {
 
     val authentication: TraktAuthentication = TraktAuthentication(this)
 
-    val oAuth: TraktOAuth = TraktOAuth()
+    val oAuth: TraktOAuth = TraktOAuth(this)
 
-    val deviceAuth: TraktDeviceAuth = TraktDeviceAuth()
+    val deviceAuth: TraktDeviceAuth = TraktDeviceAuth(this)
 
     val calendars: TraktCalendarsModule = TraktCalendarsModule(this)
 
@@ -49,38 +50,34 @@ class TraktClient internal constructor() {
 
     val users: TraktUsersModule = TraktUsersModule(this)
 
-    val clientId: String
+    var clientId: String?
         get() = authentication.clientId
+        set(value) {
+            authentication.clientId = value
+        }
 
-    val clientSecret: String
+
+    var clientSecret: String?
         get() = authentication.clientSecret
+        set(value) {
+            authentication.clientSecret = value
+        }
 
     val isValidForUseWithoutAuthorization: Boolean?
-        get() = clientId.isBlank() && !clientId.contains(" ")
+        get() = clientId.isNullOrBlank() && !clientId!!.containsSpace()
 
     val isValidForUseWithAuthorization: Boolean?
         get() = isValidForUseWithoutAuthorization!! && authentication.isAuthorized
 
     val isValidForAuthenticationProcess: Boolean?
-        get() = isValidForUseWithoutAuthorization!! && !clientSecret.isBlank() && !clientSecret
-                .contains(" ")
+        get() = isValidForUseWithoutAuthorization!! && !clientSecret.isNullOrBlank() && !clientSecret!!.containsSpace()
 
     constructor(clientId: String) : this() {
-        setClientId(clientId)
+        this.clientId = clientId
     }
 
     constructor(clientId: String, clientSecret: String) : this(clientId) {
-        setClientSecret(clientSecret)
-    }
-
-    fun setClientId(traktClientId: String): TraktClient {
-        authentication.clientId = traktClientId
-        return this
-    }
-
-    fun setClientSecret(traktClientSecret: String): TraktClient {
-        authentication.clientSecret = traktClientSecret
-        return this
+        this.clientSecret = clientSecret
     }
 
     companion object {

@@ -8,7 +8,7 @@ data class TraktUserIdsImpl(
 ) : TraktUserIds {
 
     override fun hasAnyId(): Boolean {
-        return getBestId().isNotEmpty()
+        return getBestId().isNotBlank()
     }
 
     override fun getBestId(): String {

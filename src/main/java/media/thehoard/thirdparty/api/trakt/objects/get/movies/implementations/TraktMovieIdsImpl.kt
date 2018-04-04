@@ -11,7 +11,7 @@ data class TraktMovieIdsImpl(
 ) : TraktMovieIds {
 
     override fun hasAnyId(): Boolean {
-        return getBestId().isNotEmpty()
+        return getBestId().isNotBlank()
     }
 
     override fun getBestId(): String {
