@@ -1,7 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.requests.handler
 
 import com.damnhandy.uri.template.UriTemplate
-import jdk.incubator.http.HttpRequest
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.exceptions.TraktAuthorizationException
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
@@ -82,7 +81,7 @@ internal class RequestMessageBuilder(
     private fun addRequestBodyContent(requestMessage: ExtendedHttpRequestMessage) {
         if (requestBody != null) {
             val json = requestBody!!.toJson()
-            requestMessage.body(HttpRequest.BodyProcessor.fromString(json))
+            requestMessage.setBody(json)
             requestMessage.requestBodyJson = json
         }
     }
@@ -97,7 +96,7 @@ internal class RequestMessageBuilder(
                 if (!client.authentication.isAuthorized)
                     throw TraktAuthorizationException("authorization is optional for this request, but forced and the current authorization parameters are invalid")
 
-        requestMessage.header("Authorization", "$AUTHENTICATION_SCHEME ${client.authentication.authorization.accessToken}")
+        requestMessage.setHeader("Authorization", "$AUTHENTICATION_SCHEME ${client.authentication.authorization.accessToken}")
     }
 
     companion object {

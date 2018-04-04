@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.requests.handler
 
-import jdk.incubator.http.HttpHeaders
+import io.netty.handler.codec.http.HttpHeaders
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktPagedResponseHeaders
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktResponseHeaders
 import java.time.Instant
@@ -22,82 +22,39 @@ internal object ResponseHeaderParser {
     private const val HEADER_X_ITEM_TYPE = "X-Item-Type"
 
     fun parseResponseHeaderValues(headerResults: ITraktResponseHeaders, responseHeaders: HttpHeaders) {
-        var values = responseHeaders.allValues(HEADER_PAGINATION_PAGE_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first().toInt()
-                headerResults.page = value
-            } catch (e: NumberFormatException) {
+        when {
+            HEADER_PAGINATION_PAGE_KEY in responseHeaders -> headerResults.page = responseHeaders[HEADER_PAGINATION_PAGE_KEY].toIntOrNull()
+            HEADER_PAGINATION_LIMIT_KEY in responseHeaders -> headerResults.limit = responseHeaders[HEADER_PAGINATION_LIMIT_KEY].toIntOrNull()
+            HEADER_TRENDING_USER_COUNT_KEY in responseHeaders -> headerResults.trendingUserCount = responseHeaders[HEADER_TRENDING_USER_COUNT_KEY].toIntOrNull()
+            HEADER_SORT_BY_KEY in responseHeaders -> headerResults.sortBy = responseHeaders[HEADER_SORT_BY_KEY]
+            HEADER_SORT_HOW_KEY in responseHeaders -> headerResults.sortHow = responseHeaders[HEADER_SORT_HOW_KEY]
+            HEADER_PRIVATE_USER_KEY in responseHeaders -> headerResults.isPrivateUser = responseHeaders[HEADER_PRIVATE_USER_KEY]?.toBoolean()
+            HEADER_STARTDATE_KEY in responseHeaders -> {
+                headerResults.startDate = try {
+                    Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_STARTDATE_KEY]))
+                } catch (e: DateTimeParseException) {
+                    null
+                }
             }
-        values = responseHeaders.allValues(HEADER_PAGINATION_LIMIT_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first().toInt()
-                headerResults.limit = value
-            } catch (e: NumberFormatException) {
+            HEADER_ENDDATE_KEY in responseHeaders -> {
+                headerResults.endDate = try {
+                    Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_ENDDATE_KEY]))
+                } catch (e: DateTimeParseException) {
+                    null
+                }
             }
-        values = responseHeaders.allValues(HEADER_TRENDING_USER_COUNT_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first().toInt()
-                headerResults.trendingUserCount = value
-            } catch (e: NumberFormatException) {
-            }
-        values = responseHeaders.allValues(HEADER_SORT_BY_KEY)
-        if (values.isNotEmpty())
-            headerResults.sortBy = values.first()
-        values = responseHeaders.allValues(HEADER_SORT_HOW_KEY)
-        if (values.isNotEmpty())
-            headerResults.sortHow = values.first()
-        values = responseHeaders.allValues(HEADER_PRIVATE_USER_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first()!!.toBoolean()
-                headerResults.isPrivateUser = value
-            } catch (e: NumberFormatException) {
-            }
-        values = responseHeaders.allValues(HEADER_STARTDATE_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = DateTimeFormatter.RFC_1123_DATE_TIME.parse(values.first())
-                headerResults.startDate = Instant.from(value)
-            } catch (e: DateTimeParseException) {
-            }
-        values = responseHeaders.allValues(HEADER_ENDDATE_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = DateTimeFormatter.RFC_1123_DATE_TIME.parse(values.first())
-                headerResults.endDate = Instant.from(value)
-            } catch (e: DateTimeParseException) {
-            }
-        values = responseHeaders.allValues(HEADER_X_ITEM_ID)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first().toInt()
-                headerResults.xItemId = value
-            } catch (e: NumberFormatException) {
-            }
-        values = responseHeaders.allValues(HEADER_X_ITEM_TYPE)
-        if (values.isNotEmpty())
-            headerResults.xItemType = values.first()
+            HEADER_X_ITEM_ID in responseHeaders -> headerResults.xItemId = responseHeaders[HEADER_X_ITEM_ID].toIntOrNull()
+            HEADER_X_ITEM_TYPE in responseHeaders -> headerResults.xItemType = responseHeaders[HEADER_X_ITEM_TYPE]
+
+        }
     }
 
     fun parsePagedResponseHeaderValue(headerResults: ITraktPagedResponseHeaders, responseHeaders: HttpHeaders) {
         parseResponseHeaderValues(headerResults, responseHeaders)
 
-        var values = responseHeaders.allValues(HEADER_PAGINATION_PAGE_COUNT_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first().toInt()
-                headerResults.pageCount = value
-            } catch (e: NumberFormatException) {
-            }
-        values = responseHeaders.allValues(HEADER_PAGINATION_ITEM_COUNT_KEY)
-        if (values.isNotEmpty())
-            try {
-                val value = values.first().toInt()
-                headerResults.itemCount = value
-            } catch (e: NumberFormatException) {
-            }
+        when {
+            HEADER_PAGINATION_PAGE_COUNT_KEY in responseHeaders -> headerResults.pageCount = responseHeaders[HEADER_PAGINATION_PAGE_COUNT_KEY].toIntOrNull()
+            HEADER_PAGINATION_ITEM_COUNT_KEY in responseHeaders -> headerResults.itemCount = responseHeaders[HEADER_PAGINATION_ITEM_COUNT_KEY].toIntOrNull()
+        }
     }
 }

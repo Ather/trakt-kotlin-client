@@ -3,10 +3,7 @@ package media.thehoard.thirdparty.api.trakt.requests.handler
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
-import jdk.incubator.http.HttpClient
-import jdk.incubator.http.HttpResponse
 import media.thehoard.thirdparty.api.trakt.TraktClient
-import media.thehoard.thirdparty.api.trakt.TraktClient.Companion.MAIN_THREAD_POOL
 import media.thehoard.thirdparty.api.trakt.core.Constants
 import media.thehoard.thirdparty.api.trakt.exceptions.*
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktError
@@ -22,6 +19,9 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktNoContentResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktPagedResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
 import media.thehoard.thirdparty.api.trakt.utils.Json
+import org.asynchttpclient.AsyncHttpClient
+import org.asynchttpclient.Dsl.asyncHttpClient
+import org.asynchttpclient.Response
 import java.net.HttpURLConnection
 import java.util.concurrent.CompletableFuture
 
@@ -95,7 +95,7 @@ internal class RequestHandler(
         return try {
             return executeRequestAsync(requestMessage, false).thenApply {
                 checkNotNull(it)
-                check(it.statusCode() == HttpURLConnection.HTTP_NO_CONTENT)
+                check(it.statusCode == HttpURLConnection.HTTP_NO_CONTENT)
                 TraktNoContentResponse().apply { isSuccess = true }
             }
         } catch (e: Exception) {
@@ -115,8 +115,8 @@ internal class RequestHandler(
         try {
             return executeRequestAsync(requestMessage, isCheckinRequest).thenApply {
                 checkNotNull(it)
-                check(it.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
-                val contentObject = Json.gson.fromJson<TResponseContentType>(it.body(), object : TypeToken<TResponseContentType>() {}.type)
+                check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
+                val contentObject = Json.gson.fromJson<TResponseContentType>(it.responseBody, object : TypeToken<TResponseContentType>() {}.type)
 
                 val response = TraktResponse<TResponseContentType>().apply {
                     isSuccess = true
@@ -124,8 +124,8 @@ internal class RequestHandler(
                     value = contentObject
                 }
 
-                if (it.headers() != null)
-                    ResponseHeaderParser.parseResponseHeaderValues(response, it.headers())
+                if (it.headers != null)
+                    ResponseHeaderParser.parseResponseHeaderValues(response, it.headers)
 
                 return@thenApply response
             }
@@ -146,8 +146,8 @@ internal class RequestHandler(
         try {
             return executeRequestAsync(requestMessage, false).thenApply {
                 checkNotNull(it)
-                check(it.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
-                val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(it.body())
+                check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
+                val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(it.responseBody)
 
                 val response = TraktListResponse<TResponseContentType>().apply {
                     isSuccess = true
@@ -155,8 +155,8 @@ internal class RequestHandler(
                     value = contentObject
                 }
 
-                if (it.headers() != null)
-                    ResponseHeaderParser.parseResponseHeaderValues(response, it.headers())
+                if (it.headers != null)
+                    ResponseHeaderParser.parseResponseHeaderValues(response, it.headers)
 
                 return@thenApply response
             }
@@ -177,8 +177,8 @@ internal class RequestHandler(
         try {
             return executeRequestAsync(requestMessage, false).thenApply {
                 checkNotNull(it)
-                check(it.statusCode() != HttpURLConnection.HTTP_NO_CONTENT)
-                val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(it.body())
+                check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
+                val contentObject = Json.gson.fromJson<MutableList<TResponseContentType>>(it.responseBody)
 
                 val response = TraktPagedResponse<TResponseContentType>().apply {
                     isSuccess = true
@@ -186,8 +186,8 @@ internal class RequestHandler(
                     value = contentObject
                 }
 
-                if (it.headers() != null)
-                    ResponseHeaderParser.parsePagedResponseHeaderValue(response, it.headers())
+                if (it.headers != null)
+                    ResponseHeaderParser.parsePagedResponseHeaderValue(response, it.headers)
 
                 return@thenApply response
             }
@@ -204,12 +204,13 @@ internal class RequestHandler(
         }
     }
 
-    private fun executeRequestAsync(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): CompletableFuture<HttpResponse<String>> {
+    private fun executeRequestAsync(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): CompletableFuture<Response> {
         setDefaultRequestHeaders(requestMessage)
 
-        return httpClient!!.sendAsync(requestMessage.build(), HttpResponse.BodyHandler.asString()).thenApply {
-            if (it.statusCode() !in 200..299)
+        return httpClient!!.executeRequest(requestMessage).toCompletableFuture().thenApply {
+            if (it.statusCode !in 200..299)
                 errorHandling(it, requestMessage, isCheckinRequest)
+
             return@thenApply it
         }
     }
@@ -225,24 +226,24 @@ internal class RequestHandler(
 
     private fun setupHttpClient() {
         if (httpClient == null)
-            httpClient = HttpClient.newBuilder().executor(MAIN_THREAD_POOL).build()
+            httpClient = asyncHttpClient()
     }
 
     private fun setDefaultRequestHeaders(requestMessage: ExtendedHttpRequestMessage) {
-        requestMessage.header(Constants.API_CLIENT_ID_HEADER_KEY, client.clientId)
-        requestMessage.header(Constants.API_VERSION_HEADER_KEY, "${client.configuration.apiVersion}")
+        requestMessage.setHeader(Constants.API_CLIENT_ID_HEADER_KEY, client.clientId)
+        requestMessage.setHeader(Constants.API_VERSION_HEADER_KEY, "${client.configuration.apiVersion}")
 
-        requestMessage.header("Accept", Constants.MEDIA_TYPE)
-        requestMessage.headers("Content-type", Constants.MEDIA_TYPE)
+        requestMessage.setHeader("Accept", Constants.MEDIA_TYPE)
+        requestMessage.setHeader("Content-type", Constants.MEDIA_TYPE)
     }
 
-    private fun errorHandling(httpResponse: HttpResponse<String>, requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false) {
+    private fun errorHandling(httpResponse: Response, requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false) {
         var responseContent = ""
 
-        if (httpResponse.body() != null)
-            responseContent = httpResponse.body()
+        if (httpResponse.responseBody != null)
+            responseContent = httpResponse.responseBody
 
-        val code = httpResponse.statusCode()
+        val code = httpResponse.statusCode
         val url = requestMessage.url
         val requestBodyJson = requestMessage.requestBodyJson
         val reasonPhrase = ""
@@ -436,6 +437,6 @@ internal class RequestHandler(
     }
 
     companion object {
-        var httpClient: HttpClient? = null
+        var httpClient: AsyncHttpClient? = null
     }
 }
