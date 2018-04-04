@@ -102,12 +102,12 @@ internal class RequestHandler(
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            CompletableFuture.supplyAsync {
-                TraktNoContentResponse().apply {
-                    isSuccess = false
-                    exception = e
-                }
-            }
+            CompletableFuture.completedFuture(
+                    TraktNoContentResponse().apply {
+                        isSuccess = false
+                        exception = e
+                    }
+            )
         }
     }
 
@@ -133,12 +133,12 @@ internal class RequestHandler(
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            return CompletableFuture.supplyAsync {
-                TraktResponse<TResponseContentType>().apply {
-                    isSuccess = false
-                    exception = e
-                }
-            }
+            return CompletableFuture.completedFuture(
+                    TraktResponse<TResponseContentType>().apply {
+                        isSuccess = false
+                        exception = e
+                    }
+            )
         }
     }
 
@@ -164,12 +164,12 @@ internal class RequestHandler(
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            return CompletableFuture.supplyAsync {
-                TraktListResponse<TResponseContentType>().apply {
-                    isSuccess = false
-                    exception = e
-                }
-            }
+            return CompletableFuture.completedFuture(
+                    TraktListResponse<TResponseContentType>().apply {
+                        isSuccess = false
+                        exception = e
+                    }
+            )
         }
     }
 
@@ -195,12 +195,12 @@ internal class RequestHandler(
             if (client.configuration.throwResponseExceptions)
                 throw e
 
-            return CompletableFuture.supplyAsync {
-                TraktPagedResponse<TResponseContentType>().apply {
-                    isSuccess = false
-                    exception = e
-                }
-            }
+            return CompletableFuture.completedFuture(
+                    TraktPagedResponse<TResponseContentType>().apply {
+                        isSuccess = false
+                        exception = e
+                    }
+            )
         }
     }
 
@@ -234,7 +234,7 @@ internal class RequestHandler(
         requestMessage.setHeader(Constants.API_VERSION_HEADER_KEY, "${client.configuration.apiVersion}")
 
         requestMessage.setHeader("Accept", Constants.MEDIA_TYPE)
-        requestMessage.setHeader("Content-type", Constants.MEDIA_TYPE)
+        requestMessage.setHeader("Content-Type", Constants.MEDIA_TYPE)
     }
 
     private fun errorHandling(httpResponse: Response, requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false) {
@@ -246,7 +246,7 @@ internal class RequestHandler(
         val code = httpResponse.statusCode
         val url = requestMessage.url
         val requestBodyJson = requestMessage.requestBodyJson
-        val reasonPhrase = ""
+        val reasonPhrase = httpResponse.statusText
 
         when (code) {
             HttpURLConnection.HTTP_NOT_FOUND -> handleNotFoundStatusCode(requestMessage, responseContent, url, requestBodyJson, reasonPhrase)

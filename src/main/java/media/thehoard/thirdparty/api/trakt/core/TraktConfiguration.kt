@@ -1,5 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.core
 
+import org.asynchttpclient.AsyncHttpClient
+
 class TraktConfiguration {
     var apiVersion = 2
 
@@ -11,4 +13,8 @@ class TraktConfiguration {
     var forceAuthorization: Boolean = false
 
     var throwResponseExceptions = true
+
+    companion object {
+        internal var httpClient: AsyncHttpClient? = null
+    }
 }
