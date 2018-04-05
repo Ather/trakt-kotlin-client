@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarShow
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeIdsImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import java.time.Instant
 
@@ -13,24 +13,7 @@ data class TraktCalendarShowImpl(
         override var firstAired: Instant? = null,
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
         override var show: TraktShowImpl = TraktShowImpl()
-) : TraktCalendarShow {
-
-    override var title: String
-        get() = show.title
-        set(title) {
-            show.title = title
-        }
-    override var year: Int?
-        get() = show.year
-        set(year) {
-            show.year = year
-        }
-    override var ids: TraktShowIdsImpl
-        get() = show.ids
-        set(ids) {
-            show.ids = ids
-        }
-
+) : TraktCalendarShow, TraktShow by show {
     override var seasonNumber: Int?
         get() = episode.season
         set(season) {

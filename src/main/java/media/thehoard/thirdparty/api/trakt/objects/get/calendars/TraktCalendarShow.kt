@@ -7,7 +7,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 import java.time.Instant
 
 interface TraktCalendarShow : TraktShow, TraktCalendarEpisode {
-    var firstAired: Instant?
+    override var firstAired: Instant?
 
     var episode: TraktEpisodeImpl
 

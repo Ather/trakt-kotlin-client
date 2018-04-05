@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 import java.time.Instant
 
 interface TraktRecentlyUpdatedShow : TraktShow {
-    var updatedAt: Instant?
+    override var updatedAt: Instant?
 
     var show: TraktShowImpl
 }

@@ -141,10 +141,13 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         if (existingShow != null)
             existingShow.seasons = showSeasons
         else {
-            val ratingsShow = TraktSyncRatingsPostShowImpl()
-            ratingsShow.ids = show.ids
-            ratingsShow.title = show.title
-            ratingsShow.year = show.year
+            val ratingsShow = TraktSyncRatingsPostShowImpl().apply {
+                ids = show.ids
+                title = show.title
+                year = show.year
+            }
+
+            if (rating != null) ratingsShow.rating = rating
 
             if (ratedAt != null) ratingsShow.ratedAt = ratedAt
 
