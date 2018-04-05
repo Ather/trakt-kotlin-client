@@ -89,14 +89,16 @@ internal class RequestMessageBuilder(
     private fun setRequestMessageHeadersForAuthorization(requestMessage: ExtendedHttpRequestMessage) {
         val authorizationRequirement = request!!.authorizationRequirement
 
-        if (authorizationRequirement == AuthorizationRequirement.Required)
+        if (authorizationRequirement == AuthorizationRequirement.Required) {
             if (!client.authentication.isAuthorized)
                 throw TraktAuthorizationException("authorization is required for this request, but the current authorization parameters are invalid")
-            else if (authorizationRequirement == AuthorizationRequirement.Optional && client.configuration.forceAuthorization)
-                if (!client.authentication.isAuthorized)
-                    throw TraktAuthorizationException("authorization is optional for this request, but forced and the current authorization parameters are invalid")
+        } else if (authorizationRequirement == AuthorizationRequirement.Optional && client.configuration.forceAuthorization) {
+            if (!client.authentication.isAuthorized)
+                throw TraktAuthorizationException("authorization is optional for this request, but forced and the current authorization parameters are invalid")
+        }
 
-        requestMessage.setHeader("Authorization", "$AUTHENTICATION_SCHEME ${client.authentication.authorization.accessToken}")
+        if (authorizationRequirement == AuthorizationRequirement.Required || authorizationRequirement == AuthorizationRequirement.Optional || client.configuration.forceAuthorization)
+            requestMessage.setHeader("Authorization", "$AUTHENTICATION_SCHEME ${client.authentication.authorization.accessToken}")
     }
 
     companion object {

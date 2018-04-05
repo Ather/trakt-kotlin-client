@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt
 
 import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthentication
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.authentication.TraktDeviceAuth
 import media.thehoard.thirdparty.api.trakt.authentication.TraktOAuth
 import media.thehoard.thirdparty.api.trakt.core.TraktConfiguration
@@ -61,6 +62,12 @@ class TraktClient internal constructor() {
         get() = authentication.clientSecret
         set(value) {
             authentication.clientSecret = value
+        }
+
+    var authorization: TraktAuthorization
+        get() = authentication.authorization
+        set(value) {
+            authentication.authorization = value
         }
 
     val isValidForUseWithoutAuthorization: Boolean?
