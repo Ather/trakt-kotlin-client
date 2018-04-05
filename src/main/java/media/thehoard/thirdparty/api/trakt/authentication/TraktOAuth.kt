@@ -20,7 +20,11 @@ import java.nio.charset.StandardCharsets
 import java.util.concurrent.CompletableFuture
 
 class TraktOAuth internal constructor(val client: TraktClient) {
-    fun createAuthorizationUrl(clientId: String = client.clientId, redirectUri: String = client.authentication.redirectUri, state: String? = client.authentication.antiForgeryToken): String {
+    fun createAuthorizationUrl(
+            clientId: String? = client.clientId,
+            redirectUri: String = client.authentication.redirectUri,
+            state: String? = client.authentication.antiForgeryToken
+    ): String {
         if (state == null)
             validateAuthorizationUrlArguments(clientId, redirectUri)
         else
@@ -29,13 +33,21 @@ class TraktOAuth internal constructor(val client: TraktClient) {
         return buildAuthorizationUrl(clientId, redirectUri, state)
     }
 
-    fun createAuthorizationUrlWithDefaultState(clientId: String = client.clientId, redirectUri: String = client.authentication.redirectUri): String {
+    fun createAuthorizationUrlWithDefaultState(
+            clientId: String? = client.clientId,
+            redirectUri: String = client.authentication.redirectUri
+    ): String {
         val state = client.authentication.antiForgeryToken
 
         return createAuthorizationUrl(clientId, redirectUri, state)
     }
 
-    fun getAuthorizationAsync(code: String? = client.authentication.oAuthAuthorizationCode, clientId: String = client.clientId, clientSecret: String = client.clientSecret, redirectUri: String = client.authentication.redirectUri): CompletableFuture<TraktAuthorization> {
+    fun getAuthorizationAsync(
+            code: String? = client.authentication.oAuthAuthorizationCode,
+            clientId: String? = client.clientId,
+            clientSecret: String? = client.clientSecret,
+            redirectUri: String = client.authentication.redirectUri
+    ): CompletableFuture<TraktAuthorization> {
         val grantType = TraktAccessTokenGrantType.AUTHORIZATION_CODE.objectName
 
         validateAccessTokenInput(code, clientId, clientSecret, redirectUri, grantType)
@@ -86,8 +98,8 @@ class TraktOAuth internal constructor(val client: TraktClient) {
 
     fun refreshAuthorizationAsync(
             refreshToken: String? = client.authentication.authorization.refreshToken,
-            clientId: String = client.clientId,
-            clientSecret: String = client.clientSecret,
+            clientId: String? = client.clientId,
+            clientSecret: String? = client.clientSecret,
             redirectUri: String = client.authentication.redirectUri
     ): CompletableFuture<TraktAuthorization> = client.authentication.refreshAuthorizationAsync(
             refreshToken,
@@ -98,7 +110,7 @@ class TraktOAuth internal constructor(val client: TraktClient) {
 
     fun revokeAuthorizationAsync(
             accessToken: String = client.authentication.authorization.accessToken ?: "",
-            clientId: String = client.clientId
+            clientId: String? = client.clientId
     ): CompletableFuture<Unit>? = client.authentication.revokeAuthorizationAsync(
             accessToken,
             clientId
@@ -109,7 +121,7 @@ class TraktOAuth internal constructor(val client: TraktClient) {
         request.headers["Accept"] = Constants.MEDIA_TYPE
     }
 
-    private fun createEncodedAuthorizationUri(clientId: String, redirectUri: String, state: String? = null): String {
+    private fun createEncodedAuthorizationUri(clientId: String?, redirectUri: String, state: String? = null): String {
         val uriParams = mutableMapOf(
                 "response_type" to "code",
                 "client_id" to clientId,
@@ -127,34 +139,34 @@ class TraktOAuth internal constructor(val client: TraktClient) {
         return "?$encodedUri"
     }
 
-    private fun buildAuthorizationUrl(clientId: String, redirectUri: String, state: String? = null): String {
+    private fun buildAuthorizationUrl(clientId: String?, redirectUri: String, state: String? = null): String {
         val encodedUriParams = createEncodedAuthorizationUri(clientId, redirectUri, state)
         val isStagingUsed = client.configuration.useSandboxEnvironment
         val baseUrl = if (isStagingUsed) Constants.OAUTH_BASE_AUTHORIZE_STAGING_URL else Constants.OAUTH_BASE_AUTHORIZE_URL
         return "$baseUrl/${Constants.OAUTH_AUTHORIZE_URI}$encodedUriParams"
     }
 
-    private fun validateAuthorizationUrlArguments(clientId: String, redirectUri: String) {
-        if (clientId.isBlank() || clientId.containsSpace())
+    private fun validateAuthorizationUrlArguments(clientId: String?, redirectUri: String) {
+        if (clientId.isNullOrBlank() || clientId!!.containsSpace())
             throw IllegalArgumentException("client id not valid")
         if (redirectUri.isBlank() || redirectUri.containsSpace())
             throw IllegalArgumentException("redirect uri not valid")
     }
 
-    private fun validateAuthorizationUrlArguments(clientId: String, redirectUri: String, state: String) {
+    private fun validateAuthorizationUrlArguments(clientId: String?, redirectUri: String, state: String) {
         validateAuthorizationUrlArguments(clientId, redirectUri)
 
         if (state.isBlank() || state.containsSpace())
             throw IllegalArgumentException("state not valid")
     }
 
-    private fun validateAccessTokenInput(code: String?, clientId: String, clientSecret: String, redirectUri: String, grantType: String) {
+    private fun validateAccessTokenInput(code: String?, clientId: String?, clientSecret: String?, redirectUri: String, grantType: String) {
         if (code.isNullOrBlank() || code!!.containsSpace())
             throw IllegalArgumentException("code not valid")
 
         validateAuthorizationUrlArguments(clientId, redirectUri)
 
-        if (clientSecret.isBlank() || clientSecret.containsSpace())
+        if (clientSecret.isNullOrBlank() || clientSecret!!.containsSpace())
             throw IllegalArgumentException("client secret not valid")
         if (grantType.isBlank())
             throw IllegalArgumentException("grant type not valid")

@@ -2,7 +2,6 @@ package media.thehoard.thirdparty.api.trakt.objects.get.watched
 
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.TraktWatchedShowSeasonImpl
-import org.jetbrains.annotations.Mutable
 
 import java.time.Instant
 

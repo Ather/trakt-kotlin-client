@@ -17,8 +17,8 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 class TraktDeviceAuth internal constructor(val client: TraktClient) {
-    fun generateDeviceAsync(clientId: String = client.clientId): CompletableFuture<TraktDevice> {
-        if (clientId.isBlank() || clientId.containsSpace())
+    fun generateDeviceAsync(clientId: String? = client.clientId): CompletableFuture<TraktDevice> {
+        if (clientId.isNullOrBlank() || clientId!!.containsSpace())
             throw IllegalArgumentException("client id not valid")
 
         val postContent = "{{ \"client_id\": \"$clientId\" }}"
@@ -48,8 +48,8 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
 
     fun pollForAuthorizationAsync(
             device: TraktDevice = client.authentication.device,
-            clientId: String = client.clientId,
-            clientSecret: String = client.clientSecret
+            clientId: String? = client.clientId,
+            clientSecret: String? = client.clientSecret
     ): CompletableFuture<TraktAuthorization> {
         validateAccessTokenInput(device, clientId, clientSecret)
 
@@ -131,8 +131,8 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
 
     fun refreshAuthorizationAsync(
             refreshToken: String? = client.authentication.authorization.refreshToken,
-            clientId: String = client.clientId,
-            clientSecret: String = client.clientSecret,
+            clientId: String? = client.clientId,
+            clientSecret: String? = client.clientSecret,
             redirectUri: String = client.authentication.redirectUri
     ): CompletableFuture<TraktAuthorization> = client.authentication.refreshAuthorizationAsync(
             refreshToken,
@@ -143,7 +143,7 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
 
     fun revokeAuthorizationAsync(
             accessToken: String = client.authentication.authorization.accessToken ?: "",
-            clientId: String = client.clientId
+            clientId: String? = client.clientId
     ): CompletableFuture<Unit>? = client.authentication.revokeAuthorizationAsync(
             accessToken,
             clientId
@@ -154,7 +154,7 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
         request.headers["Accept"] = Constants.MEDIA_TYPE
     }
 
-    private fun validateAccessTokenInput(device: TraktDevice, clientId: String, clientSecret: String) {
+    private fun validateAccessTokenInput(device: TraktDevice, clientId: String?, clientSecret: String?) {
         if (device.isExpiredUnused)
             throw IllegalArgumentException("device code expired unused")
 
@@ -164,10 +164,10 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
         if (device.deviceCode?.containsSpace() == true)
             throw IllegalArgumentException("device code not valid")
 
-        if (clientId.isBlank() || clientId.containsSpace())
+        if (clientId.isNullOrBlank() || clientId!!.containsSpace())
             throw IllegalArgumentException("client id not valid")
 
-        if (clientSecret.isBlank() || clientSecret.containsSpace())
+        if (clientSecret.isNullOrBlank() || clientSecret!!.containsSpace())
             throw IllegalArgumentException("client secret not valid")
     }
 

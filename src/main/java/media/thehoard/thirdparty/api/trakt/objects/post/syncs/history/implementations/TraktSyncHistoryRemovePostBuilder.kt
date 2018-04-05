@@ -3,7 +3,6 @@ package media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.implement
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
-import java.util.*
 
 class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<TraktSyncHistoryRemovePostImpl, TraktSyncHistoryRemovePostBuilder>() {
     private val historyPost: TraktSyncHistoryRemovePostImpl = TraktSyncHistoryRemovePostImpl()
@@ -13,27 +12,18 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
             if (id == 0L)
                 throw IllegalArgumentException("at least one history id is not valid")
 
-            historyPost.ids!!.add(id)
+            historyPost.ids.add(id)
         }
 
         return this
     }
 
     override fun reset() {
-        if (historyPost.movies != null) {
-            historyPost.movies!!.clear()
-            historyPost.movies = null
-        }
+        historyPost.movies.clear()
 
-        if (historyPost.shows != null) {
-            historyPost.shows!!.clear()
-            historyPost.shows = null
-        }
+        historyPost.shows.clear()
 
-        if (historyPost.episodes != null) {
-            historyPost.episodes!!.clear()
-            historyPost.episodes = null
-        }
+        historyPost.episodes.clear()
     }
 
     override fun build(): TraktSyncHistoryRemovePostImpl {
@@ -42,7 +32,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
 
     //TODO Consider the equality test used in these methods.
     override fun containsMovie(movie: TraktMovie): Boolean {
-        for (m in historyPost.movies!!)
+        for (m in historyPost.movies)
             if (m.ids like movie.ids)
                 return true
 
@@ -50,7 +40,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
     }
 
     override fun containsShow(show: TraktShow): Boolean {
-        for (s in historyPost.shows!!)
+        for (s in historyPost.shows)
             if (s.ids like show.ids)
                 return true
 
@@ -58,7 +48,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
     }
 
     override fun containsEpisode(episode: TraktEpisode): Boolean {
-        for ((_, ids) in historyPost.episodes!!)
+        for ((_, ids) in historyPost.episodes)
             if (ids like episode.ids)
                 return true
 
@@ -74,7 +64,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
         historyMovie.title = movie.title
         historyMovie.year = movie.year
 
-        historyPost.movies!!.add(historyMovie)
+        historyPost.movies.add(historyMovie)
 
         return this
     }
@@ -88,7 +78,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
         historyShow.title = show.title
         historyShow.year = show.year
 
-        historyPost.shows!!.add(historyShow)
+        historyPost.shows.add(historyShow)
 
         return this
     }
@@ -100,15 +90,14 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
         val historyEpisode = TraktSyncHistoryPostEpisodeImpl()
         historyEpisode.ids = episode.ids
 
-        historyPost.episodes!!.add(historyEpisode)
+        historyPost.episodes.add(historyEpisode)
 
         return this
     }
 
     //TODO Equality check
     override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>) {
-        val existingShow = historyPost.shows!!.stream().filter { s -> s.ids like show.ids }
-                .findFirst().orElseGet({ TraktSyncHistoryPostShowImpl() })
+        val existingShow = historyPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)
             existingShow.seasons = showSeasons
@@ -120,7 +109,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
 
             historyShow.seasons = showSeasons
 
-            historyPost.shows!!.add(historyShow)
+            historyPost.shows.add(historyShow)
         }
     }
 

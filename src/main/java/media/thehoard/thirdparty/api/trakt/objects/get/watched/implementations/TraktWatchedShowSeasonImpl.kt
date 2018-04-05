@@ -4,5 +4,5 @@ import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedShowS
 
 data class TraktWatchedShowSeasonImpl(
         override var number: Int? = null,
-        override var episodes: List<TraktWatchedShowEpisodeImpl> = listOf()
+        override var episodes: MutableList<TraktWatchedShowEpisodeImpl> = mutableListOf()
 ) : TraktWatchedShowSeason

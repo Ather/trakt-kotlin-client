@@ -114,8 +114,8 @@ class TraktAuthentication(val client: TraktClient) {
 
     fun refreshAuthorizationAsync(
             refreshToken: String? = authorization.refreshToken,
-            clientId: String = client.clientId,
-            clientSecret: String = client.clientSecret,
+            clientId: String? = client.clientId,
+            clientSecret: String? = client.clientSecret,
             redirectUri: String = this.redirectUri
     ): CompletableFuture<TraktAuthorization> {
         if (!isAuthorized && (refreshToken!!.isEmpty() || refreshToken.contains(" ")))
@@ -174,7 +174,7 @@ class TraktAuthentication(val client: TraktClient) {
 
     fun revokeAuthorizationAsync(
             accessToken: String = authorization.accessToken ?: "",
-            clientId: String = client.clientId
+            clientId: String? = client.clientId
     ): CompletableFuture<Unit>? {
         if (!isAuthorized && (accessToken.isBlank() || accessToken.containsSpace()))
             throw TraktAuthorizationException("not authorized")
@@ -182,7 +182,7 @@ class TraktAuthentication(val client: TraktClient) {
         if (accessToken.isBlank() || accessToken.containsSpace())
             throw IllegalArgumentException("access token not valid")
 
-        if (clientId.isBlank() || clientId.containsSpace())
+        if (clientId.isNullOrBlank() || clientId!!.containsSpace())
             throw IllegalArgumentException("client id not valid")
 
         val postContent = "token=$accessToken"
@@ -229,10 +229,10 @@ class TraktAuthentication(val client: TraktClient) {
         request.headers["Authorization"] = "Bearer $accessToken"
     }
 
-    private fun validateRefreshTokenInput(clientId: String, clientSecret: String, redirectUri: String, grantType: String) {
-        if (clientId.isBlank() || clientId.containsSpace())
+    private fun validateRefreshTokenInput(clientId: String?, clientSecret: String?, redirectUri: String, grantType: String) {
+        if (clientId.isNullOrBlank() || clientId!!.containsSpace())
             throw IllegalArgumentException("client id not valid")
-        if (clientSecret.isBlank() || clientSecret.containsSpace())
+        if (clientSecret.isNullOrBlank() || clientSecret!!.containsSpace())
             throw IllegalArgumentException("client secret not valid")
         if (redirectUri.isBlank() || redirectUri.containsSpace())
             throw IllegalArgumentException("redirect uri not valid")
