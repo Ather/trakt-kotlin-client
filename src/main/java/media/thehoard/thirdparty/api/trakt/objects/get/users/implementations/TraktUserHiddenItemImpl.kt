@@ -6,11 +6,10 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserHiddenItem
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktUserHiddenItemImpl(
-        @SerializedName("hidden_at") override var hiddenAt: Instant? = null,
+        @SerializedName("hidden_at") override var hiddenAt: ZonedDateTime? = null,
         override var type: TraktHiddenItemType = TraktHiddenItemType.UNSPECIFIIED,
         override var movie: TraktMovieImpl = TraktMovieImpl(),
         override var show: TraktShowImpl = TraktShowImpl(),

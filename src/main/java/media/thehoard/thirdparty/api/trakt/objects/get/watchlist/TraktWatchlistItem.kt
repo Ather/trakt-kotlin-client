@@ -5,11 +5,10 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktWatchlistItem {
-    var listedAt: Instant?
+    var listedAt: ZonedDateTime?
 
     var type: TraktSyncItemType
 

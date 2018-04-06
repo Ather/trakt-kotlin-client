@@ -1,9 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.episodes
 
-import java.time.Instant
-import java.util.Date
+import java.time.ZonedDateTime
 
 interface TraktEpisodeWatchedProgress : TraktEpisodeProgress {
-    var lastWatchedAt: Instant?
+    var lastWatchedAt: ZonedDateTime?
 
 }

@@ -37,7 +37,7 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktListResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktNoContentResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktPagedResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
 class TraktSyncModule(override val client: TraktClient) : TraktModule {
@@ -89,8 +89,8 @@ class TraktSyncModule(override val client: TraktClient) : TraktModule {
     fun getWatchedHistoryAsync(
             historyItemType: TraktSyncItemType? = null,
             itemId: Int? = null,
-            startAt: Instant? = null,
-            endAt: Instant? = null,
+            startAt: ZonedDateTime? = null,
+            endAt: ZonedDateTime? = null,
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null
     ): CompletableFuture<TraktPagedResponse<TraktHistoryItemImpl>> {

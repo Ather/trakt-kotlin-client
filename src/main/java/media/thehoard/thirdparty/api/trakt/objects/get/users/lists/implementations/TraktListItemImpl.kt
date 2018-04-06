@@ -8,12 +8,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktListItem
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktListItemImpl(
         override var rank: String = "",
-        @SerializedName("listed_at") override var listedAt: Instant? = null,
+        @SerializedName("listed_at") override var listedAt: ZonedDateTime? = null,
         override var type: TraktListItemType = TraktListItemType.UNSPECIFIED,
         override var movie: TraktMovieImpl = TraktMovieImpl(),
         override var show: TraktShowImpl = TraktShowImpl(),

@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.shows
 import media.thehoard.thirdparty.api.trakt.enums.TraktShowStatus
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowAirsImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktShow {
     var title: String
@@ -14,7 +14,7 @@ interface TraktShow {
 
     var overview: String
 
-    var firstAired: Instant?
+    var firstAired: ZonedDateTime?
 
     var airs: TraktShowAirsImpl
 
@@ -26,7 +26,7 @@ interface TraktShow {
 
     var country: String
 
-    var updatedAt: Instant?
+    var updatedAt: ZonedDateTime?
 
     var trailer: String
 

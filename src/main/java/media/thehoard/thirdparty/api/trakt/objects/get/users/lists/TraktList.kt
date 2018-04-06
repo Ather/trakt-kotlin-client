@@ -5,8 +5,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListIdsImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktList {
     var name: String
@@ -23,9 +22,9 @@ interface TraktList {
 
     var sortHow: TraktListSortHow
 
-    var createdAt: Instant?
+    var createdAt: ZonedDateTime?
 
-    var updatedAt: Instant?
+    var updatedAt: ZonedDateTime?
 
     var itemCount: Int?
 

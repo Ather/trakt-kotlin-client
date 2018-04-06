@@ -6,11 +6,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktCalendarShowImpl(
         @SerializedName("first_aired")
-        override var firstAired: Instant? = null,
+        override var firstAired: ZonedDateTime? = null,
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
         override var show: TraktShowImpl = TraktShowImpl()
 ) : TraktCalendarShow, TraktShow by show {

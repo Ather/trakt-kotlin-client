@@ -5,13 +5,12 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktSyncType
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktUserWatchingItem {
-    var startedAt: Instant?
+    var startedAt: ZonedDateTime?
 
-    var expiresAt: Instant?
+    var expiresAt: ZonedDateTime?
 
     var action: TraktHistoryActionType
 

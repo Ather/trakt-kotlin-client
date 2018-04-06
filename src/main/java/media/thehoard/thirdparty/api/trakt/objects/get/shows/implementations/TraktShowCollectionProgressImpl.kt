@@ -4,10 +4,10 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonCollectionProgressImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowCollectionProgress
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktShowCollectionProgressImpl(
-        override var lastCollectedAt: Instant? = null,
+        override var lastCollectedAt: ZonedDateTime? = null,
         override var seasons: MutableList<TraktSeasonCollectionProgressImpl> = mutableListOf(),
         override var aired: Int? = null,
         override var completed: Int? = null,

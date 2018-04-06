@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.authentication
 
 import com.google.gson.annotations.SerializedName
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktDevice(
         @SerializedName("device_code")
@@ -19,11 +19,11 @@ data class TraktDevice(
         get() = !deviceCode.isNullOrBlank() && isExpiredUnused
 
     @Transient
-    var created: Instant = Instant.now()
+    var created: ZonedDateTime = ZonedDateTime.now()
         internal set
 
     val isExpiredUnused
-        get() = created.plusSeconds(expiresInSeconds?.toLong() ?: 0) <= Instant.now()
+        get() = created.plusSeconds(expiresInSeconds?.toLong() ?: 0) <= ZonedDateTime.now()
 
     override fun toString(): String = if (isValid) deviceCode!! else "no valid device code"
 }

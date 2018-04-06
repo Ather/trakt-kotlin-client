@@ -6,13 +6,12 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.playback.TraktSyncPlaybackProgressItem
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktSyncPlaybackProgressItemImpl(
         override var id: Int = 0,
         override var progress: Float? = null,
-        @SerializedName("pause_at") override var pausedAt: Instant? = null,
+        @SerializedName("pause_at") override var pausedAt: ZonedDateTime? = null,
         override var type: TraktSyncType = TraktSyncType.UNSPECIFIED,
         override var movie: TraktMovieImpl = TraktMovieImpl(),
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),

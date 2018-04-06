@@ -3,11 +3,10 @@ package media.thehoard.thirdparty.api.trakt.objects.get.collections
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktCollectionShow<EpisodeType : TraktCollectionShowEpisode> : TraktShow {
-    var lastCollectedAt: Instant?
+    var lastCollectedAt: ZonedDateTime?
 
     var show: TraktShowImpl
 

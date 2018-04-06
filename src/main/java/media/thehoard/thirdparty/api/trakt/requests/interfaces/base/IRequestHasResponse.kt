@@ -1,3 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.interfaces.base
 
-internal interface IRequestHasResponse<TResponseContentType> : IRequest
+import kotlin.reflect.KClass
+
+internal interface IRequestHasResponse<TResponseContentType> : IRequest {
+    val responseContentClass: KClass<*>
+}

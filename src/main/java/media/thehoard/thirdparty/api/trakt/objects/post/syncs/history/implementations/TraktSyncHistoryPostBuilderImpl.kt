@@ -4,18 +4,18 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostHistorySeasons
-import java.time.Instant
+import java.time.ZonedDateTime
 
 class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<TraktSyncHistoryPostImpl, TraktSyncHistoryPostBuilderImpl>() {
     private val historyPost: TraktSyncHistoryPostImpl = TraktSyncHistoryPostImpl()
 
-    fun addMovie(movie: TraktMovie, watchedAt: Instant? = null): TraktSyncHistoryPostBuilderImpl {
+    fun addMovie(movie: TraktMovie, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         validateMovie(movie)
 
         return addMovieOrIgnore(movie, watchedAt)
     }
 
-    fun addShow(show: TraktShow, watchedAt: Instant? = null, vararg seasons: Int): TraktSyncHistoryPostBuilderImpl {
+    fun addShow(show: TraktShow, watchedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncHistoryPostBuilderImpl {
         validateShow(show)
 
         val showSeasons = createShowSeasons(*seasons)
@@ -24,7 +24,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         return this
     }
 
-    fun addShow(show: TraktShow, watchedAt: Instant? = null, seasons: PostHistorySeasons? = null): TraktSyncHistoryPostBuilderImpl {
+    fun addShow(show: TraktShow, watchedAt: ZonedDateTime? = null, seasons: PostHistorySeasons? = null): TraktSyncHistoryPostBuilderImpl {
         validateShow(show)
 
         val showSeasons = if (seasons != null) createShowSeasons(seasons) else null
@@ -33,7 +33,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         return this
     }
 
-    fun addEpisode(episode: TraktEpisode, watchedAt: Instant? = null): TraktSyncHistoryPostBuilderImpl {
+    fun addEpisode(episode: TraktEpisode, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         validateEpisode(episode)
 
         return addEpisodeOrIgnore(episode, watchedAt)
@@ -83,7 +83,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
 
     override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>) = createOrSetShow(show, showSeasons, null)
 
-    private fun addMovieOrIgnore(movie: TraktMovie, watchedAt: Instant? = null): TraktSyncHistoryPostBuilderImpl {
+    private fun addMovieOrIgnore(movie: TraktMovie, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         if (containsMovie(movie))
             return this
 
@@ -100,7 +100,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         return this
     }
 
-    private fun addShowOrIgnore(show: TraktShow, watchedAt: Instant? = null): TraktSyncHistoryPostBuilderImpl {
+    private fun addShowOrIgnore(show: TraktShow, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         if (containsShow(show))
             return this
 
@@ -117,7 +117,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         return this
     }
 
-    private fun addEpisodeOrIgnore(episode: TraktEpisode, watchedAt: Instant? = null): TraktSyncHistoryPostBuilderImpl {
+    private fun addEpisodeOrIgnore(episode: TraktEpisode, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         if (containsEpisode(episode))
             return this
 
@@ -132,7 +132,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         return this
     }
 
-    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>? = null, watchedAt: Instant? = null) {
+    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>? = null, watchedAt: ZonedDateTime? = null) {
         val existingShow = historyPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null && showSeasons != null)

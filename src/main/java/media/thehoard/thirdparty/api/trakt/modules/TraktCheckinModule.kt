@@ -18,7 +18,7 @@ import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinsDeleteReque
 import media.thehoard.thirdparty.api.trakt.requests.handler.RequestHandler
 import media.thehoard.thirdparty.api.trakt.responses.TraktNoContentResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
 class TraktCheckinModule(override val client: TraktClient) : TraktModule {
@@ -26,7 +26,7 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
     fun checkIntoMovieAsync(
             movie: TraktMovieImpl,
             appVersion: String? = null,
-            appBuildDate: Instant? = null,
+            appBuildDate: ZonedDateTime? = null,
             message: String? = null,
             sharing: TraktSharingImpl? = null,
             foursquareVenueID: String? = null,
@@ -51,14 +51,14 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
         if (appBuildDate != null)
             requestBody.appDate = appBuildDate.toTraktDateString()
 
-        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody))
+        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktMovieCheckinPostResponseImpl::class))
     }
 
     fun checkIntoEpisodeAsync(
             episode: TraktEpisodeImpl,
             show: TraktShowImpl? = null,
             appVersion: String? = null,
-            appBuildDate: Instant? = null,
+            appBuildDate: ZonedDateTime? = null,
             message: String? = null,
             sharing: TraktSharingImpl? = null,
             foursquareVenueID: String? = null,
@@ -88,7 +88,7 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
         if (appBuildDate != null)
             requestBody.appDate = appBuildDate.toTraktDateString()
 
-        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody))
+        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponseImpl::class))
     }
 
     fun deleteAnyActiveCheckinsAsync(): CompletableFuture<TraktNoContentResponse> =

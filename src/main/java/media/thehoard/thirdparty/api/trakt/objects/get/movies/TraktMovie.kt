@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.movies
 
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktMovie {
     var title: String
@@ -14,11 +14,11 @@ interface TraktMovie {
 
     var overview: String
 
-    var released: Instant?
+    var released: ZonedDateTime?
 
     var runtime: Int?
 
-    var updatedAt: Instant?
+    var updatedAt: ZonedDateTime?
 
     var trailer: String
 

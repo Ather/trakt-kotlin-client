@@ -7,12 +7,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.ratings.TraktRatingsItem
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktRatingsItemImpl(
         @SerializedName("rated_at")
-        override var ratedAt: Instant? = null,
+        override var ratedAt: ZonedDateTime? = null,
         override var rating: Int? = null,
         override var type: TraktRatingsItemType = TraktRatingsItemType.UNSPECIFIED,
         override var movie: TraktMovieImpl = TraktMovieImpl(),

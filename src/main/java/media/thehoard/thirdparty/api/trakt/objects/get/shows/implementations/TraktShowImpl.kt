@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.enums.TraktShowStatus
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktShowImpl(
         override var title: String = "",
@@ -11,14 +11,14 @@ data class TraktShowImpl(
         override var ids: TraktShowIdsImpl = TraktShowIdsImpl(),
         override var overview: String = "",
         @SerializedName("first_aired")
-        override var firstAired: Instant? = null,
+        override var firstAired: ZonedDateTime? = null,
         override var airs: TraktShowAirsImpl = TraktShowAirsImpl(),
         override var runtime: Int? = null,
         override var certification: String = "",
         override var network: String = "",
         override var country: String = "",
         @SerializedName("updated_at")
-        override var updatedAt: Instant? = null,
+        override var updatedAt: ZonedDateTime? = null,
         override var trailer: String = "",
         override var homepage: String = "",
         override var status: TraktShowStatus = TraktShowStatus.UNSPECIFIED,

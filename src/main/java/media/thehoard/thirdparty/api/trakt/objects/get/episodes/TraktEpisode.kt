@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.episodes
 
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeIdsImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktEpisode {
     var season: Int?
@@ -16,9 +16,9 @@ interface TraktEpisode {
 
     var overview: String
 
-    var firstAired: Instant?
+    var firstAired: ZonedDateTime?
 
-    var updatedAt: Instant?
+    var updatedAt: ZonedDateTime?
 
     var rating: Float?
 

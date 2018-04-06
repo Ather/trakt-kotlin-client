@@ -1,11 +1,10 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktUserFriend {
-    var friendsAt: Instant?
+    var friendsAt: ZonedDateTime?
 
     var user: TraktUserImpl
 

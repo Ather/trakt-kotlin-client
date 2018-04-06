@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.post
 
 import com.google.gson.annotations.SerializedName
-import java.time.Instant
+import java.time.ZonedDateTime
 
 class PostHistorySeasons(vararg seasons: PostHistorySeason = arrayOf()) : MutableList<PostHistorySeason> {
     private val seasons: MutableList<PostHistorySeason> = seasons.toMutableList()
@@ -9,7 +9,7 @@ class PostHistorySeasons(vararg seasons: PostHistorySeason = arrayOf()) : Mutabl
     override val size: Int
         get() = seasons.size
 
-    fun add(season: Int, watchedAt: Instant? = null, episodes: PostHistoryEpisodes = PostHistoryEpisodes()) {
+    fun add(season: Int, watchedAt: ZonedDateTime? = null, episodes: PostHistoryEpisodes = PostHistoryEpisodes()) {
         seasons.add(PostHistorySeason(season, watchedAt, episodes))
     }
 
@@ -39,7 +39,7 @@ class PostHistorySeasons(vararg seasons: PostHistorySeason = arrayOf()) : Mutabl
 class PostHistorySeason(
         var number: Int = -1,
         @SerializedName("watched_at")
-        var watchedAt: Instant? = null,
+        var watchedAt: ZonedDateTime? = null,
         var episodes: PostHistoryEpisodes = PostHistoryEpisodes()
 )
 
@@ -51,7 +51,7 @@ class PostHistoryEpisodes(vararg episodes: PostHistoryEpisode = arrayOf()) : Mut
 
     fun add(vararg episodes: PostHistoryEpisode) = this.episodes.addAll(episodes.asSequence())
 
-    fun add(episode: Int, watchedAt: Instant? = null) {
+    fun add(episode: Int, watchedAt: ZonedDateTime? = null) {
         add(PostHistoryEpisode(episode, watchedAt))
     }
 
@@ -80,5 +80,5 @@ class PostHistoryEpisodes(vararg episodes: PostHistoryEpisode = arrayOf()) : Mut
 class PostHistoryEpisode(
         var number: Int = -1,
         @SerializedName("watched_at")
-        var watchedAt: Instant? = null
+        var watchedAt: ZonedDateTime? = null
 )

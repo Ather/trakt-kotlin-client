@@ -4,11 +4,10 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktHiddenItemType
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktUserHiddenItem {
-    var hiddenAt: Instant?
+    var hiddenAt: ZonedDateTime?
 
     var type: TraktHiddenItemType
 

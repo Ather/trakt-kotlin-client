@@ -15,7 +15,7 @@ internal class UserListCommentsRequest(
         internal var sortOrder: TraktCommentSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktCommentImpl>(), IHasId, ISupportsPagination {
+) : AGetRequestHasResponse<TraktCommentImpl>(TraktCommentImpl::class), IHasId, ISupportsPagination {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.NotRequired
 

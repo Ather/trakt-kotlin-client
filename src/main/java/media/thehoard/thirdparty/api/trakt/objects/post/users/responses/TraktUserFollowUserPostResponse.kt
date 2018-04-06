@@ -1,9 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.users.responses
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktUserFollowUserPostResponse {
-    var approvedAt: Instant?
+    var approvedAt: ZonedDateTime?
     var user: TraktUserImpl
 }

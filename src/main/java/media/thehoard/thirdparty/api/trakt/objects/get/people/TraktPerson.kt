@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.people
 
 import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonIdsImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktPerson {
     var name: String
@@ -10,9 +10,9 @@ interface TraktPerson {
 
     var biography: String
 
-    var birthday: Instant?
+    var birthday: ZonedDateTime?
 
-    var death: Instant?
+    var death: ZonedDateTime?
 
     var birthplace: String
 

@@ -1,16 +1,16 @@
 package media.thehoard.thirdparty.api.trakt.objects.basic
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktComment {
     var id: Int
 
     var parentId: Int?
 
-    var createdAt: Instant
+    var createdAt: ZonedDateTime
 
-    var updatedAt: Instant?
+    var updatedAt: ZonedDateTime?
 
     var comment: String
 

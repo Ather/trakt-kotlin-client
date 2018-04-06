@@ -1,15 +1,15 @@
 package media.thehoard.thirdparty.api.trakt.responses.interfaces
 
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface ITraktResponseHeaders {
     var sortBy: String
 
     var sortHow: String
 
-    var startDate: Instant?
+    var startDate: ZonedDateTime?
 
-    var endDate: Instant?
+    var endDate: ZonedDateTime?
 
     var trendingUserCount: Int?
 

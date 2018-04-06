@@ -16,13 +16,15 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtended
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsPagination
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.util.*
+import kotlin.reflect.KClass
 
 internal sealed class AEpisodeRequest<TResponseContentType>(
         override val uriTemplate: String,
         override var id: String,
         internal var seasonNumber: Int,
-        internal var episodeNumber: Int
-) : AGetRequestHasResponse<TResponseContentType>(), IHasId {
+        internal var episodeNumber: Int,
+        responseContentClass: KClass<*>
+) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Episodes
 
@@ -50,7 +52,8 @@ internal class EpisodeCommentsRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}/comments{/sort_order}{?page,limit}",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktCommentImpl::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -75,7 +78,8 @@ internal class EpisodeListRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}/lists{/type}{/sort_order}{?page,limit}",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktListImpl::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -99,7 +103,8 @@ internal class EpisodeRatingsRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}/ratings",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktRatingImpl::class
 )
 
 internal class EpisodeStatisticsRequest(
@@ -110,7 +115,8 @@ internal class EpisodeStatisticsRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}/stats",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktStatisticsImpl::class
 )
 
 internal class EpisodeSummaryRequest(
@@ -122,7 +128,8 @@ internal class EpisodeSummaryRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}{?extended}",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktEpisodeImpl::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -140,7 +147,8 @@ internal class EpisodeTranslationsRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}/translations{/language}",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktEpisodeImpl::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -165,7 +173,8 @@ internal class EpisodeWatchingUsersRequest(
         "shows/{id}/seasons/{season}/episodes/{episode}/watching{?extended}",
         id,
         seasonNumber,
-        episodeNumber
+        episodeNumber,
+        TraktUserImpl::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

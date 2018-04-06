@@ -1,18 +1,17 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.implementations
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.TraktMetadata
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostSeasons
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.*
 
 class TraktSyncCollectionPostBuilderImpl {
     private val collectionPost: TraktSyncCollectionPostImpl = TraktSyncCollectionPostImpl()
 
-    fun addMovie(movie: TraktMovie, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null): TraktSyncCollectionPostBuilderImpl {
+    fun addMovie(movie: TraktMovie, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         validateMovie(movie)
 
         return addMovieOrIgnore(movie, metadata, collectedAt)
@@ -25,7 +24,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null, seasons: PostSeasons? = null): TraktSyncCollectionPostBuilderImpl {
+    fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null, seasons: PostSeasons? = null): TraktSyncCollectionPostBuilderImpl {
         validateShow(show)
 
         if (seasons != null)
@@ -36,7 +35,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null, vararg seasons: Int): TraktSyncCollectionPostBuilderImpl {
+    fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncCollectionPostBuilderImpl {
         validateShow(show)
 
         val showSeasons = createShowSeasons(*seasons)
@@ -63,7 +62,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    fun addEpisode(episode: TraktEpisode, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null): TraktSyncCollectionPostBuilderImpl {
+    fun addEpisode(episode: TraktEpisode, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         validateEpisode(episode)
 
         return addEpisodeOrIgnore(episode, metadata, collectedAt)
@@ -121,7 +120,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return false
     }
 
-    private fun addMovieOrIgnore(movie: TraktMovie, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null): TraktSyncCollectionPostBuilderImpl {
+    private fun addMovieOrIgnore(movie: TraktMovie, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         if (containsMovie(movie)) return this
 
         val collectionMovie = TraktSyncCollectionPostMovieImpl()
@@ -138,7 +137,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    private fun addShowOrIgnore(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null): TraktSyncCollectionPostBuilderImpl {
+    private fun addShowOrIgnore(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         if (containsShow(show)) return this
 
         val collectionShow = TraktSyncCollectionPostShowImpl()
@@ -155,7 +154,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    private fun addEpisodeOrIgnore(episode: TraktEpisode, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null): TraktSyncCollectionPostBuilderImpl {
+    private fun addEpisodeOrIgnore(episode: TraktEpisode, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         if (containsEpisode(episode)) return this
 
         val collectionEpisode = TraktSyncCollectionPostEpisodeImpl()
@@ -171,7 +170,7 @@ class TraktSyncCollectionPostBuilderImpl {
     }
 
     //TODO Equality check
-    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncCollectionPostShowSeasonImpl>, metadata: TraktMetadataImpl? = null, collectedAt: Instant? = null) {
+    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncCollectionPostShowSeasonImpl>, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null) {
         val existingShow = collectionPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)

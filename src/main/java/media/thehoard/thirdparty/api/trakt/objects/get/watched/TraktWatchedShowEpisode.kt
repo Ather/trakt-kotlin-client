@@ -1,13 +1,12 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.watched
 
-import java.time.Instant
-import java.util.Date
+import java.time.ZonedDateTime
 
 interface TraktWatchedShowEpisode {
     var number: Int?
 
     var plays: Int?
 
-    var lastWatchedAt: Instant?
+    var lastWatchedAt: ZonedDateTime?
 
 }

@@ -11,7 +11,7 @@ internal class CommentRepliesRequest(
         override var id: String,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktCommentImpl>(), IHasId, ISupportsPagination {
+) : AGetRequestHasResponse<TraktCommentImpl>(TraktCommentImpl::class), IHasId, ISupportsPagination {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -36,7 +36,7 @@ internal class CommentRepliesRequest(
 
 internal class CommentSummaryRequest(
         override var id: String
-) : AGetRequestHasResponse<TraktCommentImpl>(), IHasId {
+) : AGetRequestHasResponse<TraktCommentImpl>(TraktCommentImpl::class), IHasId {
     override val uriTemplate: String = "comments/{id}"
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments

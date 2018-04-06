@@ -1,8 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.responses
 
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktListResponse
+import kotlin.reflect.KClass
 
-open class TraktListResponse<TResponseContentType> : TraktResponse<MutableList<TResponseContentType>>(), ITraktListResponse<TResponseContentType> {
+open class TraktListResponse<TResponseContentType>(responseContentClass: KClass<*>) : TraktResponse<MutableList<TResponseContentType>>(responseContentClass), ITraktListResponse<TResponseContentType> {
     override val size: Int
         get() = value!!.size
 
@@ -52,4 +53,5 @@ open class TraktListResponse<TResponseContentType> : TraktResponse<MutableList<T
 
         return false
     }
+
 }

@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostRatingsSeasons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.AbstractTraktSyncPostBuilder
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.*
 
 class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRatingsPostImpl, TraktSyncRatingsPostBuilder>() {
@@ -20,7 +20,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return this
     }
 
-    fun addMovie(movie: TraktMovie, rating: Int? = null, ratedAt: Instant? = null): TraktSyncRatingsPostBuilder {
+    fun addMovie(movie: TraktMovie, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
         validateMovie(movie)
         if (rating != null)
             validateRating(rating)
@@ -37,7 +37,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return this
     }
 
-    fun addShow(show: TraktShow, rating: Int? = null, ratedAt: Instant? = null, vararg seasons: Int): TraktSyncRatingsPostBuilder {
+    fun addShow(show: TraktShow, rating: Int? = null, ratedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncRatingsPostBuilder {
         validateShow(show)
         if (rating != null)
             validateRating(rating)
@@ -50,7 +50,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return this
     }
 
-    fun addShow(show: TraktShow, rating: Int? = null, ratedAt: Instant? = null, seasons: PostRatingsSeasons? = null): TraktSyncRatingsPostBuilder {
+    fun addShow(show: TraktShow, rating: Int? = null, ratedAt: ZonedDateTime? = null, seasons: PostRatingsSeasons? = null): TraktSyncRatingsPostBuilder {
         validateShow(show)
         if (rating != null)
             validateRating(rating)
@@ -72,7 +72,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return this
     }
 
-    fun addEpisode(episode: TraktEpisode, rating: Int? = null, ratedAt: Instant? = null): TraktSyncRatingsPostBuilder {
+    fun addEpisode(episode: TraktEpisode, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
         validateEpisode(episode)
         if (rating != null)
             validateRating(rating)
@@ -117,26 +117,26 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return false
     }
 
-    private fun addMovieOrIgnore(movie: TraktMovie, rating: Int? = null, ratedAt: Instant? = null): TraktSyncRatingsPostBuilder {
+    private fun addMovieOrIgnore(movie: TraktMovie, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
         if (containsMovie(movie)) return this
         ratingsPost.movies.add(TraktSyncRatingsPostMovieImpl(movie.title, movie.year, movie.ids, rating, ratedAt))
         return this
     }
 
-    private fun addShowOrIgnore(show: TraktShow, rating: Int? = null, ratedAt: Instant? = null): TraktSyncRatingsPostBuilder {
+    private fun addShowOrIgnore(show: TraktShow, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
         if (containsShow(show)) return this
         ratingsPost.shows.add(TraktSyncRatingsPostShowImpl(show.title, show.year, show.ids, rating, ratedAt))
         return this
     }
 
-    private fun addEpisodeOrIgnore(episode: TraktEpisode, rating: Int? = null, ratedAt: Instant? = null): TraktSyncRatingsPostBuilder {
+    private fun addEpisodeOrIgnore(episode: TraktEpisode, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
         if (containsEpisode(episode)) return this
         ratingsPost.episodes.add(TraktSyncRatingsPostEpisodeImpl(episode.ids, rating, ratedAt))
         return this
     }
 
-    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncRatingsPostShowSeasonImpl>, rating: Int? = null, ratedAt: Instant? = null) {
-        val existingShow = ratingsPost.shows.firstOrNull{ s -> s.ids like show.ids }
+    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncRatingsPostShowSeasonImpl>, rating: Int? = null, ratedAt: ZonedDateTime? = null) {
+        val existingShow = ratingsPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)
             existingShow.seasons = showSeasons

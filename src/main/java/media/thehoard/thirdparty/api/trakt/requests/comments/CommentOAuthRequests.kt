@@ -45,7 +45,7 @@ internal class CommentLikeRequest(
     }
 }
 
-internal class CommentPostRequest<TRequestBodyType : IRequestBody> : APostRequestHasResponse<TraktCommentPostResponseImpl, TRequestBodyType>() {
+internal class CommentPostRequest<TRequestBodyType : IRequestBody> : APostRequestHasResponse<TraktCommentPostResponseImpl, TRequestBodyType>(TraktCommentPostResponseImpl::class) {
     override var requestBody: TRequestBodyType? = null
 
     override val uriTemplate: String = "comments"
@@ -56,7 +56,7 @@ internal class CommentPostRequest<TRequestBodyType : IRequestBody> : APostReques
 internal class CommentReplyPost(
         override var id: String,
         override var requestBody: TraktCommentReplyPostImpl? = null
-) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentReplyPostImpl>(), IHasId {
+) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentReplyPostImpl>(TraktCommentPostResponseImpl::class), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -93,7 +93,7 @@ internal class CommentUnlikeRequest(
 internal class CommentUpdateRequest(
         override var id: String,
         override var requestBody: TraktCommentUpdatePostImpl? = null
-) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentUpdatePostImpl>(), IHasId {
+) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentUpdatePostImpl>(TraktCommentPostResponseImpl::class), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 

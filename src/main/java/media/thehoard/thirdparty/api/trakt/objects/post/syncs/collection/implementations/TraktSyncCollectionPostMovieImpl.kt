@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.TraktSyncCollectionPostMovie
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktSyncCollectionPostMovieImpl(
         @SerializedName("collected_at")
-        override var collectedAt: Instant? = null,
+        override var collectedAt: ZonedDateTime? = null,
         override var title: String = "",
         override var year: Int? = null,
         override var ids: TraktMovieIdsImpl = TraktMovieIdsImpl(),

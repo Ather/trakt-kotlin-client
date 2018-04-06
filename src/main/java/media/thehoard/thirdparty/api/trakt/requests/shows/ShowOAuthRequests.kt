@@ -6,14 +6,16 @@ import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
+import kotlin.reflect.KClass
 
 internal sealed class AShowProgressRequest<TResponseContentType>(
         override val uriTemplate: String,
         override var id: String,
         internal var hidden: Boolean? = null,
         internal var specials: Boolean? = null,
-        internal var countSpecials: Boolean? = null
-) : AGetRequestHasResponse<TResponseContentType>(), IHasId {
+        internal var countSpecials: Boolean? = null,
+        responseContentClass: KClass<*>
+) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
@@ -45,7 +47,8 @@ internal class ShowCollectionProgressRequest(
         id,
         hidden,
         specials,
-        countSpecials
+        countSpecials,
+        TraktShowCollectionProgressImpl::class
 )
 
 internal class ShowWatchedProgressRequest(
@@ -58,5 +61,6 @@ internal class ShowWatchedProgressRequest(
         id,
         hidden,
         specials,
-        countSpecials
+        countSpecials,
+        TraktShowCollectionProgressImpl::class
 )

@@ -10,6 +10,7 @@ import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
+import kotlin.reflect.KClass
 
 internal sealed class AUserRecommendationHideRequest(
         override val uriTemplate: String,
@@ -28,8 +29,9 @@ internal sealed class AUserRecommendationHideRequest(
 internal sealed class AUserRecommendationsRequest<TResponseContentType>(
         override val uriTemplate: String,
         override var extendedInfo: TraktExtendedInfo? = null,
-        var limit: Int? = null
-) : AGetRequestHasResponse<TResponseContentType>(), ISupportsExtendedInfo {
+        var limit: Int? = null,
+        responseContentClass: KClass<*>
+) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo {
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
     override val uriPathParameters: Map<String, Any>?
@@ -45,7 +47,8 @@ internal class UserMovieRecommendationsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
 ) : AUserRecommendationsRequest<TraktMovieImpl>(
         "recommendations/movies{?extended,limit}",
-        extendedInfo
+        extendedInfo,
+        responseContentClass = TraktMovieImpl::class
 ) {
     override fun validate() {}
 }
@@ -70,7 +73,8 @@ internal class UserShowRecommendationsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
 ) : AUserRecommendationsRequest<TraktShowImpl>(
         "recommendations/shows{?extended,limit}",
-        extendedInfo
+        extendedInfo,
+        responseContentClass = TraktShowImpl::class
 ) {
     override fun validate() {}
 }

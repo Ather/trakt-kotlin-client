@@ -34,12 +34,14 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsPagination
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.*
+import kotlin.reflect.KClass
 
 internal sealed class ASyncGetRequest<TResponseContentType>(
-        override val uriTemplate: String
-) : AGetRequestHasResponse<TResponseContentType>() {
+        override val uriTemplate: String,
+        responseContentClass: KClass<*>
+) : AGetRequestHasResponse<TResponseContentType>(responseContentClass) {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
@@ -51,8 +53,9 @@ internal sealed class ASyncGetRequest<TResponseContentType>(
 
 internal sealed class ASyncPostRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
         override val uriTemplate: String,
-        override var requestBody: TRequestBodyType? = null
-) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>() {
+        override var requestBody: TRequestBodyType? = null,
+        responseContentClass: KClass<*>
+) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass) {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf()
 }
@@ -61,12 +64,16 @@ internal class SyncCollectionAddRequest(
         override var requestBody: TraktSyncCollectionPostImpl? = null
 ) : ASyncPostRequest<TraktSyncCollectionPostResponseImpl, TraktSyncCollectionPostImpl>(
         "sync/collection",
-        requestBody
+        requestBody,
+        TraktSyncCollectionPostResponseImpl::class
 )
 
 internal class SyncCollectionMoviesRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktCollectionMovieExtendedMetadataImpl>("sync/collection/movies{?extended}"), ISupportsExtendedInfo {
+) : ASyncGetRequest<TraktCollectionMovieExtendedMetadataImpl>(
+        "sync/collection/movies{?extended}",
+        TraktCollectionMovieExtendedMetadataImpl::class
+), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -78,12 +85,16 @@ internal class SyncCollectionRemoveRequest(
         override var requestBody: TraktSyncCollectionPostImpl? = null
 ) : ASyncPostRequest<TraktSyncCollectionRemovePostResponseImpl, TraktSyncCollectionPostImpl>(
         "sync/collection/remove",
-        requestBody
+        requestBody,
+        TraktSyncCollectionRemovePostResponseImpl::class
 )
 
 internal class SyncCollectionShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>("sync/collection/shows{?extended}"), ISupportsExtendedInfo {
+) : ASyncGetRequest<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>(
+        "sync/collection/shows{?extended}",
+        TraktCollectionShowEpisodeExtendedMetadataImpl::class
+), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -91,7 +102,10 @@ internal class SyncCollectionShowsRequest(
         }
 }
 
-internal class SyncLastActivitiesRequest : ASyncGetRequest<TraktSyncLastActivitiesImpl>("sync/last_activities")
+internal class SyncLastActivitiesRequest : ASyncGetRequest<TraktSyncLastActivitiesImpl>(
+        "sync/last_activities",
+        TraktSyncLastActivitiesImpl::class
+)
 
 internal class SyncPlaybackDeleteRequest(
         override var id: String
@@ -113,7 +127,10 @@ internal class SyncPlaybackDeleteRequest(
 internal class SyncPlaybackProgressRequest(
         internal var type: TraktSyncType? = null,
         internal var limit: Int? = null
-) : ASyncGetRequest<TraktSyncPlaybackProgressItemImpl>("sync/playback{/type}{?limit}") {
+) : ASyncGetRequest<TraktSyncPlaybackProgressItemImpl>(
+        "sync/playback{/type}{?limit}",
+        TraktSyncPlaybackProgressItemImpl::class
+) {
 
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -129,21 +146,26 @@ internal class SyncRatingsAddRequest(
         override var requestBody: TraktSyncRatingsPostImpl? = null
 ) : ASyncPostRequest<TraktSyncRatingsPostResponseImpl, TraktSyncRatingsPostImpl>(
         "sync/ratings",
-        requestBody
+        requestBody,
+        TraktSyncRatingsPostResponseImpl::class
 )
 
 internal class SyncRatingsRemoveRequest(
         override var requestBody: TraktSyncRatingsPostImpl? = null
 ) : ASyncPostRequest<TraktSyncRatingsRemovePostResponseImpl, TraktSyncRatingsPostImpl>(
         "sync/ratings/remove",
-        requestBody
+        requestBody,
+        TraktSyncRatingsRemovePostResponseImpl::class
 )
 
 internal class SyncRatingsRequest(
         internal var type: TraktRatingsItemType? = null,
         internal var ratingFilter: List<Int>? = null,
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktRatingsItemImpl>("sync/ratings{/type}{/rating}{?extended}"), ISupportsExtendedInfo {
+) : ASyncGetRequest<TraktRatingsItemImpl>(
+        "sync/ratings{/type}{/rating}{?extended}",
+        TraktRatingsItemImpl::class
+), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             val isTypeSetAndValid = type != null && type != TraktRatingsItemType.UNSPECIFIED
@@ -163,26 +185,29 @@ internal class SyncWatchedHistoryAddRequest(
         override var requestBody: TraktSyncHistoryPostImpl? = null
 ) : ASyncPostRequest<TraktSyncHistoryPostResponseImpl, TraktSyncHistoryPostImpl>(
         "sync/history",
-        requestBody
+        requestBody,
+        TraktSyncHistoryPostResponseImpl::class
 )
 
 internal class SyncWatchedHistoryRemoveRequest(
         override var requestBody: TraktSyncHistoryRemovePostImpl? = null
 ) : ASyncPostRequest<TraktSyncHistoryRemovePostResponseImpl, TraktSyncHistoryRemovePostImpl>(
         "sync/history/remove",
-        requestBody
+        requestBody,
+        TraktSyncHistoryRemovePostResponseImpl::class
 )
 
 internal class SyncWatchedHistoryRequest(
         internal var type: TraktSyncItemType? = null,
         internal var itemId: Int? = null,
-        internal var startAt: Instant? = null,
-        internal var endAt: Instant? = null,
+        internal var startAt: ZonedDateTime? = null,
+        internal var endAt: ZonedDateTime? = null,
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
 ) : ASyncGetRequest<TraktHistoryItemImpl>(
-        "sync/history{/type}{/item_id}{?start_at,end_at,extended,page,limit}"
+        "sync/history{/type}{/item_id}{?start_at,end_at,extended,page,limit}",
+        TraktHistoryItemImpl::class
 ), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -207,7 +232,10 @@ internal class SyncWatchedHistoryRequest(
 
 internal class SyncWatchedMoviesRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktWatchedMovieImpl>("sync/watched/movies{?extended}"), ISupportsExtendedInfo {
+) : ASyncGetRequest<TraktWatchedMovieImpl>(
+        "sync/watched/movies{?extended}",
+        TraktWatchedMovieImpl::class
+), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -217,7 +245,10 @@ internal class SyncWatchedMoviesRequest(
 
 internal class SyncWatchedShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktWatchedShowImpl>("sync/watched/shows{?extended}"), ISupportsExtendedInfo {
+) : ASyncGetRequest<TraktWatchedShowImpl>(
+        "sync/watched/shows{?extended}",
+        TraktWatchedShowImpl::class
+), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -229,14 +260,16 @@ internal class SyncWatchlistAddRequest(
         override var requestBody: TraktSyncWatchlistPostImpl? = null
 ) : ASyncPostRequest<TraktSyncWatchlistPostResponseImpl, TraktSyncWatchlistPostImpl>(
         "sync/watchlist",
-        requestBody
+        requestBody,
+        TraktSyncWatchlistPostResponseImpl::class
 )
 
 internal class SyncWatchlistRemoveRequest(
         override var requestBody: TraktSyncWatchlistPostImpl? = null
 ) : ASyncPostRequest<TraktSyncWatchlistRemovePostResponseImpl, TraktSyncWatchlistPostImpl>(
         "sync/watchlist/remove",
-        requestBody
+        requestBody,
+        TraktSyncWatchlistRemovePostResponseImpl::class
 )
 
 internal class SyncWatchlistRequest(
@@ -244,7 +277,10 @@ internal class SyncWatchlistRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : ASyncGetRequest<TraktWatchlistItemImpl>("sync/watchlist{/type}{?extended,page,limit}"), ISupportsExtendedInfo, ISupportsPagination {
+) : ASyncGetRequest<TraktWatchlistItemImpl>(
+        "sync/watchlist{/type}{?extended,page,limit}",
+        TraktWatchlistItemImpl::class
+), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             val isTypeSetAndValid = type != null && type != TraktSyncItemType.UNSPECIFIED

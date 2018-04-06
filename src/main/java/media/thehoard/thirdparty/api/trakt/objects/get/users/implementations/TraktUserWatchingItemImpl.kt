@@ -7,12 +7,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUserWatchingItem
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktUserWatchingItemImpl(
-        @SerializedName("started_at") override var startedAt: Instant? = null,
-        @SerializedName("expires_at") override var expiresAt: Instant? = null,
+        @SerializedName("started_at") override var startedAt: ZonedDateTime? = null,
+        @SerializedName("expires_at") override var expiresAt: ZonedDateTime? = null,
         override var action: TraktHistoryActionType = TraktHistoryActionType.UNSPECIFIED,
         override var type: TraktSyncType = TraktSyncType.UNSPECIFIED,
         override var movie: TraktMovieImpl = TraktMovieImpl(),

@@ -1,8 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses
 
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktCheckinPostErrorResponse {
-    var expiresAt: Instant?
+    var expiresAt: ZonedDateTime?
 
 }

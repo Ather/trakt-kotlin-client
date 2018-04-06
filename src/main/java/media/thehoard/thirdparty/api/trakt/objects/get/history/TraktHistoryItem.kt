@@ -6,13 +6,12 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktHistoryItem {
     var id: Long
 
-    var watchedAt: Instant?
+    var watchedAt: ZonedDateTime?
 
     var action: TraktHistoryActionType
 

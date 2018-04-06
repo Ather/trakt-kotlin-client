@@ -6,13 +6,12 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktListItem {
     var rank: String
 
-    var listedAt: Instant?
+    var listedAt: ZonedDateTime?
 
     var type: TraktListItemType
 

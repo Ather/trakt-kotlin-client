@@ -1,10 +1,10 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities
 
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.implementations.*
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktSyncLastActivities {
-    var all: Instant?
+    var all: ZonedDateTime?
 
     var movies: TraktSyncMoviesLastActivitiesImpl
 

@@ -1,15 +1,14 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities
 
-import java.time.Instant
-import java.util.Date
+import java.time.ZonedDateTime
 
 interface TraktSyncShowsLastActivities {
-    var ratedAt: Instant?
+    var ratedAt: ZonedDateTime?
 
-    var watchlistedAt: Instant?
+    var watchlistedAt: ZonedDateTime?
 
-    var commentedAt: Instant?
+    var commentedAt: ZonedDateTime?
 
-    var hiddenAt: Instant?
+    var hiddenAt: ZonedDateTime?
 
 }

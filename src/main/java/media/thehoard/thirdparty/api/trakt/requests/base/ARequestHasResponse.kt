@@ -2,8 +2,9 @@ package media.thehoard.thirdparty.api.trakt.requests.base
 
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
+import kotlin.reflect.KClass
 
-internal abstract class ARequestHasResponse<TResponseContentType> : IRequestHasResponse<TResponseContentType> {
+internal abstract class ARequestHasResponse<TResponseContentType>(override val responseContentClass: KClass<*>) : IRequestHasResponse<TResponseContentType> {
     abstract override val authorizationRequirement: AuthorizationRequirement
 
     abstract override val method: HttpMethod

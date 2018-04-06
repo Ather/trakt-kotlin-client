@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktMovieImpl(
         override var title: String = "",
@@ -10,10 +10,10 @@ data class TraktMovieImpl(
         override var ids: TraktMovieIdsImpl = TraktMovieIdsImpl(),
         override var tagline: String = "",
         override var overview: String = "",
-        override var released: Instant? = null,
+        override var released: ZonedDateTime? = null,
         override var runtime: Int? = null,
         @SerializedName("updated_at")
-        override var updatedAt: Instant? = null,
+        override var updatedAt: ZonedDateTime? = null,
         override var trailer: String = "",
         override var homepage: String = "",
         override var rating: Float? = null,

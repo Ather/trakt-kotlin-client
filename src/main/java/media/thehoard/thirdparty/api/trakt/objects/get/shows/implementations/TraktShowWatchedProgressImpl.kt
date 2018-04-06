@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonWatchedProgressImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowWatchedProgress
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktShowWatchedProgressImpl(
         override var aired: Int? = null,
@@ -18,6 +18,6 @@ data class TraktShowWatchedProgressImpl(
         override var lastEpisode: TraktEpisodeImpl = TraktEpisodeImpl(),
 
         @SerializedName("last_watched_at")
-        override var lastWatchedAt: Instant? = null,
+        override var lastWatchedAt: ZonedDateTime? = null,
         override var seasons: MutableList<TraktSeasonWatchedProgressImpl> = mutableListOf()
 ) : TraktShowWatchedProgress

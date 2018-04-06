@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.users
 
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserIdsImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImagesImpl
-import java.time.Instant
+import java.time.ZonedDateTime
 
 interface TraktUser {
     var username: String
@@ -17,7 +17,7 @@ interface TraktUser {
 
     var ids: TraktUserIdsImpl
 
-    var joinedAt: Instant?
+    var joinedAt: ZonedDateTime?
 
     var location: String
 

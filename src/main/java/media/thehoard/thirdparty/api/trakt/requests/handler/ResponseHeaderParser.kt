@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.requests.handler
 import io.netty.handler.codec.http.HttpHeaders
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktPagedResponseHeaders
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktResponseHeaders
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
@@ -31,14 +31,14 @@ internal object ResponseHeaderParser {
             HEADER_PRIVATE_USER_KEY in responseHeaders -> headerResults.isPrivateUser = responseHeaders[HEADER_PRIVATE_USER_KEY]?.toBoolean()
             HEADER_STARTDATE_KEY in responseHeaders -> {
                 headerResults.startDate = try {
-                    Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_STARTDATE_KEY]))
+                    ZonedDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_STARTDATE_KEY]))
                 } catch (e: DateTimeParseException) {
                     null
                 }
             }
             HEADER_ENDDATE_KEY in responseHeaders -> {
                 headerResults.endDate = try {
-                    Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_ENDDATE_KEY]))
+                    ZonedDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_ENDDATE_KEY]))
                 } catch (e: DateTimeParseException) {
                     null
                 }

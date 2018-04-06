@@ -1,8 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.responses
 
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktPagedResponse
+import kotlin.reflect.KClass
 
-class TraktPagedResponse<TResponseContentType> : TraktListResponse<TResponseContentType>(), ITraktPagedResponse<TResponseContentType> {
+class TraktPagedResponse<TResponseContentType>(responseContentClass: KClass<*>) : TraktListResponse<TResponseContentType>(responseContentClass), ITraktPagedResponse<TResponseContentType> {
     override var pageCount: Int? = null
 
     override var itemCount: Int? = null
@@ -15,5 +16,14 @@ class TraktPagedResponse<TResponseContentType> : TraktListResponse<TResponseCont
                     && other.itemCount == itemCount)
 
         return false
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (page ?: 0)
+        result = 31 * result + (pageCount ?: 0)
+        result = 31 * result + (itemCount ?: 0)
+        result = 31 * result + (limit ?: 0)
+        return result
     }
 }

@@ -8,12 +8,14 @@ import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
+import kotlin.reflect.KClass
 
 internal sealed class APersonRequest<TResponseContentType>(
         override val uriTemplate: String,
         override var id: String,
-        override var extendedInfo: TraktExtendedInfo? = null
-) : AGetRequestHasResponse<TResponseContentType>(), IHasId, ISupportsExtendedInfo {
+        override var extendedInfo: TraktExtendedInfo? = null,
+        responseContentClass: KClass<*>
+) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId, ISupportsExtendedInfo {
     override val requestObjectType: RequestObjectType = RequestObjectType.People
 
     override val uriPathParameters: Map<String, Any>?
@@ -31,7 +33,8 @@ internal class PersonMovieCreditsRequest(
 ) : APersonRequest<TraktPersonMovieCreditsImpl>(
         "people/{id}/movies{?extended}",
         id,
-        extendedInfo
+        extendedInfo,
+        TraktPersonMovieCreditsImpl::class
 )
 
 internal class PersonShowCreditsRequest(
@@ -40,7 +43,8 @@ internal class PersonShowCreditsRequest(
 ) : APersonRequest<TraktPersonShowCreditsImpl>(
         "people/{id}/shows{?extended}",
         id,
-        extendedInfo
+        extendedInfo,
+        TraktPersonShowCreditsImpl::class
 )
 
 internal class PersonSummaryRequest(
@@ -49,5 +53,6 @@ internal class PersonSummaryRequest(
 ) : APersonRequest<TraktPersonImpl>(
         "people/{id}{?extended}",
         id,
-        extendedInfo
+        extendedInfo,
+        TraktPersonImpl::class
 )

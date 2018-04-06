@@ -3,8 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.implement
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPostMovie
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktSyncRatingsPostMovieImpl(
         override var title: String = "",
@@ -12,5 +11,5 @@ data class TraktSyncRatingsPostMovieImpl(
         override var ids: TraktMovieIdsImpl = TraktMovieIdsImpl(),
         override var rating: Int? = null,
         @SerializedName("rated_at")
-        override var ratedAt: Instant? = null
+        override var ratedAt: ZonedDateTime? = null
 ) : TraktSyncRatingsPostMovie

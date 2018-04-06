@@ -2,11 +2,10 @@ package media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.impleme
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.TraktSyncListsLastActivities
-
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktSyncListsLastActivitiesImpl(
-        @SerializedName("liked_at") override var likedAt: Instant? = null,
-        @SerializedName("updated_at") override var updatedAt: Instant? = null,
-        @SerializedName("commented_at") override var commentedAt: Instant? = null
+        @SerializedName("liked_at") override var likedAt: ZonedDateTime? = null,
+        @SerializedName("updated_at") override var updatedAt: ZonedDateTime? = null,
+        @SerializedName("commented_at") override var commentedAt: ZonedDateTime? = null
 ) : TraktSyncListsLastActivities

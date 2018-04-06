@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.enums.TraktAccessScope
 import media.thehoard.thirdparty.api.trakt.enums.TraktAccessTokenType
 import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
-import java.time.Instant
+import java.time.ZonedDateTime
 
 data class TraktAuthorization(
         @SerializedName("access_token")
@@ -21,13 +21,13 @@ data class TraktAuthorization(
 
     val isExpired
         get() = !isValid || (if (ignoreExpiration) false else (created.plusSeconds(expiresInSeconds?.toLong()
-                ?: 0) <= Instant.now()))
+                ?: 0) <= ZonedDateTime.now()))
 
     val isValid
         get() = !accessToken.isNullOrBlank() && !accessToken!!.containsSpace()
 
     @Transient
-    var created: Instant = Instant.now()
+    var created: ZonedDateTime = ZonedDateTime.now()
         internal set
 
     @Transient
@@ -55,10 +55,10 @@ data class TraktAuthorization(
                 refreshToken = refreshToken ?: ""
         )
 
-        fun createWith(createdAt: Instant, accessToken: String, refreshToken: String? = null) =
+        fun createWith(createdAt: ZonedDateTime, accessToken: String, refreshToken: String? = null) =
                 createWith(createdAt, 7776000, accessToken, refreshToken)
 
-        fun createWith(createdAt: Instant, expiresInSeconds: Int, accessToken: String, refreshToken: String? = null) = TraktAuthorization(
+        fun createWith(createdAt: ZonedDateTime, expiresInSeconds: Int, accessToken: String, refreshToken: String? = null) = TraktAuthorization(
                 expiresInSeconds = expiresInSeconds,
                 accessScope = TraktAccessScope.PUBLIC,
                 tokenType = TraktAccessTokenType.BEARER,

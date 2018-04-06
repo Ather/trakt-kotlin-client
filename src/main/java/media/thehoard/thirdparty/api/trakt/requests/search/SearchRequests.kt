@@ -19,7 +19,7 @@ internal sealed class ASearchRequest(
         internal open var resultTypes: TraktSearchResultType? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktSearchResultImpl>(), ISupportsExtendedInfo, ISupportsPagination {
+) : AGetRequestHasResponse<TraktSearchResultImpl>(TraktSearchResultImpl::class), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
