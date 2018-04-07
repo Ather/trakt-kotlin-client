@@ -9,7 +9,7 @@ data class TraktUserCustomListItemsPostImpl(
         override var shows: MutableList<TraktUserCustomListItemsPostShowImpl> = mutableListOf(),
         override var people: MutableList<TraktPersonImpl> = mutableListOf()
 ) : TraktUserCustomListItemsPost {
-    override fun toJson(): String = Json.gson.toJson(this)
+    override fun toJson(): String = Json.serialize(this)
 
     override fun validate() {}
 

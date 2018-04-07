@@ -8,7 +8,7 @@ data class TraktSyncRatingsPostImpl(
         override var shows: MutableList<TraktSyncRatingsPostShowImpl> = mutableListOf(),
         override var episodes: MutableList<TraktSyncRatingsPostEpisodeImpl> = mutableListOf()
 ) : TraktSyncRatingsPost {
-    override fun toJson(): String = Json.gson.toJson(this)
+    override fun toJson(): String = Json.serialize(this)
 
     override fun validate() {}
 

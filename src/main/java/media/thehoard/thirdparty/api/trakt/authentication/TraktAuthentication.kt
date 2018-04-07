@@ -1,6 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.authentication
 
-import com.github.salomonbrys.kotson.fromJson
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.core.Constants
 import media.thehoard.thirdparty.api.trakt.core.TraktConfiguration
@@ -147,14 +146,14 @@ class TraktAuthentication(val client: TraktClient) {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 var token = TraktAuthorization()
                 if (!responseContent.isBlank())
-                    token = Json.gson.fromJson(responseContent)
+                    token = Json.deserialize(responseContent)
 
                 client.authentication.authorization = token
                 return@thenApply token
             } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
                 var error: TraktError? = null
                 if (!responseContent.isBlank())
-                    error = Json.gson.fromJson(responseContent)
+                    error = Json.deserialize(responseContent)
 
                 val errorMessage = if (error == null) "unknown error" else "error on refreshing oauth access token\nerror: ${error.error}\n" +
                         "description: ${error.description}"

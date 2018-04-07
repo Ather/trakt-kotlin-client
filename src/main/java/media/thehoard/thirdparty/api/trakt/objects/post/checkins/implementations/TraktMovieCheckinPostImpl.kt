@@ -15,7 +15,7 @@ data class TraktMovieCheckinPostImpl(
         @SerializedName("venue_name") override var foursquareVenueName: String? = null,
         override var movie: TraktMovieImpl = TraktMovieImpl()
 ) : TraktMovieCheckinPost {
-    override fun toJson(): String = Json.gson.toJson(this)
+    override fun toJson(): String = Json.serialize(this)
 
     override fun validate() {}
 }

@@ -1,6 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.authentication
 
-import com.github.salomonbrys.kotson.fromJson
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.core.Constants
 import media.thehoard.thirdparty.api.trakt.core.TraktConfiguration
@@ -39,7 +38,7 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
             var device = TraktDevice()
 
             if (!responseContent.isBlank())
-                device = Json.gson.fromJson(responseContent)
+                device = Json.deserialize(responseContent)
 
             client.authentication.device = device
             return@thenApply device
@@ -77,7 +76,7 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 var token = TraktAuthorization()
                 if (!responseContent.isBlank())
-                    token = Json.gson.fromJson(responseContent)
+                    token = Json.deserialize(responseContent)
 
                 client.authentication.authorization = token
                 return CompletableFuture.completedFuture(token)

@@ -8,5 +8,5 @@ open class TraktObjectNotFoundException(message: String, var objectId: String) :
         this.statusCode = HttpURLConnection.HTTP_NOT_FOUND
     }
 
-    constructor(objectId: String) : this("Object Not Found - method exists, but no record found", objectId) {}
+    constructor(objectId: String) : this("Object Not Found - method exists, but no record found", objectId)
 }

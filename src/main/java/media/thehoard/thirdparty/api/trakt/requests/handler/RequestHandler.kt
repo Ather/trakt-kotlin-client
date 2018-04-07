@@ -1,6 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.requests.handler
 
-import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import media.thehoard.thirdparty.api.trakt.TraktClient
@@ -118,7 +117,7 @@ internal class RequestHandler(
             return executeRequestAsync(requestMessage, isCheckinRequest).thenApply {
                 checkNotNull(it)
                 check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
-                val contentObject = Json.gson.fromJson<TResponseContentType>(it.responseBody, responseContentClass.javaObjectType)
+                val contentObject = Json.deserialize<TResponseContentType>(it.responseBody, responseContentClass.javaObjectType)
 
                 val response = TraktResponse<TResponseContentType>(responseContentClass).apply {
                     isSuccess = true
@@ -151,7 +150,7 @@ internal class RequestHandler(
                 check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
                 //TODO Consider performance here
                 val jsonElement = JsonParser().parse(it.responseBody)
-                val contentObject = jsonElement.asJsonArray.map { obj -> Json.gson.fromJson<TResponseContentType>(obj, responseContentClass.javaObjectType) }.toMutableList()
+                val contentObject = jsonElement.asJsonArray.map { obj -> Json.deserialize<TResponseContentType>(obj, responseContentClass.javaObjectType) }.toMutableList()
 
                 val response = TraktListResponse<TResponseContentType>(responseContentClass).apply {
                     isSuccess = true
@@ -184,7 +183,7 @@ internal class RequestHandler(
                 check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
                 //TODO Consider performance here
                 val jsonElement = JsonParser().parse(it.responseBody)
-                val contentObject = jsonElement.asJsonArray.map { obj -> Json.gson.fromJson<TResponseContentType>(obj, responseContentClass.javaObjectType) }.toMutableList()
+                val contentObject = jsonElement.asJsonArray.map { obj -> Json.deserialize<TResponseContentType>(obj, responseContentClass.javaObjectType) }.toMutableList()
 
                 val response = TraktPagedResponse<TResponseContentType>(responseContentClass).apply {
                     isSuccess = true
@@ -397,7 +396,7 @@ internal class RequestHandler(
 
             if (!responseContent.isBlank()) {
                 try {
-                    errorResponse = Json.gson.fromJson<TraktCheckinPostErrorResponseImpl>(responseContent)
+                    errorResponse = Json.deserialize<TraktCheckinPostErrorResponseImpl>(responseContent)
                 } catch (e: JsonParseException) {
                     throw TraktException("json convert exception", e)
                 }
@@ -424,7 +423,7 @@ internal class RequestHandler(
         val error: TraktError
 
         try {
-            error = Json.gson.fromJson<TraktErrorImpl>(responseContent)
+            error = Json.deserialize<TraktErrorImpl>(responseContent)
         } catch (e: JsonParseException) {
             throw TraktException("json convert exception", e)
         }

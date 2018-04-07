@@ -17,7 +17,7 @@ data class TraktEpisodeCheckinPostImpl(
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
         override var show: TraktShowImpl? = TraktShowImpl()
 ) : TraktEpisodeCheckinPost {
-    override fun toJson(): String = Json.gson.toJson(this)
+    override fun toJson(): String = Json.serialize(this)
 
     override fun validate() {}
 }

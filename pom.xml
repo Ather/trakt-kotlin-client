@@ -10,7 +10,7 @@
     </properties>
     <groupId>media.thehoard.thirdparty</groupId>
     <artifactId>trakt-api-java-wrapper</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
     <dependencies>
         <dependency>
             <groupId>org.asynchttpclient</groupId>

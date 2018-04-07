@@ -13,7 +13,7 @@ data class TraktSyncCollectionPostImpl(
         fun builder(): TraktSyncCollectionPostBuilderImpl = TraktSyncCollectionPostBuilderImpl()
     }
 
-    override fun toJson(): String = Json.gson.toJson(this)
+    override fun toJson(): String = Json.serialize(this)
 
     override fun validate() {}
 }

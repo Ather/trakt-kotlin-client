@@ -7,7 +7,7 @@ data class TraktCommentReplyPostImpl(
         override var comment: String = "",
         override var spoiler: Boolean? = null
 ) : TraktCommentReplyPost {
-    override fun toJson(): String = Json.gson.toJson(this)
+    override fun toJson(): String = Json.serialize(this)
 
     override fun validate() {}
 }
