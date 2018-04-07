@@ -79,7 +79,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     fun addShow(show: TraktShowImpl, seasons: PostSeasons): TraktUserCustomListItemsPostBuilder {
         validateShow(show)
 
-        var showSeasons: MutableList<TraktUserCustomListItemsPostShowSeasonImpl> = mutableListOf()
+        val showSeasons: MutableList<TraktUserCustomListItemsPostShowSeasonImpl> = mutableListOf()
 
         if (seasons.size > 0) {
             for (season in seasons) {
@@ -119,7 +119,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
         if (!person.ids.hasAnyId())
             throw IllegalArgumentException("no person ids set or valid")
 
-        if (person.name.isNullOrEmpty())
+        if (person.name.isEmpty())
             throw IllegalArgumentException("person name not valid")
 
         val existingPerson = listItemsPost.people.firstOrNull { (_, ids) -> ids like person.ids }
