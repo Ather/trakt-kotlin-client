@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.modules
 
 import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.enums.TraktRatingsItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncType
@@ -42,48 +43,70 @@ import java.util.concurrent.CompletableFuture
 
 class TraktSyncModule(override val client: TraktClient) : TraktModule {
 
-    fun getLastActivitiesAsync(): CompletableFuture<TraktResponse<TraktSyncLastActivitiesImpl>> {
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncLastActivitiesRequest())
+    fun getLastActivitiesAsync(requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktResponse<TraktSyncLastActivitiesImpl>> {
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncLastActivitiesRequest(), requestAuthorization)
     }
 
     fun getPlaybackProgressAsync(
             objectType: TraktSyncType? = null,
-            limit: Int? = null
+            limit: Int? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktSyncPlaybackProgressItemImpl>> {
-        return RequestHandler(client).executeListRequestAsync(SyncPlaybackProgressRequest(objectType, limit))
+        return RequestHandler(client).executeListRequestAsync(SyncPlaybackProgressRequest(objectType, limit), requestAuthorization)
     }
 
-    fun removePlaybackItemAsync(playbackId: Int): CompletableFuture<TraktNoContentResponse> {
+    fun removePlaybackItemAsync(
+            playbackId: Int,
+            requestAuthorization: TraktAuthorization = client.authorization
+    ): CompletableFuture<TraktNoContentResponse> {
         if (playbackId <= 0)
             throw IllegalArgumentException("playback id not valid")
 
-        return RequestHandler(client).executeNoContentRequestAsync(SyncPlaybackDeleteRequest(id = playbackId.toString()))
+        return RequestHandler(client).executeNoContentRequestAsync(SyncPlaybackDeleteRequest(id = playbackId.toString()), requestAuthorization)
     }
 
-    fun getCollectionMoviesAsync(extendedInfo: TraktExtendedInfo? = null): CompletableFuture<TraktListResponse<TraktCollectionMovieExtendedMetadataImpl>> {
-        return RequestHandler(client).executeListRequestAsync(SyncCollectionMoviesRequest(extendedInfo))
+    fun getCollectionMoviesAsync(
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
+    ): CompletableFuture<TraktListResponse<TraktCollectionMovieExtendedMetadataImpl>> {
+        return RequestHandler(client).executeListRequestAsync(SyncCollectionMoviesRequest(extendedInfo), requestAuthorization)
     }
 
-    fun getCollectionShowsAsync(extendedInfo: TraktExtendedInfo? = null): CompletableFuture<TraktListResponse<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>> {
-        return RequestHandler(client).executeListRequestAsync(SyncCollectionShowsRequest(extendedInfo))
+    fun getCollectionShowsAsync(
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
+    ): CompletableFuture<TraktListResponse<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>> {
+        return RequestHandler(client).executeListRequestAsync(SyncCollectionShowsRequest(extendedInfo), requestAuthorization)
     }
 
-    fun addCollectionItemsAsync(collectionPost: TraktSyncCollectionPostImpl): CompletableFuture<TraktResponse<TraktSyncCollectionPostResponseImpl>> {
+    fun addCollectionItemsAsync(
+            collectionPost: TraktSyncCollectionPostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncCollectionPostResponseImpl>> {
         validateCollectionPost(collectionPost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncCollectionAddRequest(requestBody = collectionPost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncCollectionAddRequest(requestBody = collectionPost), requestAuthorization)
     }
 
-    fun removeCollectionItemsAsync(collectionRemovePost: TraktSyncCollectionPostImpl): CompletableFuture<TraktResponse<TraktSyncCollectionRemovePostResponseImpl>> {
+    fun removeCollectionItemsAsync(
+            collectionRemovePost: TraktSyncCollectionPostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncCollectionRemovePostResponseImpl>> {
         validateCollectionPost(collectionRemovePost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncCollectionRemoveRequest(requestBody = collectionRemovePost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncCollectionRemoveRequest(requestBody = collectionRemovePost), requestAuthorization)
     }
 
-    fun getWatchedMoviesAsync(extendedInfo: TraktExtendedInfo? = null): CompletableFuture<TraktListResponse<TraktWatchedMovieImpl>> {
-        return RequestHandler(client).executeListRequestAsync(SyncWatchedMoviesRequest(extendedInfo))
+    fun getWatchedMoviesAsync(
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktListResponse<TraktWatchedMovieImpl>> {
+        return RequestHandler(client).executeListRequestAsync(SyncWatchedMoviesRequest(extendedInfo), requestAuthorization)
     }
 
-    fun getWatchedShowsAsync(extendedInfo: TraktExtendedInfo? = null): CompletableFuture<TraktListResponse<TraktWatchedShowImpl>> {
-        return RequestHandler(client).executeListRequestAsync(SyncWatchedShowsRequest(extendedInfo))
+    fun getWatchedShowsAsync(
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktListResponse<TraktWatchedShowImpl>> {
+        return RequestHandler(client).executeListRequestAsync(SyncWatchedShowsRequest(extendedInfo), requestAuthorization)
     }
 
     fun getWatchedHistoryAsync(
@@ -92,7 +115,8 @@ class TraktSyncModule(override val client: TraktClient) : TraktModule {
             startAt: ZonedDateTime? = null,
             endAt: ZonedDateTime? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            pagedParameters: TraktPagedParameters? = null
+            pagedParameters: TraktPagedParameters? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktHistoryItemImpl>> {
         return RequestHandler(client).executePagedRequestAsync(SyncWatchedHistoryRequest(
                 type = historyItemType,
@@ -102,62 +126,82 @@ class TraktSyncModule(override val client: TraktClient) : TraktModule {
                 extendedInfo = extendedInfo,
                 page = pagedParameters?.page,
                 limit = pagedParameters?.limit
-        ))
+        ), requestAuthorization)
     }
 
-    fun addWatchedHistoryItemsAsync(historyPost: TraktSyncHistoryPostImpl): CompletableFuture<TraktResponse<TraktSyncHistoryPostResponseImpl>> {
+    fun addWatchedHistoryItemsAsync(
+            historyPost: TraktSyncHistoryPostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncHistoryPostResponseImpl>> {
         validateHistoryPost(historyPost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchedHistoryAddRequest(requestBody = historyPost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchedHistoryAddRequest(requestBody = historyPost), requestAuthorization)
     }
 
-    fun removeWatchedHistoryItemsAsync(historyRemovePost: TraktSyncHistoryRemovePostImpl): CompletableFuture<TraktResponse<TraktSyncHistoryRemovePostResponseImpl>> {
+    fun removeWatchedHistoryItemsAsync(
+            historyRemovePost: TraktSyncHistoryRemovePostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncHistoryRemovePostResponseImpl>> {
         validateHistoryPost(historyRemovePost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchedHistoryRemoveRequest(requestBody = historyRemovePost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchedHistoryRemoveRequest(requestBody = historyRemovePost), requestAuthorization)
     }
 
     fun getRatingsAsync(
             ratingsItemType: TraktRatingsItemType? = null,
             ratingsFilter: List<Int>? = null,
-            extendedInfo: TraktExtendedInfo? = null
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktRatingsItemImpl>> {
         return RequestHandler(client).executeListRequestAsync(SyncRatingsRequest(
                 type = ratingsItemType,
                 ratingFilter = ratingsFilter,
                 extendedInfo = extendedInfo
-        ))
+        ), requestAuthorization)
     }
 
-    fun addRatingsAsync(ratingsPost: TraktSyncRatingsPostImpl): CompletableFuture<TraktResponse<TraktSyncRatingsPostResponseImpl>> {
+    fun addRatingsAsync(
+            ratingsPost: TraktSyncRatingsPostImpl,
+            requestAuthorization: TraktAuthorization = client.authorization
+    ): CompletableFuture<TraktResponse<TraktSyncRatingsPostResponseImpl>> {
         validateRatingsPost(ratingsPost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncRatingsAddRequest(requestBody = ratingsPost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncRatingsAddRequest(requestBody = ratingsPost), requestAuthorization)
     }
 
-    fun removeRatingsAsync(ratingsRemovePost: TraktSyncRatingsPostImpl): CompletableFuture<TraktResponse<TraktSyncRatingsRemovePostResponseImpl>> {
+    fun removeRatingsAsync(
+            ratingsRemovePost: TraktSyncRatingsPostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncRatingsRemovePostResponseImpl>> {
         validateRatingsPost(ratingsRemovePost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncRatingsRemoveRequest(requestBody = ratingsRemovePost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncRatingsRemoveRequest(requestBody = ratingsRemovePost), requestAuthorization)
     }
 
     fun getWatchlistAsync(
             watchlistItemType: TraktSyncItemType? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            pagedParameters: TraktPagedParameters? = null
+            pagedParameters: TraktPagedParameters? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktWatchlistItemImpl>> {
         return RequestHandler(client).executePagedRequestAsync(SyncWatchlistRequest(
                 type = watchlistItemType,
                 extendedInfo = extendedInfo,
                 page = pagedParameters?.page,
                 limit = pagedParameters?.limit
-        ))
+        ), requestAuthorization)
     }
 
-    fun addWatchlistItemsAsync(watchlistPost: TraktSyncWatchlistPostImpl): CompletableFuture<TraktResponse<TraktSyncWatchlistPostResponseImpl>> {
+    fun addWatchlistItemsAsync(
+            watchlistPost: TraktSyncWatchlistPostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncWatchlistPostResponseImpl>> {
         validateWatchlistPost(watchlistPost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchlistAddRequest(requestBody = watchlistPost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchlistAddRequest(requestBody = watchlistPost), requestAuthorization)
     }
 
-    fun removeWatchlistItemsAsync(watchlistRemovePost: TraktSyncWatchlistPostImpl): CompletableFuture<TraktResponse<TraktSyncWatchlistRemovePostResponseImpl>> {
+    fun removeWatchlistItemsAsync(
+            watchlistRemovePost: TraktSyncWatchlistPostImpl,
+            requestAuthorization: TraktAuthorization
+    ): CompletableFuture<TraktResponse<TraktSyncWatchlistRemovePostResponseImpl>> {
         validateWatchlistPost(watchlistRemovePost)
-        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchlistRemoveRequest(requestBody = watchlistRemovePost))
+        return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchlistRemoveRequest(requestBody = watchlistRemovePost), requestAuthorization)
     }
 
     private fun validateCollectionPost(collectionPost: TraktSyncCollectionPost) {

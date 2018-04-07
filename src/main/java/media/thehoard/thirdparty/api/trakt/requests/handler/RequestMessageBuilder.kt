@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.requests.handler
 
 import com.damnhandy.uri.template.UriTemplate
 import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.exceptions.TraktAuthorizationException
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
@@ -10,12 +11,18 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IRequest
 
 internal class RequestMessageBuilder(
         private val client: TraktClient,
-        private var request: IRequest? = null
+        private var request: IRequest? = null,
+        private var authorization: TraktAuthorization = client.authorization
 ) {
     private var requestBody: IRequestBody? = null
 
     fun withRequestBody(requestBody: IRequestBody): RequestMessageBuilder {
         this.requestBody = requestBody
+        return this
+    }
+
+    fun withAuthorization(requestAuthorization: TraktAuthorization): RequestMessageBuilder {
+        this.authorization = requestAuthorization
         return this
     }
 
@@ -90,15 +97,15 @@ internal class RequestMessageBuilder(
         val authorizationRequirement = request!!.authorizationRequirement
 
         if (authorizationRequirement == AuthorizationRequirement.Required) {
-            if (!client.authentication.isAuthorized)
+            if (authorization.isExpired)
                 throw TraktAuthorizationException("authorization is required for this request, but the current authorization parameters are invalid")
         } else if (authorizationRequirement == AuthorizationRequirement.Optional && client.configuration.forceAuthorization) {
-            if (!client.authentication.isAuthorized)
+            if (authorization.isExpired)
                 throw TraktAuthorizationException("authorization is optional for this request, but forced and the current authorization parameters are invalid")
         }
 
         if (authorizationRequirement == AuthorizationRequirement.Required || authorizationRequirement == AuthorizationRequirement.Optional || client.configuration.forceAuthorization)
-            requestMessage.setHeader("Authorization", "$AUTHENTICATION_SCHEME ${client.authentication.authorization.accessToken}")
+            requestMessage.setHeader("Authorization", "$AUTHENTICATION_SCHEME ${authorization.accessToken}")
     }
 
     companion object {

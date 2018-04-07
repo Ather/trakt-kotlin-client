@@ -40,11 +40,11 @@ data class TraktAuthorization(
     }
 
     companion object {
-        fun createWith(accessToken: String, refreshToken: String? = null) = TraktAuthorization(
+        fun createWith(accessToken: String, refreshToken: String? = "") = TraktAuthorization(
                 accessScope = TraktAccessScope.PUBLIC,
                 tokenType = TraktAccessTokenType.BEARER,
                 accessToken = accessToken,
-                refreshToken = refreshToken ?: ""
+                refreshToken = refreshToken
         ).apply { ignoreExpiration = true }
 
         fun createWith(expiresInSeconds: Int, accessToken: String, refreshToken: String? = null) = TraktAuthorization(

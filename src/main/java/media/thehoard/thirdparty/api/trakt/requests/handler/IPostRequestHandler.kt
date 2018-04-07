@@ -1,5 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.handler
 
+import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IPostRequest
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IPostRequestHasResponse
@@ -10,11 +12,13 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
 import java.util.concurrent.CompletableFuture
 
 internal interface IPostRequestHandler {
-    fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPostRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse>
+    val client: TraktClient
 
-    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>>
+    fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPostRequest<TRequestBodyType>, requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktNoContentResponse>
 
-    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>>
+    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktResponse<TResponseContentType>>
 
-    fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>>
+    fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktListResponse<TResponseContentType>>
+
+    fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktPagedResponse<TResponseContentType>>
 }

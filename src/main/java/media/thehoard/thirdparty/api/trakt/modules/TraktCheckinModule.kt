@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.modules
 
 import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
@@ -30,7 +31,8 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
             message: String? = null,
             sharing: TraktSharingImpl? = null,
             foursquareVenueID: String? = null,
-            foursquareVenueName: String? = null
+            foursquareVenueName: String? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktMovieCheckinPostResponseImpl>> {
         validate(movie)
 
@@ -51,7 +53,7 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
         if (appBuildDate != null)
             requestBody.appDate = appBuildDate.toTraktDateString()
 
-        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktMovieCheckinPostResponseImpl::class))
+        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktMovieCheckinPostResponseImpl::class), requestAuthorization)
     }
 
     fun checkIntoEpisodeAsync(
@@ -62,7 +64,8 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
             message: String? = null,
             sharing: TraktSharingImpl? = null,
             foursquareVenueID: String? = null,
-            foursquareVenueName: String? = null
+            foursquareVenueName: String? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktEpisodeCheckinPostResponseImpl>> {
         if (show != null)
             validate(episode, show)
@@ -88,7 +91,7 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
         if (appBuildDate != null)
             requestBody.appDate = appBuildDate.toTraktDateString()
 
-        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponseImpl::class))
+        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponseImpl::class), requestAuthorization)
     }
 
     fun deleteAnyActiveCheckinsAsync(): CompletableFuture<TraktNoContentResponse> =
@@ -98,7 +101,7 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
         if (movie.title.isBlank())
             throw IllegalArgumentException("movie title not valid")
 
-        if (movie.year!! <= 0 || movie.year!!.toString().length != 4)
+        if (movie.year <= 0 || movie.year.toString().length != 4)
             throw IllegalArgumentException("movie year not valid")
 
         if (!movie.ids.hasAnyId())
@@ -111,10 +114,10 @@ class TraktCheckinModule(override val client: TraktClient) : TraktModule {
     }
 
     private fun validate(episode: TraktEpisode, show: TraktShow) {
-        if (episode.season!! < 0)
+        if (episode.season < 0)
             throw IllegalArgumentException("episode season number not valid")
 
-        if (episode.number!! < 0)
+        if (episode.number < 0)
             throw IllegalArgumentException("episode number not valid")
 
         if (show.title.isBlank())

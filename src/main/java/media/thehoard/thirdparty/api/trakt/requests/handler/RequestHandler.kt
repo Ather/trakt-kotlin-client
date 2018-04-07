@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.core.Constants
 import media.thehoard.thirdparty.api.trakt.exceptions.*
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktError
@@ -27,69 +28,69 @@ import java.util.concurrent.CompletableFuture
 import kotlin.reflect.KClass
 
 internal class RequestHandler(
-        private val client: TraktClient
+        override val client: TraktClient
 ) : IRequestHandler {
 
     private val requestMessageBuilder: RequestMessageBuilder = RequestMessageBuilder(client)
 
-    override fun executeNoContentRequestAsync(request: IRequest): CompletableFuture<TraktNoContentResponse> {
+    override fun executeNoContentRequestAsync(request: IRequest, requestAuthorization: TraktAuthorization): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
-        return queryNoContentAsync(requestMessageBuilder.reset(request).build())
+        return queryNoContentAsync(requestMessageBuilder.reset(request).withAuthorization(requestAuthorization).build())
     }
 
-    override fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPostRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
+    override fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPostRequest<TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
-        return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build())
     }
 
-    override fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPutRequest<TRequestBodyType>): CompletableFuture<TraktNoContentResponse> {
+    override fun <TRequestBodyType : IRequestBody> executeNoContentRequestAsync(request: IPutRequest<TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktNoContentResponse> {
         preExecuteRequest(request)
-        return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build())
+        return queryNoContentAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build())
     }
 
-    override fun <TResponseContentType> executeSingleItemRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktResponse<TResponseContentType>> {
+    override fun <TResponseContentType> executeSingleItemRequestAsync(request: IRequestHasResponse<TResponseContentType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return querySingleItemAsync(requestMessageBuilder.reset(request).build(), request.responseContentClass, false)
+        return querySingleItemAsync(requestMessageBuilder.reset(request).withAuthorization(requestAuthorization).build(), request.responseContentClass, false)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request.responseContentClass, request is CheckinRequest<TResponseContentType, TRequestBodyType>)
+        return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build(), request.responseContentClass, request is CheckinRequest<TResponseContentType, TRequestBodyType>)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeSingleItemRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request.responseContentClass, false)
+        return querySingleItemAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build(), request.responseContentClass, false)
     }
 
-    override fun <TResponseContentType> executeListRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
+    override fun <TResponseContentType> executeListRequestAsync(request: IRequestHasResponse<TResponseContentType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryListAsync(requestMessageBuilder.reset(request).build(), request.responseContentClass)
+        return queryListAsync(requestMessageBuilder.reset(request).withAuthorization(requestAuthorization).build(), request.responseContentClass)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request.responseContentClass)
+        return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build(), request.responseContentClass)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktListResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executeListRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktListResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request.responseContentClass)
+        return queryListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build(), request.responseContentClass)
     }
 
-    override fun <TResponseContentType> executePagedRequestAsync(request: IRequestHasResponse<TResponseContentType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
+    override fun <TResponseContentType> executePagedRequestAsync(request: IRequestHasResponse<TResponseContentType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryPagedListAsync(requestMessageBuilder.reset(request).build(), request.responseContentClass)
+        return queryPagedListAsync(requestMessageBuilder.reset(request).withAuthorization(requestAuthorization).build(), request.responseContentClass)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPostRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request.responseContentClass)
+        return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build(), request.responseContentClass)
     }
 
-    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
+    override fun <TResponseContentType, TRequestBodyType : IRequestBody> executePagedRequestAsync(request: IPutRequestHasResponse<TResponseContentType, TRequestBodyType>, requestAuthorization: TraktAuthorization): CompletableFuture<TraktPagedResponse<TResponseContentType>> {
         preExecuteRequest(request)
-        return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).build(), request.responseContentClass)
+        return queryPagedListAsync(requestMessageBuilder.reset(request).withRequestBody(request.requestBody!!).withAuthorization(requestAuthorization).build(), request.responseContentClass)
     }
 
     private fun queryNoContentAsync(requestMessage: ExtendedHttpRequestMessage): CompletableFuture<TraktNoContentResponse> {
