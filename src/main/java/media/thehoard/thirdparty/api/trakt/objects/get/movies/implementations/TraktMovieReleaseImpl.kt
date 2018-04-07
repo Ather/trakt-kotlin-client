@@ -12,5 +12,5 @@ data class TraktMovieReleaseImpl(
         override var releaseDate: ZonedDateTime? = null,
         @SerializedName("release_type")
         override var releaseType: TraktReleaseType = TraktReleaseType.UNSPECIFIED,
-        override var note: String = ""
+        override var note: String? = null
 ) : TraktMovieRelease

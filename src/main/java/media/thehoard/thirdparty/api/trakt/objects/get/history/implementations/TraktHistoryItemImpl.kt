@@ -16,8 +16,8 @@ data class TraktHistoryItemImpl(
         override var watchedAt: ZonedDateTime? = null,
         override var action: TraktHistoryActionType = TraktHistoryActionType.UNSPECIFIED,
         override var type: TraktSyncItemType = TraktSyncItemType.UNSPECIFIED,
-        override var movie: TraktMovieImpl = TraktMovieImpl(),
-        override var show: TraktShowImpl = TraktShowImpl(),
-        override var season: TraktSeasonImpl = TraktSeasonImpl(),
-        override var episode: TraktEpisodeImpl = TraktEpisodeImpl()
+        override var movie: TraktMovieImpl? = null,
+        override var show: TraktShowImpl? = null,
+        override var season: TraktSeasonImpl? = null,
+        override var episode: TraktEpisodeImpl? = null
 ) : TraktHistoryItem

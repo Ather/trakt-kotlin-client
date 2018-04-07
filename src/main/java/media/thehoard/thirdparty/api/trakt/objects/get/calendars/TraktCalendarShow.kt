@@ -6,7 +6,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 import java.time.ZonedDateTime
 
 interface TraktCalendarShow : TraktShow, TraktCalendarEpisode {
-    override var firstAired: ZonedDateTime?
+    var firstAiredInCalendar: ZonedDateTime?
 
     var episode: TraktEpisodeImpl
 

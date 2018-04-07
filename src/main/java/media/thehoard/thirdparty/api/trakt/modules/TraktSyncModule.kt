@@ -5,8 +5,7 @@ import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.enums.TraktRatingsItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncType
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieExtendedMetadataImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeExtendedMetadataImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.history.implementations.TraktHistoryItemImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.ratings.implementations.TraktRatingsItemImpl
@@ -68,14 +67,14 @@ class TraktSyncModule(override val client: TraktClient) : TraktModule {
     fun getCollectionMoviesAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCollectionMovieExtendedMetadataImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCollectionMovieImpl>> {
         return RequestHandler(client).executeListRequestAsync(SyncCollectionMoviesRequest(extendedInfo), requestAuthorization)
     }
 
     fun getCollectionShowsAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>> {
+    ): CompletableFuture<TraktListResponse<TraktCollectionShowImpl>> {
         return RequestHandler(client).executeListRequestAsync(SyncCollectionShowsRequest(extendedInfo), requestAuthorization)
     }
 

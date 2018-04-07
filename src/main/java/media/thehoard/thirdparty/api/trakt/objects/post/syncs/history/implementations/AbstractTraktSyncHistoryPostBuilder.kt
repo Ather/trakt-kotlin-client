@@ -70,14 +70,14 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
     override fun validateMovie(movie: TraktMovie) {
         if (!movie.ids.hasAnyId()) throw IllegalArgumentException("no movie ids set or valid")
 
-        if (movie.year != null && movie.year.toString().length != 4)
+        if (movie.year.toString().length != 4)
             throw IllegalArgumentException("movie year not valid")
     }
 
     override fun validateShow(show: TraktShow) {
         if (!show.ids.hasAnyId()) throw IllegalArgumentException("no show ids set or valid")
 
-        if (show.year != null && show.year.toString().length != 4)
+        if (show.year.toString().length != 4)
             throw IllegalArgumentException("show year not valid")
     }
 

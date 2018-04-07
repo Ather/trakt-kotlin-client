@@ -10,7 +10,7 @@ import java.time.ZonedDateTime
 
 data class TraktCalendarShowImpl(
         @SerializedName("first_aired")
-        override var firstAired: ZonedDateTime? = null,
+        override var firstAiredInCalendar: ZonedDateTime? = null,
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
         override var show: TraktShowImpl = TraktShowImpl()
 ) : TraktCalendarShow, TraktShow by show {

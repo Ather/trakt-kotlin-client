@@ -14,8 +14,8 @@ data class TraktRatingsItemImpl(
         override var ratedAt: ZonedDateTime? = null,
         override var rating: Int? = null,
         override var type: TraktRatingsItemType = TraktRatingsItemType.UNSPECIFIED,
-        override var movie: TraktMovieImpl = TraktMovieImpl(),
-        override var show: TraktShowImpl = TraktShowImpl(),
-        override var season: TraktSeasonImpl = TraktSeasonImpl(),
-        override var episode: TraktEpisodeImpl = TraktEpisodeImpl()
+        override var movie: TraktMovieImpl? = null,
+        override var show: TraktShowImpl? = null,
+        override var season: TraktSeasonImpl? = null,
+        override var episode: TraktEpisodeImpl? = null
 ) : TraktRatingsItem

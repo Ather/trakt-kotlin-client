@@ -8,4 +8,5 @@ data class TraktEpisodeCollectionProgressImpl(
         override var number: Int? = null,
         override var completed: Boolean? = null,
         @SerializedName("collected_at")
-        override var collectedAt: ZonedDateTime? = null) : TraktEpisodeCollectionProgress
+        override var collectedAt: ZonedDateTime? = null
+) : TraktEpisodeCollectionProgress

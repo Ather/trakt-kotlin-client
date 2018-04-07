@@ -5,8 +5,8 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktSyncItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncType
 import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieExtendedMetadataImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeExtendedMetadataImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.history.implementations.TraktHistoryItemImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.ratings.implementations.TraktRatingsItemImpl
@@ -70,9 +70,9 @@ internal class SyncCollectionAddRequest(
 
 internal class SyncCollectionMoviesRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktCollectionMovieExtendedMetadataImpl>(
+) : ASyncGetRequest<TraktCollectionMovieImpl>(
         "sync/collection/movies{?extended}",
-        TraktCollectionMovieExtendedMetadataImpl::class
+        TraktCollectionMovieImpl::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -91,9 +91,9 @@ internal class SyncCollectionRemoveRequest(
 
 internal class SyncCollectionShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>(
+) : ASyncGetRequest<TraktCollectionShowImpl>(
         "sync/collection/shows{?extended}",
-        TraktCollectionShowEpisodeExtendedMetadataImpl::class
+        TraktCollectionShowEpisodeImpl::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

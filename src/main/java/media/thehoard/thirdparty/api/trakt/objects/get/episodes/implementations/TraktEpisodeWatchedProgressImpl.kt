@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeWatchedProgress
 import java.time.ZonedDateTime
 
-data class TraktEpisodeWatchedProgressImpl(override var number: Int? = null,
-                                           override var completed: Boolean? = null,
-                                           @SerializedName("last_watched_at")
-                                           override var lastWatchedAt: ZonedDateTime? = null) : TraktEpisodeWatchedProgress
+data class TraktEpisodeWatchedProgressImpl(
+        override var number: Int? = null,
+        override var completed: Boolean? = null,
+        @SerializedName("last_watched_at")
+        override var lastWatchedAt: ZonedDateTime? = null
+) : TraktEpisodeWatchedProgress

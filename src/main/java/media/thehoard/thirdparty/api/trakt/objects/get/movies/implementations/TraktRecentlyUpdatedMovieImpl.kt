@@ -7,6 +7,6 @@ import java.time.ZonedDateTime
 
 data class TraktRecentlyUpdatedMovieImpl(
         @SerializedName("updated_at")
-        override var updatedAt: ZonedDateTime? = null,
+        override var recentlyUpdatedAt: ZonedDateTime? = null,
         override var movie: TraktMovieImpl = TraktMovieImpl()
 ) : TraktRecentlyUpdatedMovie, TraktMovie by movie

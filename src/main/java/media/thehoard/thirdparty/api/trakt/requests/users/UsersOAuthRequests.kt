@@ -4,8 +4,7 @@ import com.google.gson.reflect.TypeToken
 import media.thehoard.thirdparty.api.trakt.enums.*
 import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieExtendedMetadataImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeExtendedMetadataImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.history.implementations.TraktHistoryItemImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.ratings.implementations.TraktRatingsItemImpl
@@ -122,10 +121,10 @@ internal class UserApproveFollowerRequest(
 internal class UserCollectionMoviesRequest(
         extendedInfo: TraktExtendedInfo? = null,
         internal var username: String
-) : AUsersGetRequest<TraktCollectionMovieExtendedMetadataImpl>(
+) : AUsersGetRequest<TraktCollectionMovieImpl>(
         "users/{username}/collection/movies{?extended}",
         extendedInfo,
-        TraktCollectionMovieExtendedMetadataImpl::class
+        TraktCollectionMovieImpl::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -144,10 +143,10 @@ internal class UserCollectionMoviesRequest(
 internal class UserCollectionShowsRequest(
         extendedInfo: TraktExtendedInfo? = null,
         internal var username: String
-) : AUsersGetRequest<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>(
+) : AUsersGetRequest<TraktCollectionShowImpl>(
         "users/{username}/collection/shows{?extended}",
         extendedInfo,
-        (object : TypeToken<TraktCollectionShowImpl<TraktCollectionShowEpisodeExtendedMetadataImpl>>() {}.type) as KClass<*>
+        (object : TypeToken<TraktCollectionShowImpl>() {}.type) as KClass<*>
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

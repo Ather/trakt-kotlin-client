@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import java.time.ZonedDateTime
 
 interface TraktCalendarMovie : TraktMovie {
-    override var released: ZonedDateTime?
+    var calendarRelease: ZonedDateTime?
 
     var movie: TraktMovieImpl
 

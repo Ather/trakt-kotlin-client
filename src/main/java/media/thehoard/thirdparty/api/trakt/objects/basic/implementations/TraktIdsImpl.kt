@@ -3,11 +3,13 @@ package media.thehoard.thirdparty.api.trakt.objects.basic.implementations
 import media.thehoard.thirdparty.api.trakt.core.TraktDefaultIds
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktIds
 
-data class TraktIdsImpl(override var trakt: Int = 0,
-                        override var slug: String = "",
-                        override var tvdb: Int? = null,
-                        override var imdb: String = "",
-                        override var tmdb: Int? = null) : TraktIds {
+data class TraktIdsImpl(
+        override var trakt: Int = 0,
+        override var slug: String = "",
+        override var tvdb: Int? = null,
+        override var imdb: String = "",
+        override var tmdb: Int? = null
+) : TraktIds {
     override fun hasIdMatch(ids: TraktDefaultIds): Boolean {
         return if (ids is TraktIdsImpl) {
             val (trakt1, slug1, tvdb1, imdb1, tmdb1) = ids

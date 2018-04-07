@@ -14,7 +14,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         if (!movie.ids.hasAnyId())
             throw IllegalArgumentException("no movie ids set or valid")
 
-        if (movie.year != null && movie.year.toString().length != 4)
+        if (movie.year.toString().length != 4)
             throw IllegalArgumentException("movie year not valid")
 
         val existingMovie = watchlistPost.movies.firstOrNull { m -> m.ids like movie.ids }

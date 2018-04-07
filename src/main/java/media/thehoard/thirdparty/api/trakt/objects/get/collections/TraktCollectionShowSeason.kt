@@ -1,8 +1,10 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.collections
 
-interface TraktCollectionShowSeason<EpisodeType : TraktCollectionShowEpisode> {
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeImpl
+
+interface TraktCollectionShowSeason {
     var number: Int?
 
-    var episodes: MutableList<EpisodeType>
+    var episodes: MutableList<TraktCollectionShowEpisodeImpl>
 
 }

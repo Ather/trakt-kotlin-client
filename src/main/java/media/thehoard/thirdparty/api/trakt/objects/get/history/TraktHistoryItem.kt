@@ -17,12 +17,12 @@ interface TraktHistoryItem {
 
     var type: TraktSyncItemType
 
-    var movie: TraktMovieImpl
+    var movie: TraktMovieImpl?
 
-    var show: TraktShowImpl
+    var show: TraktShowImpl?
 
-    var season: TraktSeasonImpl
+    var season: TraktSeasonImpl?
 
-    var episode: TraktEpisodeImpl
+    var episode: TraktEpisodeImpl?
 
 }

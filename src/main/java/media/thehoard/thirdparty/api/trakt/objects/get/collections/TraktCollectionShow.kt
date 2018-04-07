@@ -5,11 +5,11 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import java.time.ZonedDateTime
 
-interface TraktCollectionShow<EpisodeType : TraktCollectionShowEpisode> : TraktShow {
+interface TraktCollectionShow : TraktShow {
     var lastCollectedAt: ZonedDateTime?
 
     var show: TraktShowImpl
 
-    var seasons: MutableList<TraktCollectionShowSeasonImpl<EpisodeType>>
+    var seasons: MutableList<TraktCollectionShowSeasonImpl>
 
 }

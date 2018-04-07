@@ -12,6 +12,6 @@ interface TraktMovieRelease {
 
     var releaseType: TraktReleaseType
 
-    var note: String
+    var note: String?
 
 }

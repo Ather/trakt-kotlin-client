@@ -4,7 +4,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.Tr
 import java.time.ZonedDateTime
 
 interface TraktRecentlyUpdatedMovie : TraktMovie {
-    override var updatedAt: ZonedDateTime?
+    var recentlyUpdatedAt: ZonedDateTime?
 
     var movie: TraktMovieImpl
 

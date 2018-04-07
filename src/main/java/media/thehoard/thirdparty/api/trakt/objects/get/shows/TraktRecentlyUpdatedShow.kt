@@ -4,7 +4,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.Tra
 import java.time.ZonedDateTime
 
 interface TraktRecentlyUpdatedShow : TraktShow {
-    override var updatedAt: ZonedDateTime?
+    var recentlyUpdatedAt: ZonedDateTime?
 
     var show: TraktShowImpl
 }
