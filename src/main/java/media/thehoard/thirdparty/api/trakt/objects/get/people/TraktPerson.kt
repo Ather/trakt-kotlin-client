@@ -8,15 +8,15 @@ interface TraktPerson {
 
     var ids: TraktPersonIdsImpl
 
-    var biography: String
+    var biography: String?
 
     var birthday: ZonedDateTime?
 
     var death: ZonedDateTime?
 
-    var birthplace: String
+    var birthplace: String?
 
-    var homepage: String
+    var homepage: String?
 
-    val age: Int
+    val age: Int?
 }

@@ -53,5 +53,4 @@ open class TraktListResponse<TResponseContentType>(responseContentClass: KClass<
 
         return false
     }
-
 }

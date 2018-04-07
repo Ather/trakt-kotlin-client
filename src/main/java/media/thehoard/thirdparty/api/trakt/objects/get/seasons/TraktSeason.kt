@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.T
 import java.time.ZonedDateTime
 
 interface TraktSeason {
-    var number: Int?
+    var number: Int
 
     var ids: TraktSeasonIdsImpl
 
@@ -17,13 +17,13 @@ interface TraktSeason {
 
     var airedEpisodes: Int?
 
-    var title: String
+    var title: String?
 
-    var overview: String
+    var overview: String?
 
     var firstAired: ZonedDateTime?
 
-    var network: String
+    var network: String?
 
-    var episodes: MutableList<TraktEpisodeImpl>
+    var episodes: MutableList<TraktEpisodeImpl>?
 }

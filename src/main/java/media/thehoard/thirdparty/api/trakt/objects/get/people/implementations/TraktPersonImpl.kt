@@ -7,11 +7,11 @@ import java.time.ZonedDateTime
 data class TraktPersonImpl(
         override var name: String = "",
         override var ids: TraktPersonIdsImpl = TraktPersonIdsImpl(),
-        override var biography: String = "",
+        override var biography: String? = null,
         override var birthday: ZonedDateTime? = null,
         override var death: ZonedDateTime? = null,
-        override var birthplace: String = "",
-        override var homepage: String = ""
+        override var birthplace: String? = null,
+        override var homepage: String? = null
 ) : TraktPerson {
     override val age: Int = birthday?.yearsBetween(death ?: ZonedDateTime.now()) ?: 0
 }

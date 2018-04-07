@@ -7,9 +7,9 @@ import java.time.ZonedDateTime
 interface TraktUser {
     var username: String
 
-    var private: Boolean?
+    var private: Boolean
 
-    var name: String
+    var name: String?
 
     var vip: Boolean?
 
@@ -19,15 +19,15 @@ interface TraktUser {
 
     var joinedAt: ZonedDateTime?
 
-    var location: String
+    var location: String?
 
-    var about: String
+    var about: String?
 
-    var gender: String
+    var gender: String?
 
     var age: Int?
 
-    var images: TraktUserImagesImpl
+    var images: TraktUserImagesImpl?
 
     var vipOg: Boolean?
 

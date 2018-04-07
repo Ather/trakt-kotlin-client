@@ -6,13 +6,13 @@ import java.time.ZonedDateTime
 interface TraktMovie {
     var title: String
 
-    var year: Int?
+    var year: Int
 
     var ids: TraktMovieIdsImpl
 
-    var tagline: String
+    var tagline: String?
 
-    var overview: String
+    var overview: String?
 
     var released: ZonedDateTime?
 
@@ -20,9 +20,9 @@ interface TraktMovie {
 
     var updatedAt: ZonedDateTime?
 
-    var trailer: String
+    var trailer: String?
 
-    var homepage: String
+    var homepage: String?
 
     var rating: Float?
 
@@ -30,11 +30,11 @@ interface TraktMovie {
 
     var commentCount: Int?
 
-    var language: String
+    var language: String?
 
-    var availableTranslations: List<String>
+    var availableTranslations: List<String>?
 
-    var genres: List<String>
+    var genres: List<String>?
 
-    var certification: String
+    var certification: String?
 }

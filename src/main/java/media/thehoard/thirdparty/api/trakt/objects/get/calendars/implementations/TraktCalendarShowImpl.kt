@@ -14,13 +14,13 @@ data class TraktCalendarShowImpl(
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
         override var show: TraktShowImpl = TraktShowImpl()
 ) : TraktCalendarShow, TraktShow by show {
-    override var seasonNumber: Int?
+    override var seasonNumber: Int
         get() = episode.season
         set(season) {
             episode.season = season
         }
 
-    override var episodeNumber: Int?
+    override var episodeNumber: Int
         get() = episode.number
         set(number) {
             episode.number = number
