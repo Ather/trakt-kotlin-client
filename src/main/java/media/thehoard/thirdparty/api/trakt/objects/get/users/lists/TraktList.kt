@@ -5,9 +5,10 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListIdsImpl
+import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
-interface TraktList {
+interface TraktList : IValidatable {
     var name: String
 
     var description: String

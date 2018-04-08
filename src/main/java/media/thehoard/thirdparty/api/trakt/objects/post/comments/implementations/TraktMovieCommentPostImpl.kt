@@ -7,6 +7,11 @@ import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktMovieComme
 data class TraktMovieCommentPostImpl(
         override var comment: String = "",
         override var spoiler: Boolean? = null,
-        override var sharing: TraktSharingImpl = TraktSharingImpl(),
+        override var sharing: TraktSharingImpl? = null,
         override var movie: TraktMovieImpl = TraktMovieImpl()
-) : TraktMovieCommentPost
+) : TraktMovieCommentPost {
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        movie.validate()
+    }
+}

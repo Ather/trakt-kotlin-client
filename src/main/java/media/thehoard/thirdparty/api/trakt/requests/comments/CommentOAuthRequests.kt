@@ -40,15 +40,16 @@ internal class CommentLikeRequest(
     override fun validate(variableName: String) = id.validate("comment id", ::isValidStringId)
 }
 
-internal class CommentPostRequest<TRequestBodyType : IRequestBody> : APostRequestHasResponse<TraktCommentPostResponseImpl, TRequestBodyType>(TraktCommentPostResponseImpl::class) {
-    override var requestBody: TRequestBodyType? = null
+internal class CommentPostRequest<TRequestBodyType : IRequestBody>(
+        override var requestBody: TRequestBodyType? = null
+) : APostRequestHasResponse<TraktCommentPostResponseImpl, TRequestBodyType>(TraktCommentPostResponseImpl::class) {
 
     override val uriTemplate: String = "comments"
 
     override val uriPathParameters: Map<String, Any>? = mapOf()
 }
 
-internal class CommentReplyPost(
+internal class CommentReplyRequest(
         override var id: String,
         override var requestBody: TraktCommentReplyPostImpl? = null
 ) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentReplyPostImpl>(TraktCommentPostResponseImpl::class), IHasId {

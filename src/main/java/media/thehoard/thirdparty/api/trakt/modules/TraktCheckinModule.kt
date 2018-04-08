@@ -19,7 +19,7 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
 import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
-class TraktCheckinModule(override val client: TraktClient) : TraktModule {
+class TraktCheckinModule internal constructor(override val client: TraktClient) : TraktModule {
 
     fun checkIntoMovieAsync(
             movie: TraktMovieImpl,

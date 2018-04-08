@@ -7,6 +7,11 @@ import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktSeasonComm
 data class TraktSeasonCommentPostImpl(
         override var comment: String = "",
         override var spoiler: Boolean? = null,
-        override var sharing: TraktSharingImpl = TraktSharingImpl(),
+        override var sharing: TraktSharingImpl? = null,
         override var season: TraktSeasonImpl = TraktSeasonImpl()
-) : TraktSeasonCommentPost
+) : TraktSeasonCommentPost {
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        season.validate()
+    }
+}

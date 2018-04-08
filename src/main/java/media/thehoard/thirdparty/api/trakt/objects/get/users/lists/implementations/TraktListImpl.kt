@@ -6,6 +6,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
+import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
 data class TraktListImpl(
@@ -23,4 +24,4 @@ data class TraktListImpl(
         override var likes: Int? = null,
         override var ids: TraktListIdsImpl = TraktListIdsImpl(),
         override var user: TraktUserImpl = TraktUserImpl()
-) : TraktList
+) : TraktList, IValidatable by ids

@@ -40,7 +40,7 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
 import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
-class TraktSyncModule(override val client: TraktClient) : TraktModule {
+class TraktSyncModule internal constructor(override val client: TraktClient) : TraktModule {
 
     fun getLastActivitiesAsync(requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktResponse<TraktSyncLastActivitiesImpl>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncLastActivitiesRequest(), requestAuthorization)
