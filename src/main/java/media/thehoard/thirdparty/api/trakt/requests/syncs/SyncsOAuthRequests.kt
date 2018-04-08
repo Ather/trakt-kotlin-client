@@ -3,8 +3,9 @@ package media.thehoard.thirdparty.api.trakt.requests.syncs
 import media.thehoard.thirdparty.api.trakt.enums.TraktRatingsItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncItemType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSyncType
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowImpl
@@ -48,7 +49,7 @@ internal sealed class ASyncGetRequest<TResponseContentType>(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf()
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal sealed class ASyncPostRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
@@ -118,10 +119,7 @@ internal class SyncPlaybackDeleteRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("object id is not valid")
-    }
+    override fun validate(variableName: String) = id.validate("object id", ::isValidStringId)
 }
 
 internal class SyncPlaybackProgressRequest(

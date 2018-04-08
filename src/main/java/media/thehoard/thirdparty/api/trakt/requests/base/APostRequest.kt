@@ -11,5 +11,5 @@ internal abstract class APostRequest<TRequestBodyType : IRequestBody> : ARequest
 
     override var requestBody: TRequestBodyType? = null
 
-    override fun validate() { requestBody?.validate() }
+    override fun validate(variableName: String) { requestBody?.validate(variableName) }
 }

@@ -7,8 +7,8 @@ import media.thehoard.thirdparty.api.trakt.objects.post.scrobbles.TraktMovieScro
 data class TraktMovieScrobblePostImpl(
         override var progress: Float = 0f,
         @SerializedName("app_version")
-        override var appVersion: String = "",
+        override var appVersion: String? = null,
         @SerializedName("app_date")
-        override var appDate: String = "",
+        override var appDate: String? = null,
         override var movie: TraktMovieImpl = TraktMovieImpl()
 ) : TraktMovieScrobblePost

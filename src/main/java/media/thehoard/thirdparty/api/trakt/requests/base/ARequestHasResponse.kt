@@ -13,5 +13,5 @@ internal abstract class ARequestHasResponse<TResponseContentType>(override val r
 
     abstract override val uriPathParameters: Map<String, Any>?
 
-    abstract override fun validate()
+    abstract override fun validate(variableName: String)
 }

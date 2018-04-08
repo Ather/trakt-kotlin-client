@@ -11,7 +11,7 @@ data class TraktUserCustomListItemsPostImpl(
 ) : TraktUserCustomListItemsPost {
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 
     companion object {
         fun builder(): TraktUserCustomListItemsPostBuilder {

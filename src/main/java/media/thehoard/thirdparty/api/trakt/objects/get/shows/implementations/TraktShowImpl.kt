@@ -2,6 +2,10 @@ package media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.enums.TraktShowStatus
+import media.thehoard.thirdparty.api.trakt.extensions.isNotNegative
+import media.thehoard.thirdparty.api.trakt.extensions.isValidYear
+import media.thehoard.thirdparty.api.trakt.extensions.validate
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import java.time.ZonedDateTime
 
@@ -32,4 +36,20 @@ data class TraktShowImpl(
         override var genres: List<String>? = null,
         @SerializedName("aired_episodes")
         override var airedEpisodes: Int? = null
-) : TraktShow
+) : TraktShow {
+    override fun validateWithEpisode(episode: TraktEpisode?) {
+        if (episode != null) {
+            episode.season.validate("episode season number", ::isNotNegative)
+            episode.number.validate("episode number", ::isNotNegative)
+            title.validate("show title", String::isNotBlank)
+        } else {
+            validate("show")
+        }
+    }
+
+    override fun validate(variableName: String) {
+        title.validate("show title", String::isNotBlank)
+        year.validate("show year", ::isValidYear)
+        ids.validate("show ids")
+    }
+}

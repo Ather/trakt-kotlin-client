@@ -12,8 +12,7 @@ class TraktSyncCollectionPostBuilderImpl {
     private val collectionPost: TraktSyncCollectionPostImpl = TraktSyncCollectionPostImpl()
 
     fun addMovie(movie: TraktMovie, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
-        validateMovie(movie)
-
+        movie.validate()
         return addMovieOrIgnore(movie, metadata, collectedAt)
     }
 
@@ -25,8 +24,7 @@ class TraktSyncCollectionPostBuilderImpl {
     }
 
     fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null, seasons: PostSeasons? = null): TraktSyncCollectionPostBuilderImpl {
-        validateShow(show)
-
+        show.validate()
         if (seasons != null)
             createOrSetShow(show, createShowSeasons(seasons), metadata, collectedAt)
         else
@@ -36,8 +34,7 @@ class TraktSyncCollectionPostBuilderImpl {
     }
 
     fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncCollectionPostBuilderImpl {
-        validateShow(show)
-
+        show.validate()
         val showSeasons = createShowSeasons(*seasons)
         createOrSetShow(show, showSeasons, metadata, collectedAt)
 
@@ -63,8 +60,7 @@ class TraktSyncCollectionPostBuilderImpl {
     }
 
     fun addEpisode(episode: TraktEpisode, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
-        validateEpisode(episode)
-
+        episode.validate()
         return addEpisodeOrIgnore(episode, metadata, collectedAt)
     }
 
@@ -78,24 +74,6 @@ class TraktSyncCollectionPostBuilderImpl {
 
     fun build(): TraktSyncCollectionPostImpl {
         return collectionPost
-    }
-
-    private fun validateMovie(movie: TraktMovie) {
-        if (!movie.ids.hasAnyId()) throw IllegalArgumentException("no movie ids set or valid")
-
-        if (movie.year.toString().length != 4)
-            throw IllegalArgumentException("movie year not valid")
-    }
-
-    private fun validateShow(show: TraktShow) {
-        if (!show.ids.hasAnyId()) throw IllegalArgumentException("no show ids set or valid")
-
-        if (show.year.toString().length != 4)
-            throw IllegalArgumentException("show year not valid")
-    }
-
-    private fun validateEpisode(episode: TraktEpisode) {
-        if (!episode.ids.hasAnyId()) throw IllegalArgumentException("no episode ids set or valid")
     }
 
     //TODO Consider the equality test used in these methods.

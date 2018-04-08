@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.shows
 
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowCollectionProgressImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
@@ -31,10 +32,7 @@ internal sealed class AShowProgressRequest<TResponseContentType>(
                 this["count_specials"] = countSpecials!!.toString()
         }
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("show id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("show id", ::isValidStringId)
 }
 
 internal class ShowCollectionProgressRequest(

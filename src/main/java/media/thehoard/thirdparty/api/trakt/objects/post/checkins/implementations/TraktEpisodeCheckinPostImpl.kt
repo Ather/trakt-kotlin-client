@@ -9,15 +9,18 @@ import media.thehoard.thirdparty.api.trakt.utils.Json
 
 data class TraktEpisodeCheckinPostImpl(
         override var sharing: TraktSharingImpl? = TraktSharingImpl(),
-        override var message: String? = "",
-        @SerializedName("app_version") override var appVersion: String? = "",
-        @SerializedName("app_date") override var appDate: String? = "",
-        @SerializedName("venue_id") override var foursquareVenueId: String? = "",
-        @SerializedName("venue_name") override var foursquareVenueName: String? = "",
+        override var message: String? = null,
+        @SerializedName("app_version") override var appVersion: String? = null,
+        @SerializedName("app_date") override var appDate: String? = null,
+        @SerializedName("venue_id") override var foursquareVenueId: String? = null,
+        @SerializedName("venue_name") override var foursquareVenueName: String? = null,
         override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
         override var show: TraktShowImpl? = TraktShowImpl()
 ) : TraktEpisodeCheckinPost {
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
+    override fun validate(variableName: String) {
+        if (show != null) show?.validateWithEpisode(episode)
+        else episode.validate("episode")
+    }
 }

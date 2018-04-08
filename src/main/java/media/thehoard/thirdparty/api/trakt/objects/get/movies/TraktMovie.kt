@@ -1,9 +1,10 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.movies
 
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl
+import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
-interface TraktMovie {
+interface TraktMovie : IValidatable {
     var title: String
 
     var year: Int

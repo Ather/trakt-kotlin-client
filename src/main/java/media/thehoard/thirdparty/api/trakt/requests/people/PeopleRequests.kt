@@ -24,7 +24,7 @@ internal sealed class APersonRequest<TResponseContentType>(
                 this["extended"] = extendedInfo.toString()
         }
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class PersonMovieCreditsRequest(

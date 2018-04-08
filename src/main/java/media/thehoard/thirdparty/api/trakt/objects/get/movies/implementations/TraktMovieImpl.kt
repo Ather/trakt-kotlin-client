@@ -1,6 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations
 
 import com.google.gson.annotations.SerializedName
+import media.thehoard.thirdparty.api.trakt.extensions.isValidYear
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import java.time.ZonedDateTime
 
@@ -25,4 +27,10 @@ data class TraktMovieImpl(
         override var availableTranslations: List<String>? = null,
         override var genres: List<String>? = null,
         override var certification: String? = null
-) : TraktMovie
+) : TraktMovie {
+    override fun validate(variableName: String) {
+        title.validate("movie title", String::isNotBlank)
+        year.validate("movie year", ::isValidYear)
+        ids.validate("movie ids")
+    }
+}

@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.recommendations
 
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.ADeleteRequest
@@ -20,10 +21,7 @@ internal sealed class AUserRecommendationHideRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("id or slug not valid")
-    }
+    override fun validate(variableName: String) = id.validate("id or slug", ::isValidStringId)
 }
 
 internal sealed class AUserRecommendationsRequest<TResponseContentType>(
@@ -50,7 +48,7 @@ internal class UserMovieRecommendationsRequest(
         extendedInfo,
         responseContentClass = TraktMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class UserRecommendationHideMovieRequest(
@@ -76,5 +74,5 @@ internal class UserShowRecommendationsRequest(
         extendedInfo,
         responseContentClass = TraktShowImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }

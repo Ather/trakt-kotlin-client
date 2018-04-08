@@ -1,7 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.requests.users
 
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
@@ -33,11 +34,8 @@ internal class UserListCommentsRequest(
                 this["limit"] = limit!!.toString()
         }
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("list id not valid")
+    override fun validate(variableName: String) {
+        username.validate("username", ::isValidStringId)
+        id.validate("list id", ::isValidStringId)
     }
 }

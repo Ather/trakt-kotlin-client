@@ -21,7 +21,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
     }
 
     fun addMovie(movie: TraktMovie, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
-        validateMovie(movie)
+        movie.validate()
         if (rating != null)
             validateRating(rating)
 
@@ -38,7 +38,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
     }
 
     fun addShow(show: TraktShow, rating: Int? = null, ratedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncRatingsPostBuilder {
-        validateShow(show)
+        show.validate()
         if (rating != null)
             validateRating(rating)
 
@@ -51,7 +51,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
     }
 
     fun addShow(show: TraktShow, rating: Int? = null, ratedAt: ZonedDateTime? = null, seasons: PostRatingsSeasons? = null): TraktSyncRatingsPostBuilder {
-        validateShow(show)
+        show.validate()
         if (rating != null)
             validateRating(rating)
 
@@ -73,7 +73,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
     }
 
     fun addEpisode(episode: TraktEpisode, rating: Int? = null, ratedAt: ZonedDateTime? = null): TraktSyncRatingsPostBuilder {
-        validateEpisode(episode)
+        episode.validate()
         if (rating != null)
             validateRating(rating)
 

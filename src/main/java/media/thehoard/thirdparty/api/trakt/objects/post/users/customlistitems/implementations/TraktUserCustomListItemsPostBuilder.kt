@@ -35,7 +35,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     }
 
     fun addShow(show: TraktShowImpl): TraktUserCustomListItemsPostBuilder {
-        validateShow(show)
+        show.validate()
 
         val existingShow = listItemsPost.shows.firstOrNull { (ids) -> ids like show.ids }
 
@@ -55,7 +55,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     }
 
     fun addShow(show: TraktShowImpl, vararg seasons: Int): TraktUserCustomListItemsPostBuilder {
-        validateShow(show)
+        show.validate()
 
         val showSeasons = ArrayList<TraktUserCustomListItemsPostShowSeasonImpl>()
 
@@ -77,7 +77,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     }
 
     fun addShow(show: TraktShowImpl, seasons: PostSeasons): TraktUserCustomListItemsPostBuilder {
-        validateShow(show)
+        show.validate()
 
         val showSeasons: MutableList<TraktUserCustomListItemsPostShowSeasonImpl> = mutableListOf()
 

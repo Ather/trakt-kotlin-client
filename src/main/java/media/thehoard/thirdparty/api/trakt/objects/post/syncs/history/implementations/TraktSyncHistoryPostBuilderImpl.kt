@@ -10,13 +10,13 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
     private val historyPost: TraktSyncHistoryPostImpl = TraktSyncHistoryPostImpl()
 
     fun addMovie(movie: TraktMovie, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
-        validateMovie(movie)
+        movie.validate()
 
         return addMovieOrIgnore(movie, watchedAt)
     }
 
     fun addShow(show: TraktShow, watchedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncHistoryPostBuilderImpl {
-        validateShow(show)
+        show.validate()
 
         val showSeasons = createShowSeasons(*seasons)
         createOrSetShow(show, showSeasons, watchedAt)
@@ -25,7 +25,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
     }
 
     fun addShow(show: TraktShow, watchedAt: ZonedDateTime? = null, seasons: PostHistorySeasons? = null): TraktSyncHistoryPostBuilderImpl {
-        validateShow(show)
+        show.validate()
 
         val showSeasons = if (seasons != null) createShowSeasons(seasons) else null
         createOrSetShow(show, showSeasons, watchedAt)
@@ -34,7 +34,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
     }
 
     fun addEpisode(episode: TraktEpisode, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
-        validateEpisode(episode)
+        episode.validate()
 
         return addEpisodeOrIgnore(episode, watchedAt)
     }

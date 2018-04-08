@@ -3,6 +3,10 @@ package media.thehoard.thirdparty.api.trakt.requests.episodes
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
+import media.thehoard.thirdparty.api.trakt.extensions.isNotNegative
+import media.thehoard.thirdparty.api.trakt.extensions.isPositive
+import media.thehoard.thirdparty.api.trakt.extensions.isValidTwoCharCode
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktStatisticsImpl
@@ -31,13 +35,10 @@ internal sealed class AEpisodeRequest<TResponseContentType>(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id, "season" to seasonNumber.toString(), "episode" to episodeNumber.toString())
 
-    override fun validate() {
-        if (id.isBlank())
-            throw IllegalArgumentException("show id not valid")
-        if (seasonNumber < 0)
-            throw IllegalArgumentException("season number must be a non-negative integer")
-        if (episodeNumber <= 0)
-            throw IllegalArgumentException("episode number must be a positive integer greater than zero")
+    override fun validate(variableName: String) {
+        id.validate("show id", String::isNotBlank)
+        seasonNumber.validate("season number must be a non-negative integer", ::isNotNegative, null)
+        episodeNumber.validate("episode number must be a positive integer greater than 0", ::isPositive, null)
     }
 }
 
@@ -156,11 +157,9 @@ internal class EpisodeTranslationsRequest(
                 this["language"] = languageCode!!
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (languageCode != null && languageCode!!.length != 2)
-            throw IllegalArgumentException("language code has wrong length")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        languageCode.validate("language code has wrong length", ::isValidTwoCharCode, null)
     }
 }
 

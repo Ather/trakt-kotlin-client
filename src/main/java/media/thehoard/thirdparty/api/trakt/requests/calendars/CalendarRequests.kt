@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.calendars
 
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementations.TraktCalendarMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementations.TraktCalendarShowImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
@@ -38,10 +39,7 @@ internal abstract class ACalendarRequest<TResponseConentType>(override val uriTe
                     this[parameter.key] = parameter.value
         }
 
-    override fun validate() {
-        if (days != null && days!! !in 1..31)
-            throw IllegalArgumentException("days must have a value between 1 and 31")
-    }
+    override fun validate(variableName: String) = (days ?: 0 in 1..31).validate("days must have a value between 1 and 31", null)
 }
 
 internal class CalendarAllDVDMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>("calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovieImpl::class)

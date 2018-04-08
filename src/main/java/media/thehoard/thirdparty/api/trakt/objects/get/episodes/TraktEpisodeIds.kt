@@ -10,5 +10,4 @@ interface TraktEpisodeIds : TraktDefaultIds {
     var imdb: String
 
     var tmdb: Int?
-
 }

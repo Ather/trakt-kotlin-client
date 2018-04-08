@@ -17,5 +17,5 @@ data class TraktMovieCheckinPostImpl(
 ) : TraktMovieCheckinPost {
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
+    override fun validate(variableName: String) = movie.validate("movie")
 }

@@ -3,7 +3,9 @@ package media.thehoard.thirdparty.api.trakt.requests.search
 import media.thehoard.thirdparty.api.trakt.enums.TraktSearchField
 import media.thehoard.thirdparty.api.trakt.enums.TraktSearchIdType
 import media.thehoard.thirdparty.api.trakt.enums.TraktSearchResultType
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.validate
+import media.thehoard.thirdparty.api.trakt.extensions.validateSpecified
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSearchResultImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
@@ -55,12 +57,9 @@ internal class SearchIdLookupRequest(
                 this["type"] = resultTypes!!.uriName
         }
 
-    override fun validate() {
-        if (idType == TraktSearchIdType.UNSPECIFIED)
-            throw IllegalArgumentException("id type must not be unspecified")
-
-        if (lookupId.isBlank() || lookupId.containsSpace())
-            throw IllegalArgumentException("lookup id is not valid")
+    override fun validate(variableName: String) {
+        idType.validateSpecified("id type")
+        lookupId.validate("lookup id", ::isValidStringId)
     }
 }
 
@@ -91,11 +90,8 @@ internal class SearchTextQueryRequest(
                     this[parameter.key] = parameter.value
         }
 
-    override fun validate() {
-        if (resultTypes == null || resultTypes == TraktSearchIdType.UNSPECIFIED)
-            throw IllegalArgumentException("id type must not be unspecified")
-
-        if (query.isBlank())
-            throw IllegalArgumentException("query must not be empty")
+    override fun validate(variableName: String) {
+        resultTypes.validateSpecified("id type")
+        query.validate("query must not be empty", String::isNotBlank)
     }
 }

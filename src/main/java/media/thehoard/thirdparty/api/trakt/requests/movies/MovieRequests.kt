@@ -4,8 +4,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
 import media.thehoard.thirdparty.api.trakt.enums.TraktTimePeriod
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
-import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
+import media.thehoard.thirdparty.api.trakt.extensions.*
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCastAndCrewImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
@@ -34,18 +33,14 @@ internal sealed class AMovieRequest<TResponseContentType>(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("movie id is not valid")
-    }
+    override fun validate(variableName: String) = id.validate("movie id", ::isValidStringId)
 }
 
 internal sealed class AMoviesMostPWCRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var id: String,
         internal var period: TraktTimePeriod? = null,
         responseContentClass: KClass<*>
-) : AMovieRequest<TResponseContentType>(uriTemplate, id, responseContentClass) {
+) : AMovieRequest<TResponseContentType>(uriTemplate, "", responseContentClass) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             if (period != null && period != TraktTimePeriod.UNSPECIFIED)
@@ -187,10 +182,9 @@ internal class MovieReleasesRequest(
                 this["country"] = countryCode!!
         }
 
-    override fun validate() {
-        super.validate()
-        if (countryCode != null && countryCode!!.length != 2)
-            throw IllegalArgumentException("country code has wrong length")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        countryCode.validate("country code has wrong length", ::isValidTwoCharCode, null)
     }
 }
 
@@ -205,54 +199,42 @@ internal class MoviesBoxOfficeRequest(
                 this["extended"] = extendedInfo!!.toString()
         }
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class MoviesMostAnticipatedRequest : AMoviesRequest<TraktMostAnticipatedMovieImpl>(
         "movies/anticipated{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
         responseContentClass = TraktMostAnticipatedMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
-internal class MoviesMostCollectedRequest(
-        override var id: String
-) : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
+internal class MoviesMostCollectedRequest : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
         "movies/collected{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
-        id,
         responseContentClass = TraktMostPWCMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
-internal class MoviesMostPlayedRequest(
-        override var id: String
-) : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
+internal class MoviesMostPlayedRequest : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
         "movies/played{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
-        id,
         responseContentClass = TraktMostPWCMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
-internal class MoviesMostWatchedRequest(
-        override var id: String
-) : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
+internal class MoviesMostWatchedRequest : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
         "movies/watched{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
-        id,
         responseContentClass = TraktMostPWCMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
-internal class MoviesPopularRequest(
-        override var id: String
-) : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
+internal class MoviesPopularRequest : AMoviesMostPWCRequest<TraktMostPWCMovieImpl>(
         "movies/popular{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
-        id,
         responseContentClass = TraktMostPWCMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class MoviesRecentlyUpdatedRequest(
@@ -275,7 +257,7 @@ internal class MoviesRecentlyUpdatedRequest(
                 this["limit"] = limit!!.toString()
         }
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class MovieStatisticsRequest(
@@ -290,7 +272,7 @@ internal class MoviesTrendingRequest : AMoviesRequest<TraktTrendingMovieImpl>(
         "movies/trending{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications}",
         responseContentClass = TraktTrendingMovieImpl::class
 ) {
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class MovieSummaryRequest(
@@ -322,10 +304,9 @@ internal class MovieTranslationsRequest(
                 this["language"] = languageCode!!
         }
 
-    override fun validate() {
-        super.validate()
-        if (languageCode != null && languageCode!!.length != 2)
-            throw IllegalArgumentException("language code has wrong length")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        languageCode.validate("language code has wrong length", ::isValidTwoCharCode, null)
     }
 }
 

@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.comments
 
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.implementations.TraktCommentReplyPostImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.implementations.TraktCommentUpdatePostImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.implementations.TraktCommentPostResponseImpl
@@ -22,10 +23,7 @@ internal class CommentDeleteRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("comment id", ::isValidStringId)
 }
 
 internal class CommentLikeRequest(
@@ -39,10 +37,7 @@ internal class CommentLikeRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("comment id", ::isValidStringId)
 }
 
 internal class CommentPostRequest<TRequestBodyType : IRequestBody> : APostRequestHasResponse<TraktCommentPostResponseImpl, TRequestBodyType>(TraktCommentPostResponseImpl::class) {
@@ -65,11 +60,9 @@ internal class CommentReplyPost(
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf("id" to id)
 
-    override fun validate() {
-        super.validate()
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        id.validate("comment id", ::isValidStringId)
     }
 }
 
@@ -84,10 +77,7 @@ internal class CommentUnlikeRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("comment id", ::isValidStringId)
 }
 
 internal class CommentUpdateRequest(
@@ -102,10 +92,8 @@ internal class CommentUpdateRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf("id" to id)
 
-    override fun validate() {
-        super.validate()
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        id.validate("comment id", ::isValidStringId)
     }
 }

@@ -33,4 +33,12 @@ class TraktExtendedInfo(
     override fun toString(): String {
         return resolve().joinToString(",")
     }
+
+    companion object {
+        val METADATA = TraktExtendedInfo(metadata = true)
+        val FULL = TraktExtendedInfo(full = true)
+        val NO_SEASONS = TraktExtendedInfo(noSeasons = true)
+        val EPISODES = TraktExtendedInfo(episodes = true)
+        val VIP = TraktExtendedInfo(vip = true)
+    }
 }

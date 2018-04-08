@@ -9,7 +9,7 @@ import java.util.*
 
 abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn>> : AbstractTraktSyncPostBuilder<BuildResult, BuilderReturn>() {
     fun addMovie(movie: TraktMovie): BuilderReturn {
-        validateMovie(movie)
+        movie.validate()
 
         return addMovieOrIgnore(movie)
     }
@@ -33,7 +33,7 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
     }
 
     fun addShow(show: TraktShow, vararg seasons: Int): BuilderReturn {
-        validateShow(show)
+        show.validate()
 
         if (seasons.isNotEmpty()) {
             val showSeasons = createShowSeasons(*seasons)
@@ -44,7 +44,7 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
     }
 
     fun addShow(show: TraktShow, seasons: PostHistorySeasons): BuilderReturn {
-        validateShow(show)
+        show.validate()
 
         val showSeasons = createShowSeasons(seasons)
         createOrSetShow(show, showSeasons)
@@ -53,7 +53,7 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
     }
 
     fun addEpisode(episode: TraktEpisode): BuilderReturn {
-        validateEpisode(episode)
+        episode.validate()
 
         return addEpisodeOrIgnore(episode)
     }
@@ -65,24 +65,6 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
             addEpisode(episode)
 
         return self()
-    }
-
-    override fun validateMovie(movie: TraktMovie) {
-        if (!movie.ids.hasAnyId()) throw IllegalArgumentException("no movie ids set or valid")
-
-        if (movie.year.toString().length != 4)
-            throw IllegalArgumentException("movie year not valid")
-    }
-
-    override fun validateShow(show: TraktShow) {
-        if (!show.ids.hasAnyId()) throw IllegalArgumentException("no show ids set or valid")
-
-        if (show.year.toString().length != 4)
-            throw IllegalArgumentException("show year not valid")
-    }
-
-    override fun validateEpisode(episode: TraktEpisode) {
-        if (!episode.ids.hasAnyId()) throw IllegalArgumentException("no episode ids set or valid")
     }
 
     protected abstract fun containsMovie(movie: TraktMovie): Boolean

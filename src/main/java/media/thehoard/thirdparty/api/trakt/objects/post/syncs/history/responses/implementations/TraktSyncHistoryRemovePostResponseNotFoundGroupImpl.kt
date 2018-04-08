@@ -5,7 +5,6 @@ import media.thehoard.thirdparty.api.trakt.objects.post.responses.implementation
 import media.thehoard.thirdparty.api.trakt.objects.post.responses.implementations.TraktPostResponseNotFoundSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.responses.implementations.TraktPostResponseNotFoundShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryRemovePostResponseNotFoundGroup
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.TraktSyncPostResponseNotFoundGroup
 
 class TraktSyncHistoryRemovePostResponseNotFoundGroupImpl(
         override var ids: List<Long> = listOf(),

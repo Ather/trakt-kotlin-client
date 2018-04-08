@@ -2,7 +2,9 @@ package media.thehoard.thirdparty.api.trakt.requests.seasons
 
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.isValidTwoCharCode
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktStatisticsImpl
@@ -30,10 +32,7 @@ internal sealed class ASeasonRequest<TResponseContentType>(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id, "season" to seasonNumber.toString())
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("show id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("show id", ::isValidStringId)
 }
 
 internal class SeasonCommentsRequest(
@@ -115,11 +114,9 @@ internal class SeasonsAllRequest(
                 this["extended"] = extendedInfo!!.toString()
         }
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("show id not valid")
-        if (translationLanguageCode != null && translationLanguageCode!! != "all" && translationLanguageCode!!.length != 2)
-            throw IllegalArgumentException("translation language code has wrong length")
+    override fun validate(variableName: String) {
+        id.validate("show id", ::isValidStringId)
+        if (translationLanguageCode != "all") translationLanguageCode.validate("translation language code has wrong length", ::isValidTwoCharCode)
     }
 }
 
@@ -128,7 +125,7 @@ internal class SeasonSingleRequest(
         seasonNumber: Int,
         internal var translationLanguageCode: String? = null,
         override var extendedInfo: TraktExtendedInfo? = null
-): ASeasonRequest<TraktEpisodeImpl>(
+) : ASeasonRequest<TraktEpisodeImpl>(
         "shows/{id}/seasons/{season}{?extended,translations}",
         id,
         seasonNumber,
@@ -142,10 +139,9 @@ internal class SeasonSingleRequest(
                 this["extended"] = extendedInfo!!.toString()
         }
 
-    override fun validate() {
-        super.validate()
-        if (translationLanguageCode != null && translationLanguageCode!! != "all" && translationLanguageCode!!.length != 2)
-            throw IllegalArgumentException("translation language code has wrong length")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        if (translationLanguageCode != "all") translationLanguageCode.validate("translation language code has wrong length", ::isValidTwoCharCode)
     }
 }
 
@@ -163,7 +159,7 @@ internal class SeasonWatchingUsersRequest(
         override var id: String,
         seasonNumber: Int,
         override var extendedInfo: TraktExtendedInfo? = null
-): ASeasonRequest<TraktUserImpl>(
+) : ASeasonRequest<TraktUserImpl>(
         "shows/{id}/seasons/{season}/watching{?extended}",
         id,
         seasonNumber,

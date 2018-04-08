@@ -59,7 +59,7 @@ class TraktDeviceAuth internal constructor(val client: TraktClient) {
 
         setDefaultRequestHeaders(request)
 
-        val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_TOKEN_URI}"
+        val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_DEVICE_TOKEN_URI}"
 
         var responseCode: Int
         var responseContent: String

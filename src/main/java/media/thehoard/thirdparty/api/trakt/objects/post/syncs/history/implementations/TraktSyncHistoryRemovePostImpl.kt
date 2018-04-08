@@ -11,8 +11,6 @@ data class TraktSyncHistoryRemovePostImpl(
 ) : TraktSyncHistoryRemovePost {
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
-
     companion object {
         fun builder(): TraktSyncHistoryRemovePostBuilder {
             return TraktSyncHistoryRemovePostBuilder()

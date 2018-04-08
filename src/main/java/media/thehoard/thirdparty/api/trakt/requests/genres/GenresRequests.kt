@@ -9,7 +9,7 @@ internal class GenresMovieRequest : AGetRequestHasResponse<TraktGenreImpl>(Trakt
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf()
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class GenresShowRequest : AGetRequestHasResponse<TraktGenreImpl>(TraktGenreImpl::class) {
@@ -18,5 +18,5 @@ internal class GenresShowRequest : AGetRequestHasResponse<TraktGenreImpl>(TraktG
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf()
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }

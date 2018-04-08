@@ -1,5 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.comments.implementations
 
+import media.thehoard.thirdparty.api.trakt.extensions.validateComment
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktCommentUpdatePost
 import media.thehoard.thirdparty.api.trakt.utils.Json
 
@@ -9,5 +10,5 @@ data class TraktCommentUpdatePostImpl(
 ) : TraktCommentUpdatePost {
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
+    override fun validate(variableName: String) = comment.validateComment()
 }

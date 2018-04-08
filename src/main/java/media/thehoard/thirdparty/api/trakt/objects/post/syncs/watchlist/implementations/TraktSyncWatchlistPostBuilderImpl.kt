@@ -48,7 +48,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
     }
 
     fun addShow(show: TraktShowImpl, vararg seasons: Int): TraktSyncWatchlistPostBuilderImpl {
-        validateShow(show)
+        show.validate()
 
         val showSeasons = ArrayList<TraktSyncWatchlistPostShowSeasonImpl>()
 
@@ -70,7 +70,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
     }
 
     fun addShow(show: TraktShowImpl, seasons: PostSeasons): TraktSyncWatchlistPostBuilderImpl {
-        validateShow(show)
+        show.validate()
 
         val showSeasons: MutableList<TraktSyncWatchlistPostShowSeasonImpl> = mutableListOf()
 

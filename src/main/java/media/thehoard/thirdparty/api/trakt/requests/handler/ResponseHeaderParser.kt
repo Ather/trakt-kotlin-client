@@ -1,6 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.requests.handler
 
 import io.netty.handler.codec.http.HttpHeaders
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktPagedResponseHeaders
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktResponseHeaders
 import java.time.ZonedDateTime
@@ -26,8 +28,8 @@ internal object ResponseHeaderParser {
             HEADER_PAGINATION_PAGE_KEY in responseHeaders -> headerResults.page = responseHeaders[HEADER_PAGINATION_PAGE_KEY].toIntOrNull()
             HEADER_PAGINATION_LIMIT_KEY in responseHeaders -> headerResults.limit = responseHeaders[HEADER_PAGINATION_LIMIT_KEY].toIntOrNull()
             HEADER_TRENDING_USER_COUNT_KEY in responseHeaders -> headerResults.trendingUserCount = responseHeaders[HEADER_TRENDING_USER_COUNT_KEY].toIntOrNull()
-            HEADER_SORT_BY_KEY in responseHeaders -> headerResults.sortBy = responseHeaders[HEADER_SORT_BY_KEY]
-            HEADER_SORT_HOW_KEY in responseHeaders -> headerResults.sortHow = responseHeaders[HEADER_SORT_HOW_KEY]
+            HEADER_SORT_BY_KEY in responseHeaders -> headerResults.sortBy = TraktListSortBy.valueOf(responseHeaders[HEADER_SORT_BY_KEY])
+            HEADER_SORT_HOW_KEY in responseHeaders -> headerResults.sortHow = TraktListSortHow.valueOf(responseHeaders[HEADER_SORT_HOW_KEY])
             HEADER_PRIVATE_USER_KEY in responseHeaders -> headerResults.isPrivateUser = responseHeaders[HEADER_PRIVATE_USER_KEY]?.toBoolean()
             HEADER_STARTDATE_KEY in responseHeaders -> {
                 headerResults.startDate = try {

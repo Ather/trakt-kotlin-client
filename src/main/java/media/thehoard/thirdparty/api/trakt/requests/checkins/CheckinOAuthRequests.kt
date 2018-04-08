@@ -22,5 +22,5 @@ internal class CheckinsDeleteRequest : ADeleteRequest() {
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf()
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }

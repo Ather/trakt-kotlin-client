@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.enums.TraktAccessScope
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.post.users.TraktUserCustomListPost
 import media.thehoard.thirdparty.api.trakt.utils.Json
 
@@ -20,7 +21,7 @@ data class TraktUserCustomListPostImpl(
         @SerializedName("sort_how")
         override var sortHow: TraktListSortHow? = null
 ) : TraktUserCustomListPost {
-        override fun toJson(): String = Json.serialize(this)
+    override fun toJson(): String = Json.serialize(this)
 
-        override fun validate() {}
+    override fun validate(variableName: String) = name.validate("list name must not be empty", String::isNotBlank, null)
 }

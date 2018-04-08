@@ -1,5 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.responses
 
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
 import media.thehoard.thirdparty.api.trakt.responses.interfaces.ITraktResponse
 import java.time.ZonedDateTime
 import kotlin.reflect.KClass
@@ -7,8 +9,8 @@ import kotlin.reflect.KClass
 open class TraktResponse<TResponseContentType>(val responseContentClass: KClass<*>) : TraktNoContentResponse(), ITraktResponse<TResponseContentType> {
     override var hasValue: Boolean = false
     override var value: TResponseContentType? = null
-    override var sortBy: String = ""
-    override var sortHow: String = ""
+    override var sortBy: TraktListSortBy = TraktListSortBy.UNSPECIFIED
+    override var sortHow: TraktListSortHow = TraktListSortHow.UNSPECIFIED
     override var startDate: ZonedDateTime? = null
     override var endDate: ZonedDateTime? = null
     override var trendingUserCount: Int? = null

@@ -11,8 +11,6 @@ data class TraktSyncHistoryPostImpl(
 
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
-
     companion object {
         fun builder(): TraktSyncHistoryPostBuilderImpl {
             return TraktSyncHistoryPostBuilderImpl()

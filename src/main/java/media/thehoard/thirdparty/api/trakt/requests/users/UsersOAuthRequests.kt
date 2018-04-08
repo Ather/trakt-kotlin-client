@@ -2,8 +2,7 @@ package media.thehoard.thirdparty.api.trakt.requests.users
 
 import com.google.gson.reflect.TypeToken
 import media.thehoard.thirdparty.api.trakt.enums.*
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
-import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
+import media.thehoard.thirdparty.api.trakt.extensions.*
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.history.implementations.TraktHistoryItemImpl
@@ -38,10 +37,7 @@ internal sealed class AUsersDeleteByIdRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("id", ::isValidStringId)
 }
 
 internal sealed class AUsersGetRequest<TResponseContentType>(
@@ -58,7 +54,7 @@ internal sealed class AUsersGetRequest<TResponseContentType>(
                 this["extended"] = extendedInfo!!.toString()
         }
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal sealed class AUsersPagedGetRequest<TResponseContentType>(
@@ -92,11 +88,9 @@ internal sealed class AUsersPostByIdRequest<TResponseContentType, TRequestBodyTy
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id)
 
-    override fun validate() {
-        super.validate()
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("id not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        id.validate("id", ::isValidStringId)
     }
 }
 
@@ -112,10 +106,7 @@ internal class UserApproveFollowerRequest(
         get() = hashMapOf("id" to id)
 
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("id", ::isValidStringId)
 }
 
 internal class UserCollectionMoviesRequest(
@@ -131,11 +122,9 @@ internal class UserCollectionMoviesRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -153,11 +142,9 @@ internal class UserCollectionShowsRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -182,11 +169,9 @@ internal class UserCommentsRequest(
                 this["object_type"] = objectType!!.uriName
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -200,11 +185,9 @@ internal class UserCustomListAddRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username)
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -223,11 +206,9 @@ internal class UserCustomListDeleteRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -253,11 +234,9 @@ internal class UserCustomListItemsAddRequest(
                 this["type"] = type!!.uriName
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -279,11 +258,9 @@ internal class UserCustomListItemsRemoveRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -309,14 +286,10 @@ internal class UserCustomListItemsRequest(
                 this["type"] = type!!.uriName
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("list id not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
+        id.validate("list id", ::isValidStringId)
     }
 }
 
@@ -331,10 +304,7 @@ internal class UserCustomListsRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username)
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-    }
+    override fun validate(variableName: String) = username.validate("username", ::isValidStringId)
 }
 
 internal class UserCustomListUpdateRequest(
@@ -350,14 +320,10 @@ internal class UserCustomListUpdateRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username, "id" to id)
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("list id not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
+        id.validate("list id", ::isValidStringId)
     }
 }
 
@@ -375,12 +341,9 @@ internal class UserCustomSingleListRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username, "id" to id)
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("list id not valid")
+    override fun validate(variableName: String) {
+        username.validate("username", ::isValidStringId)
+        id.validate("list id", ::isValidStringId)
     }
 }
 
@@ -406,11 +369,9 @@ internal class UserFollowersRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -427,11 +388,9 @@ internal class UserFollowingRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -454,9 +413,8 @@ internal class UserFollowUserRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username)
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -472,13 +430,6 @@ internal class UserFriendsRequest(
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
             this["username"] = username
         }
-
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-    }
 }
 
 internal class UserHiddenItemsRequest(
@@ -505,11 +456,9 @@ internal class UserHiddenItemsRequest(
                 this["type"] = type!!.uriName
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (section == TraktHiddenItemsSection.UNSPECIFIED)
-            throw IllegalArgumentException("section type must not be unspecified")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        section.validateSpecified("section type")
     }
 }
 
@@ -533,7 +482,7 @@ internal class UserLikesRequest(
                 this["limit"] = limit!!.toString()
         }
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class UserListLikeRequest(
@@ -548,12 +497,9 @@ internal class UserListLikeRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username, "id" to id)
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("list id not valid")
+    override fun validate(variableName: String) {
+        username.validate("username", ::isValidStringId)
+        id.validate("list id", ::isValidStringId)
     }
 }
 
@@ -572,11 +518,9 @@ internal class UserListUnlikeRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -593,11 +537,9 @@ internal class UserProfileRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -627,11 +569,9 @@ internal class UserRatingsRequest(
                 this["extended"] = extendedInfo!!.toString()
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -644,7 +584,7 @@ internal class UserSettingsRequest : AGetRequestHasResponse<TraktUserSettingsImp
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf()
 
-    override fun validate() {}
+    override fun validate(variableName: String) {}
 }
 
 internal class UserStatisticsRequest(
@@ -658,10 +598,7 @@ internal class UserStatisticsRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username)
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-    }
+    override fun validate(variableName: String) = username.validate("username", ::isValidStringId)
 }
 
 internal class UserUnfollowUserRequest(
@@ -673,10 +610,7 @@ internal class UserUnfollowUserRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("username" to username)
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-    }
+    override fun validate(variableName: String) = username.validate("username", ::isValidStringId)
 }
 
 internal class UserWatchedHistoryRequest(
@@ -715,10 +649,7 @@ internal class UserWatchedHistoryRequest(
                 this["end_at"] = endAt!!.toTraktLongDateTimeString()
         }
 
-    override fun validate() {
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
-    }
+    override fun validate(variableName: String) = username.validate("username", ::isValidStringId)
 }
 
 internal class UserWatchedMoviesRequest(
@@ -734,11 +665,9 @@ internal class UserWatchedMoviesRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -755,11 +684,9 @@ internal class UserWatchedShowsRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -776,11 +703,9 @@ internal class UserWatchingRequest(
             this["username"] = username
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }
 
@@ -805,10 +730,8 @@ internal class UserWatchlistRequest(
                 this["type"] = type!!.uriName
         }
 
-    override fun validate() {
-        super.validate()
-
-        if (username.isBlank() || username.containsSpace())
-            throw IllegalArgumentException("username not valid")
+    override fun validate(variableName: String) {
+        super.validate(variableName)
+        username.validate("username", ::isValidStringId)
     }
 }

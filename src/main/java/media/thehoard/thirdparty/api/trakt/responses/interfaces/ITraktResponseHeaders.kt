@@ -1,11 +1,13 @@
 package media.thehoard.thirdparty.api.trakt.responses.interfaces
 
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
 import java.time.ZonedDateTime
 
 interface ITraktResponseHeaders {
-    var sortBy: String
+    var sortBy: TraktListSortBy
 
-    var sortHow: String
+    var sortHow: TraktListSortHow
 
     var startDate: ZonedDateTime?
 

@@ -1,5 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.implementations
 
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.TraktSyncCollectionPost
 import media.thehoard.thirdparty.api.trakt.utils.Json
 
@@ -15,5 +16,5 @@ data class TraktSyncCollectionPostImpl(
 
     override fun toJson(): String = Json.serialize(this)
 
-    override fun validate() {}
+    override fun validate(variableName: String) = (movies.isNotEmpty() && shows.isNotEmpty() && episodes.isNotEmpty()).validate("no collection items set", null)
 }

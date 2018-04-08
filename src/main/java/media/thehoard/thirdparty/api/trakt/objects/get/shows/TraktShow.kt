@@ -1,11 +1,13 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.shows
 
 import media.thehoard.thirdparty.api.trakt.enums.TraktShowStatus
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowAirsImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl
+import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
-interface TraktShow {
+interface TraktShow : IValidatable {
     var title: String
 
     var year: Int
@@ -47,4 +49,6 @@ interface TraktShow {
     var genres: List<String>?
 
     var airedEpisodes: Int?
+
+    fun validateWithEpisode(episode: TraktEpisode? = null)
 }

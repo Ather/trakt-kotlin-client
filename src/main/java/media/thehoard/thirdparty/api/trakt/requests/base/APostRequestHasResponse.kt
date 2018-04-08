@@ -12,5 +12,5 @@ internal abstract class APostRequestHasResponse<TResponseContentType, TRequestBo
 
     override var requestBody: TRequestBodyType? = null
 
-    override fun validate() { requestBody?.validate() }
+    override fun validate(variableName: String) { requestBody?.validate(variableName) }
 }

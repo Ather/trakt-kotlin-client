@@ -1,6 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.core
 
-interface TraktDefaultIds {
+import media.thehoard.thirdparty.api.trakt.extensions.validate
+import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
+
+interface TraktDefaultIds: IValidatable {
     fun getBestId(): String
     fun hasAnyId(): Boolean
     fun hasIdMatch(ids: TraktDefaultIds): Boolean
@@ -14,4 +17,6 @@ interface TraktDefaultIds {
     }
 
     infix fun like(ids: TraktDefaultIds): Boolean = hasIdMatch(ids)
+
+    override fun validate(variableName: String) = hasAnyId().validate(variableName)
 }

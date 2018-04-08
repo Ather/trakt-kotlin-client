@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.comments
 
-import media.thehoard.thirdparty.api.trakt.extensions.containsSpace
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
@@ -28,10 +29,7 @@ internal class CommentRepliesRequest(
                 this["limit"] = limit!!.toString()
         }
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("comment id", ::isValidStringId)
 }
 
 internal class CommentSummaryRequest(
@@ -44,8 +42,5 @@ internal class CommentSummaryRequest(
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf("id" to id)
 
-    override fun validate() {
-        if (id.isBlank() || id.containsSpace())
-            throw IllegalArgumentException("comment id not valid")
-    }
+    override fun validate(variableName: String) = id.validate("comment id", ::isValidStringId)
 }

@@ -2,7 +2,6 @@ package media.thehoard.thirdparty.api.trakt.objects.post.comments.implementation
 
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktCommentPost
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktEpisodeCommentPost
 
 data class TraktEpisodeCommentPostImpl(
