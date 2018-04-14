@@ -35,18 +35,6 @@ class ZonedDateTimeTypeAdapter(
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): ZonedDateTime? = if (json != null) Instant.parse(json.asString).atZone(TraktConfiguration.traktTimezone).fromTraktZone(localTimezone) else null
 
     override fun serialize(src: ZonedDateTime?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement? = DateTimeFormatter.ISO_INSTANT.format(src?.toTraktZone()).toJson()
-
-    companion object {
-        /*internal val formatter: DateTimeFormatter = DateTimeFormatterBuilder()
-                .appendPattern("YYYY-MM-dd")
-                .optionalStart()
-                .appendLiteral('T')
-                .appendPattern("HH:mm:ss")
-                .appendPattern(".SSS")
-                .appendZoneOrOffsetId()
-                .optionalEnd()
-                .toFormatter()*/
-    }
 }
 
 object ZoneIdTypeAdapter : JsonDeserializer<ZoneId>, JsonSerializer<ZoneId> {

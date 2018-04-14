@@ -55,7 +55,6 @@
             <version>1.7.25</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>${artifactId}-${version}-g${git.commit.id.describe-short}</finalName>
         <plugins>
@@ -183,7 +182,8 @@
                                 to a target folder (e.g. ${project.build.outputDirectory}) since this is
                                 the place where all derived/generated resources should go.
                     -->
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
 
                     <!-- Denotes the format to save properties in. Valid options are "properties" (default) and "json". Properties will be saved to the generateGitPropertiesFilename if generateGitPropertiesFile is set to `true`. -->
                     <format>properties</format>
@@ -442,6 +442,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

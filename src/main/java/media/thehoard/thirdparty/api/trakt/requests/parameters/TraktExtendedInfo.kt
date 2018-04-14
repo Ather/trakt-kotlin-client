@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.requests.parameters
 
 import java.util.*
 
-class TraktExtendedInfo(
+data class TraktExtendedInfo(
         var metadata: Boolean = false,
         var full: Boolean = false,
         var noSeasons: Boolean = false,
