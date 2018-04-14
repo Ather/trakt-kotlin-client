@@ -2,8 +2,8 @@ package media.thehoard.thirdparty.api.trakt.requests.recommendations
 
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.requests.base.ADeleteRequest
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
@@ -43,10 +43,10 @@ internal sealed class AUserRecommendationsRequest<TResponseContentType>(
 
 internal class UserMovieRecommendationsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : AUserRecommendationsRequest<TraktMovieImpl>(
+) : AUserRecommendationsRequest<TraktMovie>(
         "recommendations/movies{?extended,limit}",
         extendedInfo,
-        responseContentClass = TraktMovieImpl::class
+        responseContentClass = TraktMovie::class
 ) {
     override fun validate(variableName: String) {}
 }
@@ -69,10 +69,10 @@ internal class UserRecommendationHideShowRequest(
 
 internal class UserShowRecommendationsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : AUserRecommendationsRequest<TraktShowImpl>(
+) : AUserRecommendationsRequest<TraktShow>(
         "recommendations/shows{?extended,limit}",
         extendedInfo,
-        responseContentClass = TraktShowImpl::class
+        responseContentClass = TraktShow::class
 ) {
     override fun validate(variableName: String) {}
 }

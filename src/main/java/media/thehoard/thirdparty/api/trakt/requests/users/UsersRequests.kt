@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.requests.users
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
@@ -16,7 +16,7 @@ internal class UserListCommentsRequest(
         internal var sortOrder: TraktCommentSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktCommentImpl>(TraktCommentImpl::class), IHasId, ISupportsPagination {
+) : AGetRequestHasResponse<TraktComment>(TraktComment::class), IHasId, ISupportsPagination {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.NotRequired
 

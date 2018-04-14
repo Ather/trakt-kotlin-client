@@ -2,8 +2,8 @@ package media.thehoard.thirdparty.api.trakt.modules
 
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
-import media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementations.TraktCalendarMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementations.TraktCalendarShowImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarShow
 import media.thehoard.thirdparty.api.trakt.requests.calendars.*
 import media.thehoard.thirdparty.api.trakt.requests.handler.RequestHandler
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktCalendarFilter
@@ -19,7 +19,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShowImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserShowsRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -34,7 +34,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShowImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserNewShowsRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -49,7 +49,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShowImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserSeasonPremieresRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -64,7 +64,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovieImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserMoviesRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -79,7 +79,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovieImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserDVDMoviesRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -93,7 +93,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null
-    ): CompletableFuture<TraktListResponse<TraktCalendarShowImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -107,7 +107,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null
-    ): CompletableFuture<TraktListResponse<TraktCalendarShowImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllNewShowsRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -121,7 +121,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null
-    ): CompletableFuture<TraktListResponse<TraktCalendarShowImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -135,7 +135,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovieImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllMoviesRequest().apply {
             this.startDate = startDate
             this.days = days
@@ -149,7 +149,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovieImpl>> {
+    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllDVDMoviesRequest().apply {
             this.startDate = startDate
             this.days = days

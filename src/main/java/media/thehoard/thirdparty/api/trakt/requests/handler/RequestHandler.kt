@@ -7,9 +7,7 @@ import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.core.Constants
 import media.thehoard.thirdparty.api.trakt.exceptions.*
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktError
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktErrorImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostErrorResponse
-import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktCheckinPostErrorResponseImpl
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType.*
 import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinRequest
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
@@ -396,7 +394,7 @@ internal class RequestHandler(
 
             if (!responseContent.isBlank()) {
                 try {
-                    errorResponse = Json.deserialize<TraktCheckinPostErrorResponseImpl>(responseContent)
+                    errorResponse = Json.deserialize(responseContent)
                 } catch (e: JsonParseException) {
                     throw TraktException("json convert exception", e)
                 }
@@ -423,7 +421,7 @@ internal class RequestHandler(
         val error: TraktError
 
         try {
-            error = Json.deserialize<TraktErrorImpl>(responseContent)
+            error = Json.deserialize(responseContent)
         } catch (e: JsonParseException) {
             throw TraktException("json convert exception", e)
         }

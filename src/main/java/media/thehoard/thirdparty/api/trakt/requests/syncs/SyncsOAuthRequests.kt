@@ -6,29 +6,29 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktSyncType
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.implementations.TraktCollectionShowImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.history.implementations.TraktHistoryItemImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.ratings.implementations.TraktRatingsItemImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.implementations.TraktSyncLastActivitiesImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.syncs.playback.implementations.TraktSyncPlaybackProgressItemImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.TraktWatchedMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.TraktWatchedShowImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.watchlist.implementations.TraktWatchlistItemImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.implementations.TraktSyncCollectionPostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.implementations.TraktSyncCollectionPostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.implementations.TraktSyncCollectionRemovePostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.implementations.TraktSyncHistoryPostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.implementations.TraktSyncHistoryRemovePostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.implementations.TraktSyncHistoryPostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.implementations.TraktSyncHistoryRemovePostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.implementations.TraktSyncRatingsPostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.responses.implementations.TraktSyncRatingsPostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.responses.implementations.TraktSyncRatingsRemovePostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.implementations.TraktSyncWatchlistPostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.implementations.TraktSyncWatchlistPostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.implementations.TraktSyncWatchlistRemovePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionShow
+import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionShowEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.history.TraktHistoryItem
+import media.thehoard.thirdparty.api.trakt.objects.get.ratings.TraktRatingsItem
+import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.TraktSyncLastActivities
+import media.thehoard.thirdparty.api.trakt.objects.get.syncs.playback.TraktSyncPlaybackProgressItem
+import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.watched.TraktWatchedShow
+import media.thehoard.thirdparty.api.trakt.objects.get.watchlist.TraktWatchlistItem
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.TraktSyncCollectionPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.TraktSyncCollectionPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.TraktSyncCollectionRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryRemovePost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.responses.TraktSyncRatingsPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.responses.TraktSyncRatingsRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.TraktSyncWatchlistPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.TraktSyncWatchlistPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.TraktSyncWatchlistRemovePostResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.*
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
@@ -62,18 +62,18 @@ internal sealed class ASyncPostRequest<TResponseContentType, TRequestBodyType : 
 }
 
 internal class SyncCollectionAddRequest(
-        override var requestBody: TraktSyncCollectionPostImpl? = null
-) : ASyncPostRequest<TraktSyncCollectionPostResponseImpl, TraktSyncCollectionPostImpl>(
+        override var requestBody: TraktSyncCollectionPost? = null
+) : ASyncPostRequest<TraktSyncCollectionPostResponse, TraktSyncCollectionPost>(
         "sync/collection",
         requestBody,
-        TraktSyncCollectionPostResponseImpl::class
+        TraktSyncCollectionPostResponse::class
 )
 
 internal class SyncCollectionMoviesRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktCollectionMovieImpl>(
+) : ASyncGetRequest<TraktCollectionMovie>(
         "sync/collection/movies{?extended}",
-        TraktCollectionMovieImpl::class
+        TraktCollectionMovie::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -83,18 +83,18 @@ internal class SyncCollectionMoviesRequest(
 }
 
 internal class SyncCollectionRemoveRequest(
-        override var requestBody: TraktSyncCollectionPostImpl? = null
-) : ASyncPostRequest<TraktSyncCollectionRemovePostResponseImpl, TraktSyncCollectionPostImpl>(
+        override var requestBody: TraktSyncCollectionPost? = null
+) : ASyncPostRequest<TraktSyncCollectionRemovePostResponse, TraktSyncCollectionPost>(
         "sync/collection/remove",
         requestBody,
-        TraktSyncCollectionRemovePostResponseImpl::class
+        TraktSyncCollectionRemovePostResponse::class
 )
 
 internal class SyncCollectionShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktCollectionShowImpl>(
+) : ASyncGetRequest<TraktCollectionShow>(
         "sync/collection/shows{?extended}",
-        TraktCollectionShowEpisodeImpl::class
+        TraktCollectionShowEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -103,9 +103,9 @@ internal class SyncCollectionShowsRequest(
         }
 }
 
-internal class SyncLastActivitiesRequest : ASyncGetRequest<TraktSyncLastActivitiesImpl>(
+internal class SyncLastActivitiesRequest : ASyncGetRequest<TraktSyncLastActivities>(
         "sync/last_activities",
-        TraktSyncLastActivitiesImpl::class
+        TraktSyncLastActivities::class
 )
 
 internal class SyncPlaybackDeleteRequest(
@@ -125,9 +125,9 @@ internal class SyncPlaybackDeleteRequest(
 internal class SyncPlaybackProgressRequest(
         internal var type: TraktSyncType? = null,
         internal var limit: Int? = null
-) : ASyncGetRequest<TraktSyncPlaybackProgressItemImpl>(
+) : ASyncGetRequest<TraktSyncPlaybackProgressItem>(
         "sync/playback{/type}{?limit}",
-        TraktSyncPlaybackProgressItemImpl::class
+        TraktSyncPlaybackProgressItem::class
 ) {
 
     override val uriPathParameters: Map<String, Any>?
@@ -141,28 +141,28 @@ internal class SyncPlaybackProgressRequest(
 }
 
 internal class SyncRatingsAddRequest(
-        override var requestBody: TraktSyncRatingsPostImpl? = null
-) : ASyncPostRequest<TraktSyncRatingsPostResponseImpl, TraktSyncRatingsPostImpl>(
+        override var requestBody: TraktSyncRatingsPost? = null
+) : ASyncPostRequest<TraktSyncRatingsPostResponse, TraktSyncRatingsPost>(
         "sync/ratings",
         requestBody,
-        TraktSyncRatingsPostResponseImpl::class
+        TraktSyncRatingsPostResponse::class
 )
 
 internal class SyncRatingsRemoveRequest(
-        override var requestBody: TraktSyncRatingsPostImpl? = null
-) : ASyncPostRequest<TraktSyncRatingsRemovePostResponseImpl, TraktSyncRatingsPostImpl>(
+        override var requestBody: TraktSyncRatingsPost? = null
+) : ASyncPostRequest<TraktSyncRatingsRemovePostResponse, TraktSyncRatingsPost>(
         "sync/ratings/remove",
         requestBody,
-        TraktSyncRatingsRemovePostResponseImpl::class
+        TraktSyncRatingsRemovePostResponse::class
 )
 
 internal class SyncRatingsRequest(
         internal var type: TraktRatingsItemType? = null,
         internal var ratingFilter: List<Int>? = null,
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktRatingsItemImpl>(
+) : ASyncGetRequest<TraktRatingsItem>(
         "sync/ratings{/type}{/rating}{?extended}",
-        TraktRatingsItemImpl::class
+        TraktRatingsItem::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -180,19 +180,19 @@ internal class SyncRatingsRequest(
 }
 
 internal class SyncWatchedHistoryAddRequest(
-        override var requestBody: TraktSyncHistoryPostImpl? = null
-) : ASyncPostRequest<TraktSyncHistoryPostResponseImpl, TraktSyncHistoryPostImpl>(
+        override var requestBody: TraktSyncHistoryPost? = null
+) : ASyncPostRequest<TraktSyncHistoryPostResponse, TraktSyncHistoryPost>(
         "sync/history",
         requestBody,
-        TraktSyncHistoryPostResponseImpl::class
+        TraktSyncHistoryPostResponse::class
 )
 
 internal class SyncWatchedHistoryRemoveRequest(
-        override var requestBody: TraktSyncHistoryRemovePostImpl? = null
-) : ASyncPostRequest<TraktSyncHistoryRemovePostResponseImpl, TraktSyncHistoryRemovePostImpl>(
+        override var requestBody: TraktSyncHistoryRemovePost? = null
+) : ASyncPostRequest<TraktSyncHistoryRemovePostResponse, TraktSyncHistoryRemovePost>(
         "sync/history/remove",
         requestBody,
-        TraktSyncHistoryRemovePostResponseImpl::class
+        TraktSyncHistoryRemovePostResponse::class
 )
 
 internal class SyncWatchedHistoryRequest(
@@ -203,9 +203,9 @@ internal class SyncWatchedHistoryRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : ASyncGetRequest<TraktHistoryItemImpl>(
+) : ASyncGetRequest<TraktHistoryItem>(
         "sync/history{/type}{/item_id}{?start_at,end_at,extended,page,limit}",
-        TraktHistoryItemImpl::class
+        TraktHistoryItem::class
 ), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -230,9 +230,9 @@ internal class SyncWatchedHistoryRequest(
 
 internal class SyncWatchedMoviesRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktWatchedMovieImpl>(
+) : ASyncGetRequest<TraktWatchedMovie>(
         "sync/watched/movies{?extended}",
-        TraktWatchedMovieImpl::class
+        TraktWatchedMovie::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -243,9 +243,9 @@ internal class SyncWatchedMoviesRequest(
 
 internal class SyncWatchedShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASyncGetRequest<TraktWatchedShowImpl>(
+) : ASyncGetRequest<TraktWatchedShow>(
         "sync/watched/shows{?extended}",
-        TraktWatchedShowImpl::class
+        TraktWatchedShow::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -255,19 +255,19 @@ internal class SyncWatchedShowsRequest(
 }
 
 internal class SyncWatchlistAddRequest(
-        override var requestBody: TraktSyncWatchlistPostImpl? = null
-) : ASyncPostRequest<TraktSyncWatchlistPostResponseImpl, TraktSyncWatchlistPostImpl>(
+        override var requestBody: TraktSyncWatchlistPost? = null
+) : ASyncPostRequest<TraktSyncWatchlistPostResponse, TraktSyncWatchlistPost>(
         "sync/watchlist",
         requestBody,
-        TraktSyncWatchlistPostResponseImpl::class
+        TraktSyncWatchlistPostResponse::class
 )
 
 internal class SyncWatchlistRemoveRequest(
-        override var requestBody: TraktSyncWatchlistPostImpl? = null
-) : ASyncPostRequest<TraktSyncWatchlistRemovePostResponseImpl, TraktSyncWatchlistPostImpl>(
+        override var requestBody: TraktSyncWatchlistPost? = null
+) : ASyncPostRequest<TraktSyncWatchlistRemovePostResponse, TraktSyncWatchlistPost>(
         "sync/watchlist/remove",
         requestBody,
-        TraktSyncWatchlistRemovePostResponseImpl::class
+        TraktSyncWatchlistRemovePostResponse::class
 )
 
 internal class SyncWatchlistRequest(
@@ -275,9 +275,9 @@ internal class SyncWatchlistRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : ASyncGetRequest<TraktWatchlistItemImpl>(
+) : ASyncGetRequest<TraktWatchlistItem>(
         "sync/watchlist{/type}{?extended,page,limit}",
-        TraktWatchlistItemImpl::class
+        TraktWatchlistItem::class
 ), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

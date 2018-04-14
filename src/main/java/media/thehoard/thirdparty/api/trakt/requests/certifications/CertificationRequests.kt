@@ -1,9 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.requests.certifications
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCertificationsImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktCertifications
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 
-internal sealed class ACertificationsRequest(override val uriTemplate: String) : AGetRequestHasResponse<TraktCertificationsImpl>(TraktCertificationsImpl::class) {
+internal sealed class ACertificationsRequest(override val uriTemplate: String) : AGetRequestHasResponse<TraktCertifications>(TraktCertifications::class) {
     override val uriPathParameters: Map<String, Any>?
         get() = mapOf()
 

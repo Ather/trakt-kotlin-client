@@ -5,13 +5,13 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktListType
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.isValidTwoCharCode
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktStatisticsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktRating
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktStatistics
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.seasons.TraktSeason
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
+import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
@@ -41,11 +41,11 @@ internal class SeasonCommentsRequest(
         internal var sortOrder: TraktCommentSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : ASeasonRequest<TraktCommentImpl>(
+) : ASeasonRequest<TraktComment>(
         "shows/{id}/seasons/{season}/comments{/sort_order}{?page,limit}",
         id,
         seasonNumber,
-        TraktCommentImpl::class
+        TraktComment::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -65,11 +65,11 @@ internal class SeasonListsRequest(
         internal var sortOrder: TraktCommentSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : ASeasonRequest<TraktListImpl>(
+) : ASeasonRequest<TraktList>(
         "shows/{id}/seasons/{season}/lists{/type}{/sort_order}{?page,limit}",
         id,
         seasonNumber,
-        TraktListImpl::class
+        TraktList::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -89,18 +89,18 @@ internal class SeasonListsRequest(
 internal class SeasonRatingsRequest(
         override var id: String,
         seasonNumber: Int
-) : ASeasonRequest<TraktRatingImpl>(
+) : ASeasonRequest<TraktRating>(
         "shows/{id}/seasons/{season}/ratings",
         id,
         seasonNumber,
-        TraktRatingImpl::class
+        TraktRating::class
 )
 
 internal class SeasonsAllRequest(
         override var id: String,
         internal var translationLanguageCode: String? = null,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AGetRequestHasResponse<TraktSeasonImpl>(TraktSeasonImpl::class), IHasId, ISupportsExtendedInfo {
+) : AGetRequestHasResponse<TraktSeason>(TraktSeason::class), IHasId, ISupportsExtendedInfo {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Shows
 
@@ -125,11 +125,11 @@ internal class SeasonSingleRequest(
         seasonNumber: Int,
         internal var translationLanguageCode: String? = null,
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASeasonRequest<TraktEpisodeImpl>(
+) : ASeasonRequest<TraktEpisode>(
         "shows/{id}/seasons/{season}{?extended,translations}",
         id,
         seasonNumber,
-        TraktEpisodeImpl::class
+        TraktEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id).apply {
@@ -148,22 +148,22 @@ internal class SeasonSingleRequest(
 internal class SeasonStatisticsRequest(
         override var id: String,
         seasonNumber: Int
-) : ASeasonRequest<TraktStatisticsImpl>(
+) : ASeasonRequest<TraktStatistics>(
         "shows/{id}/seasons/{season}/stats",
         id,
         seasonNumber,
-        TraktStatisticsImpl::class
+        TraktStatistics::class
 )
 
 internal class SeasonWatchingUsersRequest(
         override var id: String,
         seasonNumber: Int,
         override var extendedInfo: TraktExtendedInfo? = null
-) : ASeasonRequest<TraktUserImpl>(
+) : ASeasonRequest<TraktUser>(
         "shows/{id}/seasons/{season}/watching{?extended}",
         id,
         seasonNumber,
-        TraktUserImpl::class
+        TraktUser::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf("id" to id).apply {

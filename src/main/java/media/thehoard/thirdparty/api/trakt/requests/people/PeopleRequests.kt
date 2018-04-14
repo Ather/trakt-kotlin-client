@@ -1,8 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.requests.people
 
-import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.implementations.TraktPersonMovieCreditsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.implementations.TraktPersonShowCreditsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.people.TraktPerson
+import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.TraktPersonMovieCredits
+import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.TraktPersonShowCredits
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
@@ -30,29 +30,29 @@ internal sealed class APersonRequest<TResponseContentType>(
 internal class PersonMovieCreditsRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : APersonRequest<TraktPersonMovieCreditsImpl>(
+) : APersonRequest<TraktPersonMovieCredits>(
         "people/{id}/movies{?extended}",
         id,
         extendedInfo,
-        TraktPersonMovieCreditsImpl::class
+        TraktPersonMovieCredits::class
 )
 
 internal class PersonShowCreditsRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : APersonRequest<TraktPersonShowCreditsImpl>(
+) : APersonRequest<TraktPersonShowCredits>(
         "people/{id}/shows{?extended}",
         id,
         extendedInfo,
-        TraktPersonShowCreditsImpl::class
+        TraktPersonShowCredits::class
 )
 
 internal class PersonSummaryRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : APersonRequest<TraktPersonImpl>(
+) : APersonRequest<TraktPerson>(
         "people/{id}{?extended}",
         id,
         extendedInfo,
-        TraktPersonImpl::class
+        TraktPerson::class
 )

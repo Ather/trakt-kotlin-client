@@ -2,9 +2,9 @@ package media.thehoard.thirdparty.api.trakt.requests.comments
 
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.post.comments.implementations.TraktCommentReplyPostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.comments.implementations.TraktCommentUpdatePostImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.implementations.TraktCommentPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktCommentReplyPost
+import media.thehoard.thirdparty.api.trakt.objects.post.comments.TraktCommentUpdatePost
+import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.TraktCommentPostResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.ABodylessPostRequest
 import media.thehoard.thirdparty.api.trakt.requests.base.ADeleteRequest
 import media.thehoard.thirdparty.api.trakt.requests.base.APostRequestHasResponse
@@ -42,7 +42,7 @@ internal class CommentLikeRequest(
 
 internal class CommentPostRequest<TRequestBodyType : IRequestBody>(
         override var requestBody: TRequestBodyType? = null
-) : APostRequestHasResponse<TraktCommentPostResponseImpl, TRequestBodyType>(TraktCommentPostResponseImpl::class) {
+) : APostRequestHasResponse<TraktCommentPostResponse, TRequestBodyType>(TraktCommentPostResponse::class) {
 
     override val uriTemplate: String = "comments"
 
@@ -51,8 +51,8 @@ internal class CommentPostRequest<TRequestBodyType : IRequestBody>(
 
 internal class CommentReplyRequest(
         override var id: String,
-        override var requestBody: TraktCommentReplyPostImpl? = null
-) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentReplyPostImpl>(TraktCommentPostResponseImpl::class), IHasId {
+        override var requestBody: TraktCommentReplyPost? = null
+) : APostRequestHasResponse<TraktCommentPostResponse, TraktCommentReplyPost>(TraktCommentPostResponse::class), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 
@@ -83,8 +83,8 @@ internal class CommentUnlikeRequest(
 
 internal class CommentUpdateRequest(
         override var id: String,
-        override var requestBody: TraktCommentUpdatePostImpl? = null
-) : APostRequestHasResponse<TraktCommentPostResponseImpl, TraktCommentUpdatePostImpl>(TraktCommentPostResponseImpl::class), IHasId {
+        override var requestBody: TraktCommentUpdatePost? = null
+) : APostRequestHasResponse<TraktCommentPostResponse, TraktCommentUpdatePost>(TraktCommentPostResponse::class), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Comments
 

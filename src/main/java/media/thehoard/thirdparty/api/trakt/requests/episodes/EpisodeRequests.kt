@@ -7,12 +7,12 @@ import media.thehoard.thirdparty.api.trakt.extensions.isNotNegative
 import media.thehoard.thirdparty.api.trakt.extensions.isPositive
 import media.thehoard.thirdparty.api.trakt.extensions.isValidTwoCharCode
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktStatisticsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktRating
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktStatistics
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
+import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
@@ -49,12 +49,12 @@ internal class EpisodeCommentsRequest(
         internal var sortOrder: TraktCommentSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AEpisodeRequest<TraktCommentImpl>(
+) : AEpisodeRequest<TraktComment>(
         "shows/{id}/seasons/{season}/episodes/{episode}/comments{/sort_order}{?page,limit}",
         id,
         seasonNumber,
         episodeNumber,
-        TraktCommentImpl::class
+        TraktComment::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -75,12 +75,12 @@ internal class EpisodeListRequest(
         internal var sortOrder: TraktListSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AEpisodeRequest<TraktListImpl>(
+) : AEpisodeRequest<TraktList>(
         "shows/{id}/seasons/{season}/episodes/{episode}/lists{/type}{/sort_order}{?page,limit}",
         id,
         seasonNumber,
         episodeNumber,
-        TraktListImpl::class
+        TraktList::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -100,24 +100,24 @@ internal class EpisodeRatingsRequest(
         override var id: String,
         seasonNumber: Int,
         episodeNumber: Int
-) : AEpisodeRequest<TraktRatingImpl>(
+) : AEpisodeRequest<TraktRating>(
         "shows/{id}/seasons/{season}/episodes/{episode}/ratings",
         id,
         seasonNumber,
         episodeNumber,
-        TraktRatingImpl::class
+        TraktRating::class
 )
 
 internal class EpisodeStatisticsRequest(
         override var id: String,
         seasonNumber: Int,
         episodeNumber: Int
-) : AEpisodeRequest<TraktStatisticsImpl>(
+) : AEpisodeRequest<TraktStatistics>(
         "shows/{id}/seasons/{season}/episodes/{episode}/stats",
         id,
         seasonNumber,
         episodeNumber,
-        TraktStatisticsImpl::class
+        TraktStatistics::class
 )
 
 internal class EpisodeSummaryRequest(
@@ -125,12 +125,12 @@ internal class EpisodeSummaryRequest(
         seasonNumber: Int,
         episodeNumber: Int,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AEpisodeRequest<TraktEpisodeImpl>(
+) : AEpisodeRequest<TraktEpisode>(
         "shows/{id}/seasons/{season}/episodes/{episode}{?extended}",
         id,
         seasonNumber,
         episodeNumber,
-        TraktEpisodeImpl::class
+        TraktEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -144,12 +144,12 @@ internal class EpisodeTranslationsRequest(
         seasonNumber: Int,
         episodeNumber: Int,
         internal var languageCode: String? = null
-) : AEpisodeRequest<TraktEpisodeImpl>(
+) : AEpisodeRequest<TraktEpisode>(
         "shows/{id}/seasons/{season}/episodes/{episode}/translations{/language}",
         id,
         seasonNumber,
         episodeNumber,
-        TraktEpisodeImpl::class
+        TraktEpisode::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -168,12 +168,12 @@ internal class EpisodeWatchingUsersRequest(
         seasonNumber: Int,
         episodeNumber: Int,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AEpisodeRequest<TraktUserImpl>(
+) : AEpisodeRequest<TraktUser>(
         "shows/{id}/seasons/{season}/episodes/{episode}/watching{?extended}",
         id,
         seasonNumber,
         episodeNumber,
-        TraktUserImpl::class
+        TraktUser::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

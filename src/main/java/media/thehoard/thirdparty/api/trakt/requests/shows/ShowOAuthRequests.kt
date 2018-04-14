@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.requests.shows
 
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowCollectionProgressImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowCollectionProgress
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
@@ -40,13 +40,13 @@ internal class ShowCollectionProgressRequest(
         hidden: Boolean? = null,
         specials: Boolean? = null,
         countSpecials: Boolean? = null
-) : AShowProgressRequest<TraktShowCollectionProgressImpl>(
+) : AShowProgressRequest<TraktShowCollectionProgress>(
         "shows/{id}/progress/collection{?hidden,specials,count_specials}",
         id,
         hidden,
         specials,
         countSpecials,
-        TraktShowCollectionProgressImpl::class
+        TraktShowCollectionProgress::class
 )
 
 internal class ShowWatchedProgressRequest(
@@ -54,11 +54,11 @@ internal class ShowWatchedProgressRequest(
         hidden: Boolean? = null,
         specials: Boolean? = null,
         countSpecials: Boolean? = null
-) : AShowProgressRequest<TraktShowCollectionProgressImpl>(
+) : AShowProgressRequest<TraktShowCollectionProgress>(
         "shows/{id}/progress/watched{?hidden,specials,count_specials}",
         id,
         hidden,
         specials,
         countSpecials,
-        TraktShowCollectionProgressImpl::class
+        TraktShowCollectionProgress::class
 )

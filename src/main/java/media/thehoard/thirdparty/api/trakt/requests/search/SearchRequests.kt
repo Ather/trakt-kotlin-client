@@ -6,7 +6,7 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktSearchResultType
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.extensions.validateSpecified
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSearchResultImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSearchResult
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsFilter
@@ -21,7 +21,7 @@ internal sealed class ASearchRequest(
         internal open var resultTypes: TraktSearchResultType? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktSearchResultImpl>(TraktSearchResultImpl::class), ISupportsExtendedInfo, ISupportsPagination {
+) : AGetRequestHasResponse<TraktSearchResult>(TraktSearchResult::class), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)

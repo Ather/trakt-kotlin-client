@@ -4,15 +4,18 @@ import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
 import media.thehoard.thirdparty.api.trakt.enums.TraktTimePeriod
-import media.thehoard.thirdparty.api.trakt.extensions.*
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCastAndCrewImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktRatingImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMostPWCMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.*
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
+import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
+import media.thehoard.thirdparty.api.trakt.extensions.isValidTwoCharCode
+import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
+import media.thehoard.thirdparty.api.trakt.extensions.validate
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktCastAndCrew
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktRating
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMostPWCMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.*
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
+import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
@@ -74,10 +77,10 @@ internal sealed class AShowsRequest<TResponseContentType>(
 
 internal class ShowAliasesRequest(
         override var id: String
-) : AShowRequest<TraktShowAliasImpl>(
+) : AShowRequest<TraktShowAlias>(
         "shows/{id}/aliases",
         id,
-        TraktShowAliasImpl::class
+        TraktShowAlias::class
 )
 
 internal class ShowCommentsRequest(
@@ -85,10 +88,10 @@ internal class ShowCommentsRequest(
         internal var sortOrder: TraktCommentSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AShowRequest<TraktCommentImpl>(
+) : AShowRequest<TraktComment>(
         "shows/{id}/comments{/sort_order}{?page,limit}",
         id,
-        TraktCommentImpl::class
+        TraktComment::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -104,10 +107,10 @@ internal class ShowCommentsRequest(
 internal class ShowLastEpisodeRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktEpisodeImpl>(
+) : AShowRequest<TraktEpisode>(
         "shows/{id}/last_episode{?extended}",
         id,
-        TraktEpisodeImpl::class
+        TraktEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -122,10 +125,10 @@ internal class ShowListsRequest(
         internal var sortOrder: TraktListSortOrder? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AShowRequest<TraktListImpl>(
+) : AShowRequest<TraktList>(
         "shows/{id}/lists{/type}{/sort_order}{?page,limit}",
         id,
-        TraktListImpl::class
+        TraktList::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -144,10 +147,10 @@ internal class ShowListsRequest(
 internal class ShowNextEpisodeRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktEpisodeImpl>(
+) : AShowRequest<TraktEpisode>(
         "shows/{id}/next_episode{?extended}",
         id,
-        TraktEpisodeImpl::class
+        TraktEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -159,10 +162,10 @@ internal class ShowNextEpisodeRequest(
 internal class ShowPeopleRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktCastAndCrewImpl>(
+) : AShowRequest<TraktCastAndCrew>(
         "shows/{id}/people{?extended}",
         id,
-        TraktCastAndCrewImpl::class
+        TraktCastAndCrew::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -173,10 +176,10 @@ internal class ShowPeopleRequest(
 
 internal class ShowRatingsRequest(
         override var id: String
-) : AShowRequest<TraktRatingImpl>(
+) : AShowRequest<TraktRating>(
         "shows/{id}/ratings",
         id,
-        TraktRatingImpl::class
+        TraktRating::class
 )
 
 internal class ShowRelatedShowsRequest(
@@ -184,10 +187,10 @@ internal class ShowRelatedShowsRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AShowRequest<TraktShowImpl>(
+) : AShowRequest<TraktShow>(
         "shows/{id}/related{?extended,page,limit}",
         id,
-        TraktShowImpl::class
+        TraktShow::class
 ), ISupportsExtendedInfo, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -200,37 +203,37 @@ internal class ShowRelatedShowsRequest(
         }
 }
 
-internal class ShowsMostAnticipatedRequest : AShowsRequest<TraktMostAnticipatedShowImpl>(
+internal class ShowsMostAnticipatedRequest : AShowsRequest<TraktMostAnticipatedShow>(
         "shows/anticipated{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        responseContentClass = TraktMostAnticipatedShowImpl::class
+        responseContentClass = TraktMostAnticipatedShow::class
 ) {
     override fun validate(variableName: String) {}
 }
 
-internal class ShowsMostCollectedRequest : AShowsMostPWCRequest<TraktMostPWCShowImpl>(
+internal class ShowsMostCollectedRequest : AShowsMostPWCRequest<TraktMostPWCShow>(
         "shows/collected{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        responseContentClass = TraktMostPWCShowImpl::class
+        responseContentClass = TraktMostPWCShow::class
 ) {
     override fun validate(variableName: String) {}
 }
 
-internal class ShowsMostPlayedRequest : AShowsMostPWCRequest<TraktMostPWCShowImpl>(
+internal class ShowsMostPlayedRequest : AShowsMostPWCRequest<TraktMostPWCShow>(
         "shows/played{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        responseContentClass = TraktMostPWCShowImpl::class
+        responseContentClass = TraktMostPWCShow::class
 ) {
     override fun validate(variableName: String) {}
 }
 
-internal class ShowsMostWatchedRequest : AShowsMostPWCRequest<TraktMostPWCShowImpl>(
+internal class ShowsMostWatchedRequest : AShowsMostPWCRequest<TraktMostPWCShow>(
         "shows/watched{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        responseContentClass = TraktMostPWCShowImpl::class
+        responseContentClass = TraktMostPWCShow::class
 ) {
     override fun validate(variableName: String) {}
 }
 
-internal class ShowsPopularRequest : AShowsMostPWCRequest<TraktMostPWCMovieImpl>(
+internal class ShowsPopularRequest : AShowsMostPWCRequest<TraktMostPWCMovie>(
         "shows/popular{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        responseContentClass = TraktMostPWCMovieImpl::class
+        responseContentClass = TraktMostPWCMovie::class
 ) {
     override fun validate(variableName: String) {}
 }
@@ -240,7 +243,7 @@ internal class ShowsRecentlyUpdatedRequest(
         override var extendedInfo: TraktExtendedInfo? = null,
         override var page: Int? = null,
         override var limit: Int? = null
-) : AGetRequestHasResponse<TraktRecentlyUpdatedShowImpl>(TraktRecentlyUpdatedShowImpl::class), ISupportsExtendedInfo, ISupportsPagination {
+) : AGetRequestHasResponse<TraktRecentlyUpdatedShow>(TraktRecentlyUpdatedShow::class), ISupportsExtendedInfo, ISupportsPagination {
     override val uriTemplate: String = "shows/updates{/start_date}{?extended,page,limit}"
 
     override val uriPathParameters: Map<String, Any>?
@@ -260,15 +263,15 @@ internal class ShowsRecentlyUpdatedRequest(
 
 internal class ShowStatisticsRequest(
         override var id: String
-) : AShowRequest<TraktRatingImpl>(
+) : AShowRequest<TraktRating>(
         "shows/{id}/stats",
         id,
-        responseContentClass = TraktRatingImpl::class
+        responseContentClass = TraktRating::class
 )
 
-internal class ShowsTrendingRequest : AShowsRequest<TraktTrendingShowImpl>(
+internal class ShowsTrendingRequest : AShowsRequest<TraktTrendingShow>(
         "shows/trending{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        responseContentClass = TraktTrendingShowImpl::class
+        responseContentClass = TraktTrendingShow::class
 ) {
     override fun validate(variableName: String) {}
 }
@@ -276,10 +279,10 @@ internal class ShowsTrendingRequest : AShowsRequest<TraktTrendingShowImpl>(
 internal class ShowSummaryRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktShowImpl>(
+) : AShowRequest<TraktShow>(
         "shows/{id}{?extended}",
         id,
-        TraktShowImpl::class
+        TraktShow::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -291,10 +294,10 @@ internal class ShowSummaryRequest(
 internal class ShowTranslationsRequest(
         override var id: String,
         var languageCode: String? = null
-) : AShowRequest<TraktShowTranslationImpl>(
+) : AShowRequest<TraktShowTranslation>(
         "shows/{id}/translations{/language}",
         id,
-        responseContentClass = TraktShowTranslationImpl::class
+        responseContentClass = TraktShowTranslation::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -311,10 +314,10 @@ internal class ShowTranslationsRequest(
 internal class ShowWatchingUsersRequest(
         override var id: String,
         override var extendedInfo: TraktExtendedInfo? = null
-) : AShowRequest<TraktUserImpl>(
+) : AShowRequest<TraktUser>(
         "shows/{id}/watching{?extended}",
         id,
-        responseContentClass = TraktUserImpl::class
+        responseContentClass = TraktUser::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

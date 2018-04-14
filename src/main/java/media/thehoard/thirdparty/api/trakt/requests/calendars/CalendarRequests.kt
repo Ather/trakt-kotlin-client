@@ -2,8 +2,8 @@ package media.thehoard.thirdparty.api.trakt.requests.calendars
 
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementations.TraktCalendarMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementations.TraktCalendarShowImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarShow
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsFilter
@@ -42,12 +42,12 @@ internal abstract class ACalendarRequest<TResponseConentType>(override val uriTe
     override fun validate(variableName: String) = (days ?: 0 in 1..31).validate("days must have a value between 1 and 31", null)
 }
 
-internal class CalendarAllDVDMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>("calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovieImpl::class)
+internal class CalendarAllDVDMoviesRequest : ACalendarRequest<TraktCalendarMovie>("calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
 
-internal class CalendarAllMoviesRequest : ACalendarRequest<TraktCalendarMovieImpl>("calendars/all/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovieImpl::class)
+internal class CalendarAllMoviesRequest : ACalendarRequest<TraktCalendarMovie>("calendars/all/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
 
-internal class CalendarAllNewShowsRequest : ACalendarRequest<TraktCalendarShowImpl>("calendars/all/shows/new{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShowImpl::class)
+internal class CalendarAllNewShowsRequest : ACalendarRequest<TraktCalendarShow>("calendars/all/shows/new{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
 
-internal class CalendarAllSeasonPremieresRequest : ACalendarRequest<TraktCalendarShowImpl>("calendars/all/shows/premieres{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShowImpl::class)
+internal class CalendarAllSeasonPremieresRequest : ACalendarRequest<TraktCalendarShow>("calendars/all/shows/premieres{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
 
-internal class CalendarAllShowsRequest : ACalendarRequest<TraktCalendarShowImpl>("calendars/all/shows{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShowImpl::class)
+internal class CalendarAllShowsRequest : ACalendarRequest<TraktCalendarShow>("calendars/all/shows{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)

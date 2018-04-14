@@ -241,7 +241,7 @@ internal object DefaultInterfaceAdapters {
             )
 
             val shows = arrayOf(
-                    TraktMostAnticipiatedShow::class toImpl TraktMostAnticipatedShowImpl::class,
+                    TraktMostAnticipatedShow::class toImpl TraktMostAnticipatedShowImpl::class,
                     TraktMostPWCShow::class toImpl TraktMostPWCShowImpl::class,
                     TraktRecentlyUpdatedShow::class toImpl TraktRecentlyUpdatedShowImpl::class,
                     TraktShow::class toImpl TraktShowImpl::class,

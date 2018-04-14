@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.requests.parameters
 
-class TraktPagedParameters(
+data class TraktPagedParameters(
         var page: Int? = null,
         var limit: Int? = null
 )
