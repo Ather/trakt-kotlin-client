@@ -1,7 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.extensions
 
 import media.thehoard.thirdparty.api.trakt.core.TraktConfiguration
-import media.thehoard.thirdparty.api.trakt.utils.gson.ZonedDateTimeTypeAdapter
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.ZoneId
@@ -30,7 +29,7 @@ fun ZonedDateTime.yearsBetween(otherInstant: ZonedDateTime?): Int = this.year - 
 
 fun ZonedDateTime.toTraktDateString(): String = DateTimeFormatter.ISO_LOCAL_DATE.format(this)
 
-fun ZonedDateTime.toTraktLongDateTimeString(): String = ZonedDateTimeTypeAdapter.formatter.format(this)
+fun ZonedDateTime.toTraktLongDateTimeString(): String = DateTimeFormatter.ISO_INSTANT.format(this)
 
 fun ZonedDateTime.fromTraktZone(toZone: ZoneId = ZoneId.systemDefault()): ZonedDateTime = this.withZoneSameInstant(toZone)
 

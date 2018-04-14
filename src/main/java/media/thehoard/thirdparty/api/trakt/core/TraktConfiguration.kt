@@ -21,7 +21,7 @@ class TraktConfiguration {
 
     companion object {
         var localTimezone: ZoneId by Delegates.observable(ZoneId.systemDefault()) { _, _, newZoneId ->
-            Json.newGson(ZonedDateTime::class.javaObjectType to ZonedDateTimeTypeAdapter(newZoneId))
+            Json.newGson(ZonedDateTime::class.java to ZonedDateTimeTypeAdapter(newZoneId))
         }
 
         val traktTimezone: ZoneId = ZoneId.of("GMT")

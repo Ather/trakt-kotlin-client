@@ -117,7 +117,7 @@ internal class RequestHandler(
             return executeRequestAsync(requestMessage, isCheckinRequest).thenApply {
                 checkNotNull(it)
                 check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
-                val contentObject = Json.deserialize<TResponseContentType>(it.responseBody, responseContentClass.javaObjectType)
+                val contentObject = Json.deserialize<TResponseContentType>(it.responseBody, responseContentClass.java)
 
                 val response = TraktResponse<TResponseContentType>(responseContentClass).apply {
                     isSuccess = true
@@ -150,7 +150,7 @@ internal class RequestHandler(
                 check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
                 //TODO Consider performance here
                 val jsonElement = JsonParser().parse(it.responseBody)
-                val contentObject = jsonElement.asJsonArray.map { obj -> Json.deserialize<TResponseContentType>(obj, responseContentClass.javaObjectType) }.toMutableList()
+                val contentObject = jsonElement.asJsonArray.map { obj -> Json.deserialize<TResponseContentType>(obj, responseContentClass.java) }.toMutableList()
 
                 val response = TraktListResponse<TResponseContentType>(responseContentClass).apply {
                     isSuccess = true
@@ -183,7 +183,7 @@ internal class RequestHandler(
                 check(it.statusCode != HttpURLConnection.HTTP_NO_CONTENT)
                 //TODO Consider performance here
                 val jsonElement = JsonParser().parse(it.responseBody)
-                val contentObject = jsonElement.asJsonArray.map { obj -> Json.deserialize<TResponseContentType>(obj, responseContentClass.javaObjectType) }.toMutableList()
+                val contentObject = jsonElement.asJsonArray.map { obj -> Json.deserialize<TResponseContentType>(obj, responseContentClass.java) }.toMutableList()
 
                 val response = TraktPagedResponse<TResponseContentType>(responseContentClass).apply {
                     isSuccess = true

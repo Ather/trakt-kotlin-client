@@ -10,12 +10,17 @@ import media.thehoard.thirdparty.api.trakt.extensions.toTraktZone
 import java.lang.reflect.Type
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
 
 object DayOfWeekTypeAdapter : JsonDeserializer<DayOfWeek>, JsonSerializer<DayOfWeek> {
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): DayOfWeek? = if (json != null) DayOfWeek.valueOf(json.asString.toUpperCase()) else null
 
     override fun serialize(src: DayOfWeek?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement? = src?.lowerCase()?.toJson()
+}
+
+object LocalDateTypeAdapter : JsonDeserializer<LocalDate>, JsonSerializer<LocalDate> {
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): LocalDate? = if (json != null) LocalDate.parse(json.asString, DateTimeFormatter.ISO_LOCAL_DATE) else null
+
+    override fun serialize(src: LocalDate?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement? = src?.toString()?.toJson()
 }
 
 object LocalTimeTypeAdapter : JsonDeserializer<LocalTime>, JsonSerializer<LocalTime> {
@@ -29,18 +34,18 @@ class ZonedDateTimeTypeAdapter(
 ) : JsonDeserializer<ZonedDateTime>, JsonSerializer<ZonedDateTime> {
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): ZonedDateTime? = if (json != null) Instant.parse(json.asString).atZone(TraktConfiguration.traktTimezone).fromTraktZone(localTimezone) else null
 
-    override fun serialize(src: ZonedDateTime?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement? = formatter.format(src?.toTraktZone()).toJson()
+    override fun serialize(src: ZonedDateTime?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement? = DateTimeFormatter.ISO_INSTANT.format(src?.toTraktZone()).toJson()
 
     companion object {
-        internal val formatter: DateTimeFormatter = DateTimeFormatterBuilder()
-                .append(DateTimeFormatter.ISO_LOCAL_DATE)
+        /*internal val formatter: DateTimeFormatter = DateTimeFormatterBuilder()
+                .appendPattern("YYYY-MM-dd")
                 .optionalStart()
-                .appendLiteral("T")
+                .appendLiteral('T')
                 .appendPattern("HH:mm:ss")
                 .appendPattern(".SSS")
-                .appendLiteral("Z")
+                .appendZoneOrOffsetId()
                 .optionalEnd()
-                .toFormatter()
+                .toFormatter()*/
     }
 }
 
