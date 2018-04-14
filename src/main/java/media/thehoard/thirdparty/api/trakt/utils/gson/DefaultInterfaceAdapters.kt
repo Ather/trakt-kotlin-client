@@ -56,6 +56,52 @@ import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.T
 import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.TraktWatchedShowSeasonImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.watchlist.TraktWatchlistItem
 import media.thehoard.thirdparty.api.trakt.objects.get.watchlist.implementations.TraktWatchlistItemImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostErrorResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktEpisodeCheckinPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktMovieCheckinPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktCheckinPostErrorResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktEpisodeCheckinPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktMovieCheckinPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.TraktCommentPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.implementations.TraktCommentPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.responses.*
+import media.thehoard.thirdparty.api.trakt.objects.post.responses.implementations.*
+import media.thehoard.thirdparty.api.trakt.objects.post.scrobbles.responses.TraktEpisodeScrobblePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.scrobbles.responses.TraktMovieScrobblePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.scrobbles.responses.implementations.TraktEpisodeScrobblePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.scrobbles.responses.implementations.TraktMovieScrobblePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.TraktSyncCollectionPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.TraktSyncCollectionRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.implementations.TraktSyncCollectionPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.responses.implementations.TraktSyncCollectionRemovePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryRemovePostResponseGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.TraktSyncHistoryRemovePostResponseNotFoundGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.implementations.TraktSyncHistoryPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.implementations.TraktSyncHistoryRemovePostResponseGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.implementations.TraktSyncHistoryRemovePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses.implementations.TraktSyncHistoryRemovePostResponseNotFoundGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.responses.*
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.responses.implementations.*
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.TraktSyncPostResponseGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.TraktSyncPostResponseNotFoundGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.implementations.TraktSyncPostResponseGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.implementations.TraktSyncPostResponseNotFoundGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.TraktSyncWatchlistPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.TraktSyncWatchlistRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.implementations.TraktSyncWatchlistPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.responses.implementations.TraktSyncWatchlistRemovePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.TraktUserCustomListItemsPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.TraktUserCustomListItemsPostResponseGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.TraktUserCustomListItemsPostResponseNotFoundGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.TraktUserCustomListItemsRemovePostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.implementations.TraktUserCustomListItemsPostResponseGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.implementations.TraktUserCustomListItemsPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.implementations.TraktUserCustomListItemsPostResponseNotFoundGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.implementations.TraktUserCustomListItemsRemovePostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.users.responses.TraktUserFollowUserPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.users.responses.implementations.TraktUserFollowUserPostResponseImpl
 import media.thehoard.thirdparty.api.trakt.responses.TraktListResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktNoContentResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktPagedResponse
@@ -89,9 +135,21 @@ internal object DefaultInterfaceAdapters {
                 *Objects.Get.watched,
                 *Objects.Get.watchlist,
 
+                *Objects.Post.checkinResponses,
+                *Objects.Post.commentResponses,
+                *Objects.Post.responses,
+                *Objects.Post.scrobbleResponses,
+                *Objects.Post.syncCollectionResponses,
+                *Objects.Post.syncHistoryResponses,
+                *Objects.Post.syncRatingsResponses,
+                *Objects.Post.syncResponses,
+                *Objects.Post.syncWatchlistResponses,
+                *Objects.Post.userCustomListItemsResponses,
+                *Objects.Post.usersResponses,
+
                 //TODO Consider adding post object mappings
 
-                *responses)
+                * responses)
 
     object Objects {
         val basic = arrayOf(
@@ -252,6 +310,74 @@ internal object DefaultInterfaceAdapters {
 
             val watchlist = arrayOf(
                     TraktWatchlistItem::class toImpl TraktWatchlistItemImpl::class
+            )
+        }
+
+        object Post {
+            val checkinResponses = arrayOf(
+                    TraktCheckinPostErrorResponse::class toImpl TraktCheckinPostErrorResponseImpl::class,
+                    TraktEpisodeCheckinPostResponse::class toImpl TraktEpisodeCheckinPostResponseImpl::class,
+                    TraktMovieCheckinPostResponse::class toImpl TraktMovieCheckinPostResponseImpl::class
+            )
+
+            val commentResponses = arrayOf(
+                    TraktCommentPostResponse::class toImpl TraktCommentPostResponseImpl::class
+            )
+
+            val responses = arrayOf(
+                    TraktPostResponseNotFoundEpisode::class toImpl TraktPostResponseNotFoundEpisodeImpl::class,
+                    TraktPostResponseNotFoundMovie::class toImpl TraktPostResponseNotFoundMovieImpl::class,
+                    TraktPostResponseNotFoundPerson::class toImpl TraktPostResponseNotFoundPersonImpl::class,
+                    TraktPostResponseNotFoundSeason::class toImpl TraktPostResponseNotFoundSeasonImpl::class,
+                    TraktPostResponseNotFoundShow::class toImpl TraktPostResponseNotFoundShowImpl::class
+            )
+
+            val scrobbleResponses = arrayOf(
+                    TraktEpisodeScrobblePostResponse::class toImpl TraktEpisodeScrobblePostResponseImpl::class,
+                    TraktMovieScrobblePostResponse::class toImpl TraktMovieScrobblePostResponseImpl::class
+            )
+
+            val syncCollectionResponses = arrayOf(
+                    TraktSyncCollectionPostResponse::class toImpl TraktSyncCollectionPostResponseImpl::class,
+                    TraktSyncCollectionRemovePostResponse::class toImpl TraktSyncCollectionRemovePostResponseImpl::class
+            )
+
+            val syncHistoryResponses = arrayOf(
+                    TraktSyncHistoryPostResponse::class toImpl TraktSyncHistoryPostResponseImpl::class,
+                    TraktSyncHistoryRemovePostResponse::class toImpl TraktSyncHistoryRemovePostResponseImpl::class,
+                    TraktSyncHistoryRemovePostResponseGroup::class toImpl TraktSyncHistoryRemovePostResponseGroupImpl::class,
+                    TraktSyncHistoryRemovePostResponseNotFoundGroup::class toImpl TraktSyncHistoryRemovePostResponseNotFoundGroupImpl::class
+            )
+
+            val syncRatingsResponses = arrayOf(
+                    TraktSyncRatingsPostResponse::class toImpl TraktSyncRatingsPostResponseImpl::class,
+                    TraktSyncRatingsPostResponseNotFoundEpisode::class toImpl TraktSyncRatingsPostResponseNotFoundEpisodeImpl::class,
+                    TraktSyncRatingsPostResponseNotFoundGroup::class toImpl TraktSyncRatingsPostResponseNotFoundGroupImpl::class,
+                    TraktSyncRatingsPostResponseNotFoundMovie::class toImpl TraktSyncRatingsPostResponseNotFoundMovieImpl::class,
+                    TraktSyncRatingsPostResponseNotFoundSeason::class toImpl TraktSyncRatingsPostResponseNotFoundSeasonImpl::class,
+                    TraktSyncRatingsPostResponseNotFoundShow::class toImpl TraktSyncRatingsPostResponseNotFoundShowImpl::class,
+                    TraktSyncRatingsRemovePostResponse::class toImpl TraktSyncRatingsRemovePostResponseImpl::class
+            )
+
+            val syncResponses = arrayOf(
+                    TraktSyncPostResponseGroup::class toImpl TraktSyncPostResponseGroupImpl::class,
+                    TraktSyncPostResponseNotFoundGroup::class toImpl TraktSyncPostResponseNotFoundGroupImpl::class
+            )
+
+            val syncWatchlistResponses = arrayOf(
+                    TraktSyncWatchlistPostResponse::class toImpl TraktSyncWatchlistPostResponseImpl::class,
+                    TraktSyncWatchlistRemovePostResponse::class toImpl TraktSyncWatchlistRemovePostResponseImpl::class
+            )
+
+            val userCustomListItemsResponses = arrayOf(
+                    TraktUserCustomListItemsPostResponse::class toImpl TraktUserCustomListItemsPostResponseImpl::class,
+                    TraktUserCustomListItemsPostResponseGroup::class toImpl TraktUserCustomListItemsPostResponseGroupImpl::class,
+                    TraktUserCustomListItemsPostResponseNotFoundGroup::class toImpl TraktUserCustomListItemsPostResponseNotFoundGroupImpl::class,
+                    TraktUserCustomListItemsRemovePostResponse::class toImpl TraktUserCustomListItemsRemovePostResponseImpl::class
+            )
+
+            val usersResponses = arrayOf(
+                    TraktUserFollowUserPostResponse::class toImpl TraktUserFollowUserPostResponseImpl::class
             )
         }
     }
