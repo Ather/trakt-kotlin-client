@@ -11,8 +11,8 @@ import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktCastAndCrew
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktRating
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktStatistics
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMostPWCMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.*
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
@@ -43,7 +43,7 @@ internal sealed class AShowRequest<TResponseContentType>(
 internal sealed class AShowsMostPWCRequest<TResponseContentType>(
         override val uriTemplate: String,
         responseContentClass: KClass<*>
-) : AShowRequest<TResponseContentType>(uriTemplate, responseContentClass) {
+) : AShowsRequest<TResponseContentType>(uriTemplate, responseContentClass) {
     internal abstract var period: TraktTimePeriod?
 
     override val uriPathParameters: Map<String, Any>?
@@ -205,7 +205,10 @@ internal class ShowsMostAnticipatedRequest(
 
 internal class ShowsMostCollectedRequest(
         override var period: TraktTimePeriod?,
-        override var id: String
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AShowsMostPWCRequest<TraktMostPWCShow>(
         "shows/collected{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         TraktMostPWCShow::class
@@ -215,7 +218,10 @@ internal class ShowsMostCollectedRequest(
 
 internal class ShowsMostPlayedRequest(
         override var period: TraktTimePeriod?,
-        override var id: String
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AShowsMostPWCRequest<TraktMostPWCShow>(
         "shows/played{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         TraktMostPWCShow::class
@@ -225,7 +231,10 @@ internal class ShowsMostPlayedRequest(
 
 internal class ShowsMostWatchedRequest(
         override var period: TraktTimePeriod?,
-        override var id: String
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AShowsMostPWCRequest<TraktMostPWCShow>(
         "shows/watched{/period}{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
         TraktMostPWCShow::class
@@ -234,11 +243,13 @@ internal class ShowsMostWatchedRequest(
 }
 
 internal class ShowsPopularRequest(
-        override var period: TraktTimePeriod?,
-        override var id: String
-) : AShowsMostPWCRequest<TraktMostPWCMovie>(
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?,
+        override var page: Int?,
+        override var limit: Int?
+) : AShowsRequest<TraktShow>(
         "shows/popular{?extended,page,limit,query,years,genres,languages,countries,runtimes,ratings,certifications,networks,status}",
-        TraktMostPWCMovie::class
+        TraktShow::class
 ) {
     override fun validate(variableName: String) {}
 }
@@ -268,9 +279,9 @@ internal class ShowsRecentlyUpdatedRequest(
 
 internal class ShowStatisticsRequest(
         override var id: String
-) : AShowRequest<TraktRating>(
+) : AShowRequest<TraktStatistics>(
         "shows/{id}/stats",
-        TraktRating::class
+        TraktStatistics::class
 )
 
 internal class ShowsTrendingRequest(
