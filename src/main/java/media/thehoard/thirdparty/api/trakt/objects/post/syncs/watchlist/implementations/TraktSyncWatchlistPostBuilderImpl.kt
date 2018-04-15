@@ -1,16 +1,19 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.implementations
 
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostSeasons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.AbstractTraktSyncPostBuilder
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.TraktSyncWatchlistPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.TraktSyncWatchlistPostShowEpisode
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.watchlist.TraktSyncWatchlistPostShowSeason
 import java.util.*
 
-class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSyncWatchlistPostImpl, TraktSyncWatchlistPostBuilderImpl>() {
+class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSyncWatchlistPost, TraktSyncWatchlistPostBuilderImpl>() {
     private val watchlistPost: TraktSyncWatchlistPostImpl = TraktSyncWatchlistPostImpl()
 
-    fun addMovie(movie: TraktMovieImpl): TraktSyncWatchlistPostBuilderImpl {
+    fun addMovie(movie: TraktMovie): TraktSyncWatchlistPostBuilderImpl {
         if (!movie.ids.hasAnyId())
             throw IllegalArgumentException("no movie ids set or valid")
 
@@ -27,7 +30,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         return this
     }
 
-    fun addMovies(movies: Collection<TraktMovieImpl>): TraktSyncWatchlistPostBuilderImpl {
+    fun addMovies(movies: Collection<TraktMovie>): TraktSyncWatchlistPostBuilderImpl {
         if (movies.isEmpty())
             return this
 
@@ -37,7 +40,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         return this
     }
 
-    fun addShows(shows: Collection<TraktShowImpl>): TraktSyncWatchlistPostBuilderImpl {
+    fun addShows(shows: Collection<TraktShow>): TraktSyncWatchlistPostBuilderImpl {
         if (shows.isEmpty())
             return this
 
@@ -47,10 +50,10 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         return this
     }
 
-    fun addShow(show: TraktShowImpl, vararg seasons: Int): TraktSyncWatchlistPostBuilderImpl {
+    fun addShow(show: TraktShow, vararg seasons: Int): TraktSyncWatchlistPostBuilderImpl {
         show.validate()
 
-        val showSeasons = ArrayList<TraktSyncWatchlistPostShowSeasonImpl>()
+        val showSeasons = ArrayList<TraktSyncWatchlistPostShowSeason>()
 
         for (season in seasons) {
             if (season < 0)
@@ -69,10 +72,10 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         return this
     }
 
-    fun addShow(show: TraktShowImpl, seasons: PostSeasons): TraktSyncWatchlistPostBuilderImpl {
+    fun addShow(show: TraktShow, seasons: PostSeasons): TraktSyncWatchlistPostBuilderImpl {
         show.validate()
 
-        val showSeasons: MutableList<TraktSyncWatchlistPostShowSeasonImpl> = mutableListOf()
+        val showSeasons: MutableList<TraktSyncWatchlistPostShowSeason> = mutableListOf()
 
         if (seasons.size > 0) {
             for (season in seasons) {
@@ -82,7 +85,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
                 val showSingleSeason = TraktSyncWatchlistPostShowSeasonImpl(season.number)
 
                 if (season.episodes.isNotEmpty()) {
-                    val showEpisodes = ArrayList<TraktSyncWatchlistPostShowEpisodeImpl>()
+                    val showEpisodes = ArrayList<TraktSyncWatchlistPostShowEpisode>()
 
                     for (episode in season.episodes) {
                         if (episode < 0)
@@ -108,11 +111,11 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         return this
     }
 
-    fun addEpisode(episode: TraktEpisodeImpl): TraktSyncWatchlistPostBuilderImpl {
+    fun addEpisode(episode: TraktEpisode): TraktSyncWatchlistPostBuilderImpl {
         if (!episode.ids.hasAnyId())
             throw IllegalArgumentException("no episode ids set or valid")
 
-        val existingEpisode = watchlistPost.episodes.firstOrNull { (ids) -> ids like episode.ids }
+        val existingEpisode = watchlistPost.episodes.firstOrNull { ep -> ep.ids like episode.ids }
 
         if (existingEpisode != null)
             return this
@@ -122,7 +125,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
         return this
     }
 
-    fun addEpisode(episodes: Collection<TraktEpisodeImpl>): TraktSyncWatchlistPostBuilderImpl {
+    fun addEpisode(episodes: Collection<TraktEpisode>): TraktSyncWatchlistPostBuilderImpl {
         if (episodes.isEmpty())
             return this
 

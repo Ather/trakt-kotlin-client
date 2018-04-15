@@ -1,23 +1,28 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.implementations
 
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.PostSeasons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.AbstractTraktSyncPostBuilder
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.TraktUserCustomListItemsPost
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.TraktUserCustomListItemsPostShowEpisode
+import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.TraktUserCustomListItemsPostShowSeason
 import java.util.*
 
-class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUserCustomListItemsPostImpl, TraktUserCustomListItemsPostBuilder>() {
+class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUserCustomListItemsPost, TraktUserCustomListItemsPostBuilder>() {
     private val listItemsPost: TraktUserCustomListItemsPostImpl = TraktUserCustomListItemsPostImpl()
 
-    fun addMovie(movie: TraktMovieImpl): TraktUserCustomListItemsPostBuilder {
+    fun addMovie(movie: TraktMovie): TraktUserCustomListItemsPostBuilder {
         if (!movie.ids.hasAnyId())
             throw IllegalArgumentException("no movie ids set or valid")
 
         if (movie.year.toString().length != 4)
             throw IllegalArgumentException("movie year not valid")
 
-        val existingMovie = listItemsPost.movies.firstOrNull { (ids) -> ids like movie.ids }
+        val existingMovie = listItemsPost.movies.firstOrNull { mov -> mov.ids like movie.ids }
 
         if (existingMovie != null)
             return this
@@ -37,7 +42,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     fun addShow(show: TraktShowImpl): TraktUserCustomListItemsPostBuilder {
         show.validate()
 
-        val existingShow = listItemsPost.shows.firstOrNull { (ids) -> ids like show.ids }
+        val existingShow = listItemsPost.shows.firstOrNull { mov -> mov.ids like show.ids }
 
         if (existingShow != null)
             return this
@@ -54,10 +59,10 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
         return this
     }
 
-    fun addShow(show: TraktShowImpl, vararg seasons: Int): TraktUserCustomListItemsPostBuilder {
+    fun addShow(show: TraktShow, vararg seasons: Int): TraktUserCustomListItemsPostBuilder {
         show.validate()
 
-        val showSeasons = ArrayList<TraktUserCustomListItemsPostShowSeasonImpl>()
+        val showSeasons = ArrayList<TraktUserCustomListItemsPostShowSeason>()
 
         for (season in seasons) {
             if (season < 0)
@@ -66,7 +71,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
             showSeasons.add(TraktUserCustomListItemsPostShowSeasonImpl(season))
         }
 
-        val existingShow = listItemsPost.shows.firstOrNull { (ids) -> ids like show.ids }
+        val existingShow = listItemsPost.shows.firstOrNull { mov -> mov.ids like show.ids }
 
         if (existingShow != null)
             existingShow.seasons = showSeasons
@@ -79,7 +84,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     fun addShow(show: TraktShowImpl, seasons: PostSeasons): TraktUserCustomListItemsPostBuilder {
         show.validate()
 
-        val showSeasons: MutableList<TraktUserCustomListItemsPostShowSeasonImpl> = mutableListOf()
+        val showSeasons: MutableList<TraktUserCustomListItemsPostShowSeason> = mutableListOf()
 
         if (seasons.size > 0) {
             for (season in seasons) {
@@ -89,7 +94,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
                 val showSingleSeason = TraktUserCustomListItemsPostShowSeasonImpl(season.number)
 
                 if (season.episodes.isNotEmpty()) {
-                    val showEpisodes = ArrayList<TraktUserCustomListItemsPostShowEpisodeImpl>()
+                    val showEpisodes = ArrayList<TraktUserCustomListItemsPostShowEpisode>()
 
                     for (episode in season.episodes) {
                         if (episode < 0)
@@ -105,7 +110,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
             }
         }
 
-        val existingShow = listItemsPost.shows.firstOrNull { (ids) -> ids like show.ids }
+        val existingShow = listItemsPost.shows.firstOrNull { sh -> sh.ids like show.ids }
 
         if (existingShow != null)
             existingShow.seasons = showSeasons
@@ -122,7 +127,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
         if (person.name.isEmpty())
             throw IllegalArgumentException("person name not valid")
 
-        val existingPerson = listItemsPost.people.firstOrNull { (_, ids) -> ids like person.ids }
+        val existingPerson = listItemsPost.people.firstOrNull { pers -> pers.ids like person.ids }
 
         if (existingPerson != null)
             return this

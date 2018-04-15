@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktMetadata
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovieIds
 import java.time.ZonedDateTime
 
 interface TraktSyncCollectionPostMovie {
@@ -11,7 +11,7 @@ interface TraktSyncCollectionPostMovie {
 
     var year: Int?
 
-    var ids: TraktMovieIdsImpl
+    var ids: TraktMovieIds
 
-    var metadata: TraktMetadataImpl?
+    var metadata: TraktMetadata?
 }

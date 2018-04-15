@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.scrobbles.responses
 
 import media.thehoard.thirdparty.api.trakt.enums.TraktScrobbleActionType
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
 
 interface TraktScrobblePostResponse {
     var id: Long
@@ -10,5 +10,5 @@ interface TraktScrobblePostResponse {
 
     var progress: Float?
 
-    var sharing: TraktSharingImpl
+    var sharing: TraktSharing
 }

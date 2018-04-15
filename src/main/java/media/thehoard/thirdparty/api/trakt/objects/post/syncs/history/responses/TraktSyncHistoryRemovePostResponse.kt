@@ -1,9 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.responses
 
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.implementations.TraktSyncPostResponseGroupImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.implementations.TraktSyncPostResponseNotFoundGroupImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.TraktSyncPostResponseGroup
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.responses.TraktSyncPostResponseNotFoundGroup
 
 interface TraktSyncHistoryRemovePostResponse {
-    var deleted: TraktSyncPostResponseGroupImpl
-    var notFound: TraktSyncPostResponseNotFoundGroupImpl
+    var deleted: TraktSyncPostResponseGroup
+    var notFound: TraktSyncPostResponseNotFoundGroup
 }

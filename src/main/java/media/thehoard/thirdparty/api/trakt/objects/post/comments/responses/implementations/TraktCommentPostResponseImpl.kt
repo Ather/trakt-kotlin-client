@@ -1,7 +1,9 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.implementations
 
 import com.google.gson.annotations.SerializedName
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.TraktCommentPostResponse
 import java.time.ZonedDateTime
@@ -20,6 +22,6 @@ data class TraktCommentPostResponseImpl(
         override var likes: Int? = null,
         @SerializedName("user_rating")
         override var userRating: Float? = null,
-        override var user: TraktUserImpl = TraktUserImpl(),
-        override var sharing: TraktSharingImpl = TraktSharingImpl()
+        override var user: TraktUser = TraktUserImpl(),
+        override var sharing: TraktSharing = TraktSharingImpl()
 ) : TraktCommentPostResponse

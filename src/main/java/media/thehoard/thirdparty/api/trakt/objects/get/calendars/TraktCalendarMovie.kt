@@ -1,12 +1,11 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.calendars
 
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
-import java.time.ZonedDateTime
+import java.time.LocalDate
 
 interface TraktCalendarMovie : TraktMovie {
-    var calendarRelease: ZonedDateTime?
+    var calendarRelease: LocalDate?
 
-    var movie: TraktMovieImpl
+    var movie: TraktMovie
 
 }

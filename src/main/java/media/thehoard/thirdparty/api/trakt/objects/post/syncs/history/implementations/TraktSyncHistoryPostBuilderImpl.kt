@@ -4,10 +4,12 @@ import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostHistorySeasons
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPostShowSeason
 import java.time.ZonedDateTime
 
-class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<TraktSyncHistoryPostImpl, TraktSyncHistoryPostBuilderImpl>() {
-    private val historyPost: TraktSyncHistoryPostImpl = TraktSyncHistoryPostImpl()
+class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<TraktSyncHistoryPost, TraktSyncHistoryPostBuilderImpl>() {
+    private val historyPost: TraktSyncHistoryPost = TraktSyncHistoryPostImpl()
 
     fun addMovie(movie: TraktMovie, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         movie.validate()
@@ -47,7 +49,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         historyPost.episodes.clear()
     }
 
-    override fun build(): TraktSyncHistoryPostImpl {
+    override fun build(): TraktSyncHistoryPost {
         return historyPost
     }
 
@@ -68,8 +70,8 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
     }
 
     override fun containsEpisode(episode: TraktEpisode): Boolean {
-        for ((_, ids) in historyPost.episodes)
-            if (ids like episode.ids)
+        for (ep in historyPost.episodes)
+            if (ep.ids like episode.ids)
                 return true
 
         return false
@@ -81,7 +83,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
 
     override fun addEpisodeOrIgnore(episode: TraktEpisode): TraktSyncHistoryPostBuilderImpl = addEpisodeOrIgnore(episode, null)
 
-    override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>) = createOrSetShow(show, showSeasons, null)
+    override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeason>) = createOrSetShow(show, showSeasons, null)
 
     private fun addMovieOrIgnore(movie: TraktMovie, watchedAt: ZonedDateTime? = null): TraktSyncHistoryPostBuilderImpl {
         if (containsMovie(movie))
@@ -132,7 +134,7 @@ class TraktSyncHistoryPostBuilderImpl : AbstractTraktSyncHistoryPostBuilder<Trak
         return this
     }
 
-    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>? = null, watchedAt: ZonedDateTime? = null) {
+    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeason>? = null, watchedAt: ZonedDateTime? = null) {
         val existingShow = historyPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null && showSeasons != null)

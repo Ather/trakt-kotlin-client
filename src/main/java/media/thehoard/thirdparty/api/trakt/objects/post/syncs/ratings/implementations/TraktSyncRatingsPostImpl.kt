@@ -2,12 +2,15 @@ package media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.implement
 
 import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPostEpisode
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPostMovie
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPostShow
 import media.thehoard.thirdparty.api.trakt.utils.Json
 
 data class TraktSyncRatingsPostImpl(
-        override var movies: MutableList<TraktSyncRatingsPostMovieImpl> = mutableListOf(),
-        override var shows: MutableList<TraktSyncRatingsPostShowImpl> = mutableListOf(),
-        override var episodes: MutableList<TraktSyncRatingsPostEpisodeImpl> = mutableListOf()
+        override var movies: MutableList<TraktSyncRatingsPostMovie> = mutableListOf(),
+        override var shows: MutableList<TraktSyncRatingsPostShow> = mutableListOf(),
+        override var episodes: MutableList<TraktSyncRatingsPostEpisode> = mutableListOf()
 ) : TraktSyncRatingsPost {
     override fun toJson(): String = Json.serialize(this)
 

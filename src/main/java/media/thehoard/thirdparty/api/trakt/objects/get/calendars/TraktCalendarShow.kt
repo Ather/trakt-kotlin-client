@@ -1,15 +1,14 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.calendars
 
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import java.time.ZonedDateTime
 
 interface TraktCalendarShow : TraktShow, TraktCalendarEpisode {
     var firstAiredInCalendar: ZonedDateTime?
 
-    var episode: TraktEpisodeImpl
+    var episode: TraktEpisode
 
-    var show: TraktShowImpl
+    var show: TraktShow
 
 }

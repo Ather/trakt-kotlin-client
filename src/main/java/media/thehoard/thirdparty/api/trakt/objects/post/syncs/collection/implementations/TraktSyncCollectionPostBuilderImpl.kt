@@ -1,10 +1,13 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.implementations
 
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktMetadata
 import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostSeasons
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.TraktSyncCollectionPostShowEpisode
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.collection.TraktSyncCollectionPostShowSeason
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -33,7 +36,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    fun addShow(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncCollectionPostBuilderImpl {
+    fun addShow(show: TraktShow, metadata: TraktMetadata? = null, collectedAt: ZonedDateTime? = null, vararg seasons: Int): TraktSyncCollectionPostBuilderImpl {
         show.validate()
         val showSeasons = createShowSeasons(*seasons)
         createOrSetShow(show, showSeasons, metadata, collectedAt)
@@ -98,7 +101,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return false
     }
 
-    private fun addMovieOrIgnore(movie: TraktMovie, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
+    private fun addMovieOrIgnore(movie: TraktMovie, metadata: TraktMetadata? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         if (containsMovie(movie)) return this
 
         val collectionMovie = TraktSyncCollectionPostMovieImpl()
@@ -115,7 +118,7 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    private fun addShowOrIgnore(show: TraktShow, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
+    private fun addShowOrIgnore(show: TraktShow, metadata: TraktMetadata? = null, collectedAt: ZonedDateTime? = null): TraktSyncCollectionPostBuilderImpl {
         if (containsShow(show)) return this
 
         val collectionShow = TraktSyncCollectionPostShowImpl()
@@ -148,7 +151,7 @@ class TraktSyncCollectionPostBuilderImpl {
     }
 
     //TODO Equality check
-    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncCollectionPostShowSeasonImpl>, metadata: TraktMetadataImpl? = null, collectedAt: ZonedDateTime? = null) {
+    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncCollectionPostShowSeason>, metadata: TraktMetadata? = null, collectedAt: ZonedDateTime? = null) {
         val existingShow = collectionPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)
@@ -169,8 +172,8 @@ class TraktSyncCollectionPostBuilderImpl {
         }
     }
 
-    private fun createShowSeasons(vararg seasons: Int): MutableList<TraktSyncCollectionPostShowSeasonImpl> {
-        val showSeasons = ArrayList<TraktSyncCollectionPostShowSeasonImpl>()
+    private fun createShowSeasons(vararg seasons: Int): MutableList<TraktSyncCollectionPostShowSeason> {
+        val showSeasons = ArrayList<TraktSyncCollectionPostShowSeason>()
 
         for (season in seasons) {
             if (season < 0) throw IllegalArgumentException("at least one season number not valid")
@@ -181,8 +184,8 @@ class TraktSyncCollectionPostBuilderImpl {
         return showSeasons
     }
 
-    private fun createShowSeasons(seasons: PostSeasons): MutableList<TraktSyncCollectionPostShowSeasonImpl> {
-        val showSeasons = ArrayList<TraktSyncCollectionPostShowSeasonImpl>()
+    private fun createShowSeasons(seasons: PostSeasons): MutableList<TraktSyncCollectionPostShowSeason> {
+        val showSeasons = ArrayList<TraktSyncCollectionPostShowSeason>()
 
         for (season in seasons) {
             if (season.number < 0) throw IllegalArgumentException("at least one season number not valid")
@@ -190,7 +193,7 @@ class TraktSyncCollectionPostBuilderImpl {
             val showSingleSeason = TraktSyncCollectionPostShowSeasonImpl(season.number)
 
             if (season.episodes.size > 0) {
-                val showEpisodes = ArrayList<TraktSyncCollectionPostShowEpisodeImpl>()
+                val showEpisodes = ArrayList<TraktSyncCollectionPostShowEpisode>()
 
                 for (episode in season.episodes) {
                     if (episode < 0) throw IllegalArgumentException("at least one episode nubmer not valid")

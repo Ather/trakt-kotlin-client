@@ -5,5 +5,5 @@ interface TraktScrobblePost {
 
     var appVersion: String?
 
-     var appDate: String?
+    var appDate: String?
 }

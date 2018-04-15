@@ -3,6 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.implement
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPostShowSeason
 
 class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<TraktSyncHistoryRemovePostImpl, TraktSyncHistoryRemovePostBuilder>() {
     private val historyPost: TraktSyncHistoryRemovePostImpl = TraktSyncHistoryRemovePostImpl()
@@ -48,8 +49,8 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
     }
 
     override fun containsEpisode(episode: TraktEpisode): Boolean {
-        for ((_, ids) in historyPost.episodes)
-            if (ids like episode.ids)
+        for (ep in historyPost.episodes)
+            if (ep.ids like episode.ids)
                 return true
 
         return false
@@ -96,7 +97,7 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
     }
 
     //TODO Equality check
-    override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>) {
+    override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeason>) {
         val existingShow = historyPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)

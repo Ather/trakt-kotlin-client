@@ -5,10 +5,13 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostRatingsSeasons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.AbstractTraktSyncPostBuilder
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPost
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPostShowEpisode
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.ratings.TraktSyncRatingsPostShowSeason
 import java.time.ZonedDateTime
 import java.util.*
 
-class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRatingsPostImpl, TraktSyncRatingsPostBuilder>() {
+class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRatingsPost, TraktSyncRatingsPostBuilder>() {
     private val ratingsPost: TraktSyncRatingsPostImpl = TraktSyncRatingsPostImpl()
 
     fun addMovies(movies: Collection<TraktMovie>): TraktSyncRatingsPostBuilder {
@@ -97,22 +100,22 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
     }
 
     private fun containsMovie(movie: TraktMovie): Boolean {
-        for ((_, _, ids) in ratingsPost.movies)
-            if (ids like movie.ids) return true
+        for (mov in ratingsPost.movies)
+            if (mov.ids like movie.ids) return true
 
         return false
     }
 
     private fun containsShow(show: TraktShow): Boolean {
-        for ((_, _, ids) in ratingsPost.shows)
-            if (ids like show.ids) return true
+        for (mov in ratingsPost.shows)
+            if (mov.ids like show.ids) return true
 
         return false
     }
 
     private fun containsEpisode(episode: TraktEpisode): Boolean {
-        for ((ids) in ratingsPost.episodes)
-            if (ids like episode.ids) return true
+        for (ep in ratingsPost.episodes)
+            if (ep.ids like episode.ids) return true
 
         return false
     }
@@ -135,7 +138,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return this
     }
 
-    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncRatingsPostShowSeasonImpl>, rating: Int? = null, ratedAt: ZonedDateTime? = null) {
+    private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncRatingsPostShowSeason>, rating: Int? = null, ratedAt: ZonedDateTime? = null) {
         val existingShow = ratingsPost.shows.firstOrNull { s -> s.ids like show.ids }
 
         if (existingShow != null)
@@ -157,8 +160,8 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         }
     }
 
-    private fun createShowSeasons(vararg seasons: Int): MutableList<TraktSyncRatingsPostShowSeasonImpl> {
-        val showSeasons = ArrayList<TraktSyncRatingsPostShowSeasonImpl>()
+    private fun createShowSeasons(vararg seasons: Int): MutableList<TraktSyncRatingsPostShowSeason> {
+        val showSeasons = ArrayList<TraktSyncRatingsPostShowSeason>()
 
         for (season in seasons) {
             if (season < 0) throw IllegalArgumentException("at least one season number not valid")
@@ -169,8 +172,8 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
         return showSeasons
     }
 
-    private fun createShowSeasons(seasons: PostRatingsSeasons): MutableList<TraktSyncRatingsPostShowSeasonImpl> {
-        val showSeasons = ArrayList<TraktSyncRatingsPostShowSeasonImpl>()
+    private fun createShowSeasons(seasons: PostRatingsSeasons): MutableList<TraktSyncRatingsPostShowSeason> {
+        val showSeasons = ArrayList<TraktSyncRatingsPostShowSeason>()
 
         for (season in seasons) {
             if (season.number < 0) throw IllegalArgumentException("at least one season number not valid")
@@ -178,7 +181,7 @@ class TraktSyncRatingsPostBuilder : AbstractTraktSyncPostBuilder<TraktSyncRating
             val showSingleSeason = TraktSyncRatingsPostShowSeasonImpl(season.number, season.rating, season.ratedAt)
 
             if (season.episodes.size > 0) {
-                val showEpisodes = ArrayList<TraktSyncRatingsPostShowEpisodeImpl>()
+                val showEpisodes = ArrayList<TraktSyncRatingsPostShowEpisode>()
 
                 for (episode in season.episodes) {
                     if (episode.number < 0)

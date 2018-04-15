@@ -5,7 +5,8 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.post.PostHistorySeasons
 import media.thehoard.thirdparty.api.trakt.objects.post.syncs.AbstractTraktSyncPostBuilder
-import java.util.*
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPostShowEpisode
+import media.thehoard.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPostShowSeason
 
 abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn>> : AbstractTraktSyncPostBuilder<BuildResult, BuilderReturn>() {
     fun addMovie(movie: TraktMovie): BuilderReturn {
@@ -79,10 +80,10 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
 
     protected abstract fun addEpisodeOrIgnore(episode: TraktEpisode): BuilderReturn
 
-    protected abstract fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeasonImpl>)
+    protected abstract fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeason>)
 
-    protected fun createShowSeasons(vararg seasons: Int): MutableList<TraktSyncHistoryPostShowSeasonImpl> {
-        val showSeasons = ArrayList<TraktSyncHistoryPostShowSeasonImpl>()
+    protected fun createShowSeasons(vararg seasons: Int): MutableList<TraktSyncHistoryPostShowSeason> {
+        val showSeasons = ArrayList<TraktSyncHistoryPostShowSeason>()
 
         for (season in seasons) {
             if (season < 0) throw IllegalArgumentException("at least one season number not valid")
@@ -93,8 +94,8 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
         return showSeasons
     }
 
-    protected fun createShowSeasons(seasons: PostHistorySeasons): MutableList<TraktSyncHistoryPostShowSeasonImpl> {
-        val showSeasons = ArrayList<TraktSyncHistoryPostShowSeasonImpl>()
+    protected fun createShowSeasons(seasons: PostHistorySeasons): MutableList<TraktSyncHistoryPostShowSeason> {
+        val showSeasons = ArrayList<TraktSyncHistoryPostShowSeason>()
 
         for (season in seasons) {
             if (season.number < 0) throw IllegalArgumentException("at least one season number not valid")
@@ -104,7 +105,7 @@ abstract class AbstractTraktSyncHistoryPostBuilder<BuildResult, BuilderReturn : 
             if (season.watchedAt != null) showSingleSeason.watchedAt = season.watchedAt
 
             if (season.episodes.size > 0) {
-                val showEpisodes = ArrayList<TraktSyncHistoryPostShowEpisodeImpl>()
+                val showEpisodes = ArrayList<TraktSyncHistoryPostShowEpisode>()
 
                 for (episode in season.episodes) {
                     if (episode.number < 0)

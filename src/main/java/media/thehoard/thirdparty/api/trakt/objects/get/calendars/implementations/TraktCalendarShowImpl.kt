@@ -2,7 +2,8 @@ package media.thehoard.thirdparty.api.trakt.objects.get.calendars.implementation
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.calendars.TraktCalendarShow
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeIdsImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
@@ -11,8 +12,8 @@ import java.time.ZonedDateTime
 data class TraktCalendarShowImpl(
         @SerializedName("first_aired")
         override var firstAiredInCalendar: ZonedDateTime? = null,
-        override var episode: TraktEpisodeImpl = TraktEpisodeImpl(),
-        override var show: TraktShowImpl = TraktShowImpl()
+        override var episode: TraktEpisode = TraktEpisodeImpl(),
+        override var show: TraktShow = TraktShowImpl()
 ) : TraktCalendarShow, TraktShow by show {
     override var seasonNumber: Int
         get() = episode.season
@@ -32,7 +33,7 @@ data class TraktCalendarShowImpl(
             episode.title = title
         }
 
-    override var episodeIds: TraktEpisodeIdsImpl
+    override var episodeIds: TraktEpisodeIds
         get() = episode.ids
         set(ids) {
             episode.ids = ids

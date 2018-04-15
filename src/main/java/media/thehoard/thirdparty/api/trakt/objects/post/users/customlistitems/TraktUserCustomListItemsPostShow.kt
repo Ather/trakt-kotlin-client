@@ -1,9 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems
 
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.implementations.TraktUserCustomListItemsPostShowSeasonImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowIds
 
 interface TraktUserCustomListItemsPostShow {
-    var ids: TraktShowIdsImpl
-    var seasons: MutableList<TraktUserCustomListItemsPostShowSeasonImpl>
+    var ids: TraktShowIds
+    var seasons: MutableList<TraktUserCustomListItemsPostShowSeason>
 }
