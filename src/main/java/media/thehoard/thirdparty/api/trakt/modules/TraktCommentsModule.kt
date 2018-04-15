@@ -63,8 +63,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
                         movie.year,
                         movie.ids
                 )
-        )
-        ), requestAuthorization)
+        )), requestAuthorization)
     }
 
     fun postShowCommentAsync(
@@ -105,9 +104,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktEpisodeCommentPostImpl(
-                comment,
-                containsSpoiler,
-                sharing,
+                comment, containsSpoiler, sharing,
                 TraktEpisodeImpl(ids = episode.ids)
         )), requestAuthorization)
     }
@@ -120,9 +117,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktListCommentPostImpl(
-                comment,
-                containsSpoiler,
-                sharing,
+                comment, containsSpoiler, sharing,
                 TraktListImpl(ids = list.ids)
         )), requestAuthorization)
     }

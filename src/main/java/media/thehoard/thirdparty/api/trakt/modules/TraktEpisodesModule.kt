@@ -5,6 +5,9 @@ import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
+import media.thehoard.thirdparty.api.trakt.extensions.isNotNegative
+import media.thehoard.thirdparty.api.trakt.extensions.isPositive
+import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktRating
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktStatistics
@@ -29,6 +32,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktEpisode>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeSummaryRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, extendedInfo
         ), requestAuthorization)
@@ -61,6 +67,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktComment>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executePagedRequestAsync(EpisodeCommentsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, commentSortOrder, pagedParameters?.page, pagedParameters?.limit
         ), requestAuthorization)
@@ -75,6 +84,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktList>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executePagedRequestAsync(EpisodeListsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, listType, listSortOrder, pagedParameters?.page, pagedParameters?.limit
         ), requestAuthorization)
@@ -86,6 +98,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             episodeNumber: Int,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktRating>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeRatingsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber
         ), requestAuthorization)
@@ -97,6 +112,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             episodeNumber: Int,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktStatistics>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeStatisticsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber
         ), requestAuthorization)
@@ -109,6 +127,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             languageCode: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktEpisodeTranslation>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executeListRequestAsync(EpisodeTranslationsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, languageCode
         ), requestAuthorization)
@@ -121,6 +142,9 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktUser>> {
+        seasonNumber.validate("season number", ::isNotNegative)
+        episodeNumber.validate("episode number", ::isPositive)
+
         return RequestHandler(client).executeListRequestAsync(EpisodeWatchingUsersRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, extendedInfo
         ), requestAuthorization)
