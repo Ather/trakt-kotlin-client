@@ -3,12 +3,17 @@ package media.thehoard.thirdparty.api.trakt.modules
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.implementations.TraktEpisodeCheckinPostImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.implementations.TraktMovieCheckinPostImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktEpisodeCheckinPostResponse
+import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktMovieCheckinPostResponse
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktEpisodeCheckinPostResponseImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktMovieCheckinPostResponseImpl
 import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinRequest
@@ -20,17 +25,16 @@ import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
 class TraktCheckinModule internal constructor(override val client: TraktClient) : TraktModule {
-
     fun checkIntoMovieAsync(
-            movie: TraktMovieImpl,
+            movie: TraktMovie,
             appVersion: String? = null,
             appBuildDate: ZonedDateTime? = null,
             message: String? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             foursquareVenueID: String? = null,
             foursquareVenueName: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieCheckinPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktMovieCheckinPostResponse>> {
         movie.validate()
 
         val requestBody = TraktMovieCheckinPostImpl(
@@ -54,16 +58,16 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
     }
 
     fun checkIntoEpisodeAsync(
-            episode: TraktEpisodeImpl,
-            show: TraktShowImpl? = null,
+            episode: TraktEpisode,
+            show: TraktShow? = null,
             appVersion: String? = null,
             appBuildDate: ZonedDateTime? = null,
             message: String? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             foursquareVenueID: String? = null,
             foursquareVenueName: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktEpisodeCheckinPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktEpisodeCheckinPostResponse>> {
         val requestBody = TraktEpisodeCheckinPostImpl(
                 episode = TraktEpisodeImpl(
                         ids = episode.ids,

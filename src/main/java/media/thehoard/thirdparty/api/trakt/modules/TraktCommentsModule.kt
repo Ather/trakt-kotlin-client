@@ -4,15 +4,20 @@ import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.extensions.isPositive
 import media.thehoard.thirdparty.api.trakt.extensions.validate
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.seasons.TraktSeason
 import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.comments.implementations.*
-import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.implementations.TraktCommentPostResponseImpl
+import media.thehoard.thirdparty.api.trakt.objects.post.comments.responses.TraktCommentPostResponse
 import media.thehoard.thirdparty.api.trakt.requests.comments.*
 import media.thehoard.thirdparty.api.trakt.requests.handler.RequestHandler
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktPagedParameters
@@ -24,14 +29,14 @@ import java.util.concurrent.CompletableFuture
 class TraktCommentsModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getCommentAsync(
             commentId: Int
-    ): CompletableFuture<TraktResponse<TraktCommentImpl>> {
+    ): CompletableFuture<TraktResponse<TraktComment>> {
         commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeSingleItemRequestAsync(CommentSummaryRequest(id = commentId.toString()))
     }
 
     fun getMultipleCommentsAsync(
             commentIds: List<Int>
-    ): CompletableFuture<List<TraktResponse<TraktCommentImpl>>> {
+    ): CompletableFuture<List<TraktResponse<TraktComment>>> {
         if (commentIds.isEmpty())
             return CompletableFuture.completedFuture(listOf())
 
@@ -45,12 +50,12 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     }
 
     fun postMovieCommentAsync(
-            movie: TraktMovieImpl,
+            movie: TraktMovie,
             comment: String,
             containsSpoiler: Boolean? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(
                 requestBody = TraktMovieCommentPostImpl(
                         movie = TraktMovieImpl(
@@ -66,12 +71,12 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     }
 
     fun postShowCommentAsync(
-            show: TraktShowImpl,
+            show: TraktShow,
             comment: String,
             containsSpoiler: Boolean? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(
                 requestBody = TraktShowCommentPostImpl(
                         show = TraktShowImpl(
@@ -86,12 +91,12 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     }
 
     fun postSeasonCommentAsync(
-            season: TraktSeasonImpl,
+            season: TraktSeason,
             comment: String,
             containsSpoiler: Boolean? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(
                 requestBody = TraktSeasonCommentPostImpl(
                         season = TraktSeasonImpl(ids = season.ids),
@@ -103,12 +108,12 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     }
 
     fun postEpisodeCommentAsync(
-            episode: TraktEpisodeImpl,
+            episode: TraktEpisode,
             comment: String,
             containsSpoiler: Boolean? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(
                 requestBody = TraktEpisodeCommentPostImpl(
                         episode = TraktEpisodeImpl(ids = episode.ids),
@@ -120,12 +125,12 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     }
 
     fun postListCommentAsync(
-            list: TraktListImpl,
+            list: TraktList,
             comment: String,
             containsSpoiler: Boolean? = null,
-            sharing: TraktSharingImpl? = null,
+            sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(
                 requestBody = TraktListCommentPostImpl(
                         list = TraktListImpl(ids = list.ids),
@@ -141,7 +146,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             comment: String,
             containsSpoiler: Boolean? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeSingleItemRequestAsync(CommentUpdateRequest(
                 id = commentId.toString(),
@@ -157,7 +162,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             comment: String,
             containsSpoiler: Boolean? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponseImpl>> {
+    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
         commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeSingleItemRequestAsync(CommentReplyRequest(
                 id = commentId.toString(),
@@ -196,7 +201,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             commentId: Int,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktCommentImpl>> {
+    ): CompletableFuture<TraktPagedResponse<TraktComment>> {
         commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executePagedRequestAsync(CommentRepliesRequest(
                 id = commentId.toString(),
