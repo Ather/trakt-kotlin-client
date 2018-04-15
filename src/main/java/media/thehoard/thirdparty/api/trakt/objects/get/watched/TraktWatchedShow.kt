@@ -1,7 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.watched
 
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.watched.implementations.TraktWatchedShowSeasonImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 import java.time.ZonedDateTime
 
 interface TraktWatchedShow {
@@ -9,8 +8,8 @@ interface TraktWatchedShow {
 
     var lastWatchedAt: ZonedDateTime?
 
-    var show: TraktShowImpl
+    var show: TraktShow
 
-    var seasons: MutableList<TraktWatchedShowSeasonImpl>
+    var seasons: MutableList<TraktWatchedShowSeason>
 
 }

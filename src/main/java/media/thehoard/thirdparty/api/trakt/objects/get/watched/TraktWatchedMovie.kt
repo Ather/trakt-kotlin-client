@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.watched
 
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import java.time.ZonedDateTime
 
 interface TraktWatchedMovie {
@@ -8,6 +8,6 @@ interface TraktWatchedMovie {
 
     var lastWatchedAt: ZonedDateTime?
 
-    var movie: TraktMovieImpl
+    var movie: TraktMovie
 
 }
