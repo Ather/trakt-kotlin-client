@@ -32,7 +32,6 @@ internal sealed class ASearchRequest(
 }
 
 internal class SearchIdLookupRequest(
-        override val uriTemplate: String,
         override var extendedInfo: TraktExtendedInfo?,
         override var resultTypes: TraktSearchResultType?,
         override var page: Int?,
