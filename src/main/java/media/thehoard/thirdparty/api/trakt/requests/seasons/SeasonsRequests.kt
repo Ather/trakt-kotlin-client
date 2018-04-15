@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.requests.seasons
 
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
+import media.thehoard.thirdparty.api.trakt.enums.TraktListSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.isValidTwoCharCode
@@ -60,7 +61,7 @@ internal class SeasonListsRequest(
         override var id: String,
         override var seasonNumber: Int,
         internal var type: TraktListType?,
-        internal var sortOrder: TraktCommentSortOrder?,
+        internal var sortOrder: TraktListSortOrder?,
         override var page: Int?,
         override var limit: Int?
 ) : ASeasonRequest<TraktList>(
