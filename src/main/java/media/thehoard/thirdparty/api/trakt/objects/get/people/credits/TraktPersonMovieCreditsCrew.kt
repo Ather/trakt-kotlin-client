@@ -1,28 +1,26 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.people.credits
 
-import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.implementations.TraktPersonMovieCreditsCrewItemImpl
-
 interface TraktPersonMovieCreditsCrew {
-    var production: List<TraktPersonMovieCreditsCrewItemImpl>
+    var production: List<TraktPersonMovieCreditsCrewItem>
 
-    var art: List<TraktPersonMovieCreditsCrewItemImpl>
+    var art: List<TraktPersonMovieCreditsCrewItem>
 
-    var crew: List<TraktPersonMovieCreditsCrewItemImpl>
+    var crew: List<TraktPersonMovieCreditsCrewItem>
 
-    var costumeAndMakeup: List<TraktPersonMovieCreditsCrewItemImpl>
+    var costumeAndMakeup: List<TraktPersonMovieCreditsCrewItem>
 
-    var directing: List<TraktPersonMovieCreditsCrewItemImpl>
+    var directing: List<TraktPersonMovieCreditsCrewItem>
 
-    var writing: List<TraktPersonMovieCreditsCrewItemImpl>
+    var writing: List<TraktPersonMovieCreditsCrewItem>
 
-    var sound: List<TraktPersonMovieCreditsCrewItemImpl>
+    var sound: List<TraktPersonMovieCreditsCrewItem>
 
-    var camera: List<TraktPersonMovieCreditsCrewItemImpl>
+    var camera: List<TraktPersonMovieCreditsCrewItem>
 
-    var lighting: List<TraktPersonMovieCreditsCrewItemImpl>
+    var lighting: List<TraktPersonMovieCreditsCrewItem>
 
-    var visualEffects: List<TraktPersonMovieCreditsCrewItemImpl>
+    var visualEffects: List<TraktPersonMovieCreditsCrewItem>
 
-    var editing: List<TraktPersonMovieCreditsCrewItemImpl>
+    var editing: List<TraktPersonMovieCreditsCrewItem>
 
 }

@@ -2,19 +2,20 @@ package media.thehoard.thirdparty.api.trakt.objects.get.people.credits.implement
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.TraktPersonShowCreditsCrew
+import media.thehoard.thirdparty.api.trakt.objects.get.people.credits.TraktPersonShowCreditsCrewItem
 
 data class TraktPersonShowCreditsCrewImpl(
-        override var production: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var art: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var crew: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
+        override var production: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var art: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var crew: List<TraktPersonShowCreditsCrewItem> = listOf(),
         @SerializedName("costume & make-up")
-        override var costumeAndMakeup: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var directing: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var writing: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var sound: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var camera: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var lighting: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
+        override var costumeAndMakeup: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var directing: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var writing: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var sound: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var camera: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var lighting: List<TraktPersonShowCreditsCrewItem> = listOf(),
         @SerializedName("visual effects")
-        override var visualEffects: List<TraktPersonShowCreditsCrewItemImpl> = listOf(),
-        override var editing: List<TraktPersonShowCreditsCrewItemImpl> = listOf()
+        override var visualEffects: List<TraktPersonShowCreditsCrewItem> = listOf(),
+        override var editing: List<TraktPersonShowCreditsCrewItem> = listOf()
 ) : TraktPersonShowCreditsCrew
