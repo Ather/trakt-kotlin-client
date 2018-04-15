@@ -1,7 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users
 
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserIdsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImagesImpl
 import java.time.ZonedDateTime
 
 interface TraktUser {
@@ -15,7 +13,7 @@ interface TraktUser {
 
     var vipEp: Boolean?
 
-    var ids: TraktUserIdsImpl
+    var ids: TraktUserIds
 
     var joinedAt: ZonedDateTime?
 
@@ -27,7 +25,7 @@ interface TraktUser {
 
     var age: Int?
 
-    var images: TraktUserImagesImpl?
+    var images: TraktUserImages?
 
     var vipOg: Boolean?
 

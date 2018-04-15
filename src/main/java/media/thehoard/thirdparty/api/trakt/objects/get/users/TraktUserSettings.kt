@@ -1,17 +1,14 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktSharingImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktAccountSettingsImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktSharingTextImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
 
 interface TraktUserSettings {
-    var user: TraktUserImpl
+    var user: TraktUser
 
-    var account: TraktAccountSettingsImpl
+    var account: TraktAccountSettings
 
-    var connections: TraktSharingImpl
+    var connections: TraktSharing
 
-    var sharingText: TraktSharingTextImpl
+    var sharingText: TraktSharingText
 
 }

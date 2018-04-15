@@ -1,26 +1,26 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users
 
 import media.thehoard.thirdparty.api.trakt.enums.TraktObjectType
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCommentImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.seasons.TraktSeason
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
+import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
 
 interface TraktUserComment {
     var type: TraktObjectType
 
-    var comment: TraktCommentImpl
+    var comment: TraktComment
 
-    var movie: TraktMovieImpl
+    var movie: TraktMovie?
 
-    var show: TraktShowImpl
+    var show: TraktShow?
 
-    var season: TraktSeasonImpl
+    var season: TraktSeason?
 
-    var episode: TraktEpisodeImpl
+    var episode: TraktEpisode?
 
-    var list: TraktListImpl
+    var list: TraktList?
 
 }

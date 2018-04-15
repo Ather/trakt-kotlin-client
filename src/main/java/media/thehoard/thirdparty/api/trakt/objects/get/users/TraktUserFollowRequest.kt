@@ -1,6 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users
 
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import java.time.ZonedDateTime
 
 interface TraktUserFollowRequest {
@@ -8,6 +7,6 @@ interface TraktUserFollowRequest {
 
     var requestedAt: ZonedDateTime?
 
-    var user: TraktUserImpl
+    var user: TraktUser
 
 }

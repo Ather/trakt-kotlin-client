@@ -4,8 +4,10 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.enums.TraktAccessScope
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
+import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktListIds
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
@@ -22,6 +24,6 @@ data class TraktListImpl(
         @SerializedName("item_count") override var itemCount: Int? = null,
         @SerializedName("comment_count") override var commentCount: Int? = null,
         override var likes: Int? = null,
-        override var ids: TraktListIdsImpl = TraktListIdsImpl(),
-        override var user: TraktUserImpl = TraktUserImpl()
+        override var ids: TraktListIds = TraktListIdsImpl(),
+        override var user: TraktUser = TraktUserImpl()
 ) : TraktList, IValidatable by ids

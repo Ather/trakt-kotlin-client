@@ -1,18 +1,16 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users.statistics
 
-import media.thehoard.thirdparty.api.trakt.objects.get.users.statistics.implementations.*
-
 interface TraktUserStatistics {
-    var movies: TraktUserMoviesStatisticsImpl
+    var movies: TraktUserMoviesStatistics
 
-    var shows: TraktUserShowsStatisticsImpl
+    var shows: TraktUserShowsStatistics
 
-    var seasons: TraktUserSeasonsStatisticsImpl
+    var seasons: TraktUserSeasonsStatistics
 
-    var episodes: TraktUserEpisodesStatisticsImpl
+    var episodes: TraktUserEpisodesStatistics
 
-    var network: TraktUserNetworkStatisticsImpl
+    var network: TraktUserNetworkStatistics
 
-    var ratings: TraktUserRatingsStatisticsImpl
+    var ratings: TraktUserRatingsStatistics
 
 }

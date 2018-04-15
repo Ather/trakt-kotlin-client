@@ -1,8 +1,8 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.users
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktImageImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktImage
 
 interface TraktUserImages {
-    var avatar: TraktImageImpl
+    var avatar: TraktImage
 
 }

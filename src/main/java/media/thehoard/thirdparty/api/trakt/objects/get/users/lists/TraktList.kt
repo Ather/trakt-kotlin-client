@@ -3,8 +3,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.users.lists
 import media.thehoard.thirdparty.api.trakt.enums.TraktAccessScope
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortBy
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortHow
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListIdsImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
@@ -33,8 +32,8 @@ interface TraktList : IValidatable {
 
     var likes: Int?
 
-    var ids: TraktListIdsImpl
+    var ids: TraktListIds
 
-    var user: TraktUserImpl
+    var user: TraktUser
 
 }
