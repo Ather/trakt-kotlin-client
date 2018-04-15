@@ -2,7 +2,6 @@ package media.thehoard.thirdparty.api.trakt.modules
 
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
-import media.thehoard.thirdparty.api.trakt.extensions.toTraktDateString
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
@@ -21,6 +20,7 @@ import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinsDeleteReque
 import media.thehoard.thirdparty.api.trakt.requests.handler.RequestHandler
 import media.thehoard.thirdparty.api.trakt.responses.TraktNoContentResponse
 import media.thehoard.thirdparty.api.trakt.responses.TraktResponse
+import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
@@ -28,7 +28,7 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
     fun checkIntoMovieAsync(
             movie: TraktMovie,
             appVersion: String? = null,
-            appBuildDate: ZonedDateTime? = null,
+            appBuildDate: LocalDate? = null,
             message: String? = null,
             sharing: TraktSharing? = null,
             foursquareVenueID: String? = null,
@@ -38,22 +38,13 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
         movie.validate()
 
         val requestBody = TraktMovieCheckinPostImpl(
-                movie = TraktMovieImpl(
-                        title = movie.title,
-                        year = movie.year,
-                        ids = movie.ids),
-                message = message,
-                sharing = sharing,
-                foursquareVenueId = foursquareVenueID,
-                foursquareVenueName = foursquareVenueName
+                sharing, message, appVersion, appBuildDate.toString(), foursquareVenueID, foursquareVenueName,
+                TraktMovieImpl(
+                        movie.title,
+                        movie.year,
+                        movie.ids
+                )
         )
-
-        if (appVersion.isNullOrBlank())
-            requestBody.appVersion = appVersion
-
-        if (appBuildDate != null)
-            requestBody.appDate = appBuildDate.toTraktDateString()
-
         return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktMovieCheckinPostResponseImpl::class), requestAuthorization)
     }
 
@@ -69,23 +60,14 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktEpisodeCheckinPostResponse>> {
         val requestBody = TraktEpisodeCheckinPostImpl(
-                episode = TraktEpisodeImpl(
-                        ids = episode.ids,
-                        season = episode.season,
-                        number = episode.number
+                sharing, message, appVersion, appBuildDate.toString(), foursquareVenueID, foursquareVenueName,
+                TraktEpisodeImpl(
+                        episode.season,
+                        episode.number,
+                        ids = episode.ids
                 ),
-                show = if (show == null) null else TraktShowImpl(title = show.title),
-                message = message,
-                sharing = sharing,
-                foursquareVenueId = foursquareVenueID,
-                foursquareVenueName = foursquareVenueName
+                if (show == null) null else TraktShowImpl(show.title)
         )
-
-        if (!appVersion.isNullOrBlank())
-            requestBody.appVersion = appVersion
-
-        if (appBuildDate != null)
-            requestBody.appDate = appBuildDate.toTraktDateString()
 
         return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponseImpl::class), requestAuthorization)
     }

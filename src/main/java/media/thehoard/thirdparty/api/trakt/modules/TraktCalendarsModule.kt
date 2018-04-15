@@ -20,12 +20,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarUserShowsRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        }, requestAuthorization)
+        return RequestHandler(client).executeListRequestAsync(CalendarUserShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getUserNewShowsAsync(
@@ -35,12 +30,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarUserNewShowsRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        }, requestAuthorization)
+        return RequestHandler(client).executeListRequestAsync(CalendarUserNewShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getUserSeasonPremiereAsync(
@@ -50,12 +40,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarUserSeasonPremieresRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        }, requestAuthorization)
+        return RequestHandler(client).executeListRequestAsync(CalendarUserSeasonPremieresRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getUserMoviesAsync(
@@ -65,12 +50,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarUserMoviesRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        }, requestAuthorization)
+        return RequestHandler(client).executeListRequestAsync(CalendarUserMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getUserDVDMoviesAsync(
@@ -80,81 +60,56 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarUserDVDMoviesRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        }, requestAuthorization)
+        return RequestHandler(client).executeListRequestAsync(CalendarUserDVDMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getAllShowsAsync(
             startDate: ZonedDateTime? = null,
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            filter: TraktCalendarFilter? = null
+            filter: TraktCalendarFilter? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        })
+        return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getAllNewShowsAsync(
             startDate: ZonedDateTime? = null,
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            filter: TraktCalendarFilter? = null
+            filter: TraktCalendarFilter? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarAllNewShowsRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        })
+        return RequestHandler(client).executeListRequestAsync(CalendarAllNewShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getAllSeasonPremieresAsync(
             startDate: ZonedDateTime? = null,
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            filter: TraktCalendarFilter? = null
+            filter: TraktCalendarFilter? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        })
+        return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getAllMoviesAsync(
             startDate: ZonedDateTime? = null,
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            filter: TraktCalendarFilter? = null
+            filter: TraktCalendarFilter? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarAllMoviesRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        })
+        return RequestHandler(client).executeListRequestAsync(CalendarAllMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
     fun getAllDVDMoviesAsync(
             startDate: ZonedDateTime? = null,
             days: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
-            filter: TraktCalendarFilter? = null
+            filter: TraktCalendarFilter? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
-        return RequestHandler(client).executeListRequestAsync(CalendarAllDVDMoviesRequest().apply {
-            this.startDate = startDate
-            this.days = days
-            this.extendedInfo = extendedInfo
-            this.filter = filter
-        })
+        return RequestHandler(client).executeListRequestAsync(CalendarAllDVDMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 }

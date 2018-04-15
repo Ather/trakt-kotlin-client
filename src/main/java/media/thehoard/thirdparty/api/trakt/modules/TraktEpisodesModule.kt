@@ -1,6 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.modules
 
 import media.thehoard.thirdparty.api.trakt.TraktClient
+import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
 import media.thehoard.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListSortOrder
 import media.thehoard.thirdparty.api.trakt.enums.TraktListType
@@ -25,18 +26,17 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             showIdOrSlug: String,
             seasonNumber: Int,
             episodeNumber: Int,
-            extendedInfo: TraktExtendedInfo? = null
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktEpisode>> {
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeSummaryRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber,
-                extendedInfo = extendedInfo
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber, extendedInfo
+        ), requestAuthorization)
     }
 
     fun getMultipleEpisodesAsync(
-            episodesQueryParams: TraktMultipleEpisodesQueryParams
+            episodesQueryParams: TraktMultipleEpisodesQueryParams,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<List<TraktResponse<TraktEpisode>>> {
         if (episodesQueryParams.isEmpty())
             return CompletableFuture.completedFuture(listOf())
@@ -44,7 +44,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
         var i = 0
         val tasks = Array(episodesQueryParams.size, {
             val queryParam = episodesQueryParams[i++]
-            return@Array getEpisodeAsync(queryParam.showId, queryParam.seasonNumber, queryParam.episodeNumber, queryParam.extendedInfo)
+            return@Array getEpisodeAsync(queryParam.showId, queryParam.seasonNumber, queryParam.episodeNumber, queryParam.extendedInfo, requestAuthorization)
         })
 
         return CompletableFuture.supplyAsync {
@@ -58,16 +58,12 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             seasonNumber: Int,
             episodeNumber: Int,
             commentSortOrder: TraktCommentSortOrder? = null,
-            pagedParameters: TraktPagedParameters? = null
+            pagedParameters: TraktPagedParameters? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktComment>> {
         return RequestHandler(client).executePagedRequestAsync(EpisodeCommentsRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber,
-                sortOrder = commentSortOrder,
-                page = pagedParameters?.page,
-                limit = pagedParameters?.limit
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber, commentSortOrder, pagedParameters?.page, pagedParameters?.limit
+        ), requestAuthorization)
     }
 
     fun getEpisodeListsAsync(
@@ -76,68 +72,57 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             episodeNumber: Int,
             listType: TraktListType? = null,
             listSortOrder: TraktListSortOrder? = null,
-            pagedParameters: TraktPagedParameters? = null
+            pagedParameters: TraktPagedParameters? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktList>> {
         return RequestHandler(client).executePagedRequestAsync(EpisodeListsRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber,
-                type = listType,
-                sortOrder = listSortOrder,
-                page = pagedParameters?.page,
-                limit = pagedParameters?.limit
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber, listType, listSortOrder, pagedParameters?.page, pagedParameters?.limit
+        ), requestAuthorization)
     }
 
     fun getEpisodeRatingsAsync(
             showIdOrSlug: String,
             seasonNumber: Int,
-            episodeNumber: Int
+            episodeNumber: Int,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktRating>> {
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeRatingsRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber
+        ), requestAuthorization)
     }
 
     fun getEpisodeStatisticsAsync(
             showIdOrSlug: String,
             seasonNumber: Int,
-            episodeNumber: Int
+            episodeNumber: Int,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktStatistics>> {
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeStatisticsRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber
+        ), requestAuthorization)
     }
 
     fun getEpisodeTranslationsAsync(
             showIdOrSlug: String,
             seasonNumber: Int,
             episodeNumber: Int,
-            languageCode: String? = null
+            languageCode: String? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktEpisodeTranslation>> {
         return RequestHandler(client).executeListRequestAsync(EpisodeTranslationsRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber,
-                languageCode = languageCode
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber, languageCode
+        ), requestAuthorization)
     }
 
     fun getEpisodeWatchingUsersAsync(
             showIdOrSlug: String,
             seasonNumber: Int,
             episodeNumber: Int,
-            extendedInfo: TraktExtendedInfo? = null
+            extendedInfo: TraktExtendedInfo? = null,
+            requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktListResponse<TraktUser>> {
         return RequestHandler(client).executeListRequestAsync(EpisodeWatchingUsersRequest(
-                id = showIdOrSlug,
-                seasonNumber = seasonNumber,
-                episodeNumber = episodeNumber,
-                extendedInfo = extendedInfo
-        ))
+                showIdOrSlug, seasonNumber, episodeNumber, extendedInfo
+        ), requestAuthorization)
     }
 }
