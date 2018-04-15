@@ -11,5 +11,5 @@ data class TraktMostPWCMovieImpl(
         override var playCount: Int? = null,
         @SerializedName("collected_count")
         override var collectedCount: Int? = null,
-        override var movie: TraktMovieImpl = TraktMovieImpl()
+        override var movie: TraktMovie = TraktMovieImpl()
 ) : TraktMostPWCMovie, TraktMovie by movie

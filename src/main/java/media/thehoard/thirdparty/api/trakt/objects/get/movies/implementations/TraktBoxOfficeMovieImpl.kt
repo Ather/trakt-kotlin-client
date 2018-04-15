@@ -5,5 +5,5 @@ import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
 
 data class TraktBoxOfficeMovieImpl(
         override var revenue: Long? = null,
-        override var movie: TraktMovieImpl = TraktMovieImpl()
+        override var movie: TraktMovie = TraktMovieImpl()
 ) : TraktBoxOfficeMovie, TraktMovie by movie

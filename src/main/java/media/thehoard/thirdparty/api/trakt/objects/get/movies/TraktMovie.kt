@@ -1,7 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.movies
 
-import media.thehoard.thirdparty.api.trakt.objects.get.movies.implementations.TraktMovieIdsImpl
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
+import java.time.LocalDate
 import java.time.ZonedDateTime
 
 interface TraktMovie : IValidatable {
@@ -9,13 +9,13 @@ interface TraktMovie : IValidatable {
 
     var year: Int
 
-    var ids: TraktMovieIdsImpl
+    var ids: TraktMovieIds
 
     var tagline: String?
 
     var overview: String?
 
-    var released: ZonedDateTime?
+    var released: LocalDate?
 
     var runtime: Int?
 

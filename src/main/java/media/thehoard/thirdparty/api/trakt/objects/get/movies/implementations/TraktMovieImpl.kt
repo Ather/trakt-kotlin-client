@@ -4,15 +4,17 @@ import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.extensions.isValidYear
 import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovie
+import media.thehoard.thirdparty.api.trakt.objects.get.movies.TraktMovieIds
+import java.time.LocalDate
 import java.time.ZonedDateTime
 
 data class TraktMovieImpl(
         override var title: String = "",
         override var year: Int = -1,
-        override var ids: TraktMovieIdsImpl = TraktMovieIdsImpl(),
+        override var ids: TraktMovieIds = TraktMovieIdsImpl(),
         override var tagline: String? = null,
         override var overview: String? = null,
-        override var released: ZonedDateTime? = null,
+        override var released: LocalDate? = null,
         override var runtime: Int? = null,
         @SerializedName("updated_at")
         override var updatedAt: ZonedDateTime? = null,
