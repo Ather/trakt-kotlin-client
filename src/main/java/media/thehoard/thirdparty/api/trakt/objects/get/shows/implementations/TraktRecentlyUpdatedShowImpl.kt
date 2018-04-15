@@ -8,5 +8,5 @@ import java.time.ZonedDateTime
 data class TraktRecentlyUpdatedShowImpl(
         @SerializedName("updated_at")
         override var recentlyUpdatedAt: ZonedDateTime? = null,
-        override var show: TraktShowImpl = TraktShowImpl()
+        override var show: TraktShow = TraktShowImpl()
 ) : TraktRecentlyUpdatedShow, TraktShow by show

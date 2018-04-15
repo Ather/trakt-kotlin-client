@@ -13,5 +13,5 @@ data class TraktMostPWCShowImpl(
         override var collectedCount: Int? = null,
         @SerializedName("collector_count")
         override var collectorCount: Int? = null,
-        override var show: TraktShowImpl = TraktShowImpl()
+        override var show: TraktShow = TraktShowImpl()
 ) : TraktMostPWCShow, TraktShow by show

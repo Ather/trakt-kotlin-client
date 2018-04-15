@@ -7,16 +7,18 @@ import media.thehoard.thirdparty.api.trakt.extensions.isValidYear
 import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowAirs
+import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShowIds
 import java.time.ZonedDateTime
 
 data class TraktShowImpl(
         override var title: String = "",
         override var year: Int = -1,
-        override var ids: TraktShowIdsImpl = TraktShowIdsImpl(),
+        override var ids: TraktShowIds = TraktShowIdsImpl(),
         override var overview: String? = null,
         @SerializedName("first_aired")
         override var firstAired: ZonedDateTime? = null,
-        override var airs: TraktShowAirsImpl? = null,
+        override var airs: TraktShowAirs? = null,
         override var runtime: Int? = null,
         override var certification: String? = null,
         override var network: String? = null,

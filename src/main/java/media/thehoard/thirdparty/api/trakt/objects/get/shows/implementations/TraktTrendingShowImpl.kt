@@ -5,5 +5,5 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktTrendingShow
 
 data class TraktTrendingShowImpl(
         override var watchers: Int? = null,
-        override var show: TraktShowImpl = TraktShowImpl()
+        override var show: TraktShow = TraktShowImpl()
 ) : TraktTrendingShow, TraktShow by show

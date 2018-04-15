@@ -1,7 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.shows
 
-import media.thehoard.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
-
 interface TraktMostPWCShow : TraktShow {
     var watcherCount: Int?
 
@@ -11,5 +9,5 @@ interface TraktMostPWCShow : TraktShow {
 
     var collectorCount: Int?
 
-    var show: TraktShowImpl
+    var show: TraktShow
 }
