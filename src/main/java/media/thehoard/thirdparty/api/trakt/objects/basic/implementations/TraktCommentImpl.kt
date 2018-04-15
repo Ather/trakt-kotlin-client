@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.basic.implementations
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import java.time.ZonedDateTime
 
@@ -19,5 +20,5 @@ data class TraktCommentImpl(
         override var likes: Int? = null,
         @SerializedName("user_rating")
         override var userRating: Float? = null,
-        override var user: TraktUserImpl = TraktUserImpl()
+        override var user: TraktUser = TraktUserImpl()
 ) : TraktComment

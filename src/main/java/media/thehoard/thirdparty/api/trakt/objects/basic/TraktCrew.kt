@@ -1,27 +1,25 @@
 package media.thehoard.thirdparty.api.trakt.objects.basic
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktCrewMemberImpl
-
 interface TraktCrew {
-    var production: List<TraktCrewMemberImpl>
+    var production: List<TraktCrewMember>
 
-    var art: List<TraktCrewMemberImpl>
+    var art: List<TraktCrewMember>
 
-    var crew: List<TraktCrewMemberImpl>
+    var crew: List<TraktCrewMember>
 
-    var costumeAndMakeup: List<TraktCrewMemberImpl>
+    var costumeAndMakeup: List<TraktCrewMember>
 
-    var directing: List<TraktCrewMemberImpl>
+    var directing: List<TraktCrewMember>
 
-    var writing: List<TraktCrewMemberImpl>
+    var writing: List<TraktCrewMember>
 
-    var sound: List<TraktCrewMemberImpl>
+    var sound: List<TraktCrewMember>
 
-    var camera: List<TraktCrewMemberImpl>
+    var camera: List<TraktCrewMember>
 
-    var lighting: List<TraktCrewMemberImpl>
+    var lighting: List<TraktCrewMember>
 
-    var visualEffects: List<TraktCrewMemberImpl>
+    var visualEffects: List<TraktCrewMember>
 
-    var editing: List<TraktCrewMemberImpl>
+    var editing: List<TraktCrewMember>
 }

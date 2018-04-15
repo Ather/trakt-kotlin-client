@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.basic
 
-import media.thehoard.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import java.time.ZonedDateTime
 
 interface TraktComment {
@@ -24,5 +24,5 @@ interface TraktComment {
 
     var userRating: Float?
 
-    var user: TraktUserImpl
+    var user: TraktUser
 }

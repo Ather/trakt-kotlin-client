@@ -2,19 +2,20 @@ package media.thehoard.thirdparty.api.trakt.objects.basic.implementations
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktCrew
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktCrewMember
 
 data class TraktCrewImpl(
-        override var production: List<TraktCrewMemberImpl> = listOf(),
-        override var art: List<TraktCrewMemberImpl> = listOf(),
-        override var crew: List<TraktCrewMemberImpl> = listOf(),
+        override var production: List<TraktCrewMember> = listOf(),
+        override var art: List<TraktCrewMember> = listOf(),
+        override var crew: List<TraktCrewMember> = listOf(),
         @SerializedName("costume & make-up")
-        override var costumeAndMakeup: List<TraktCrewMemberImpl> = listOf(),
-        override var directing: List<TraktCrewMemberImpl> = listOf(),
-        override var writing: List<TraktCrewMemberImpl> = listOf(),
-        override var sound: List<TraktCrewMemberImpl> = listOf(),
-        override var camera: List<TraktCrewMemberImpl> = listOf(),
-        override var lighting: List<TraktCrewMemberImpl> = listOf(),
+        override var costumeAndMakeup: List<TraktCrewMember> = listOf(),
+        override var directing: List<TraktCrewMember> = listOf(),
+        override var writing: List<TraktCrewMember> = listOf(),
+        override var sound: List<TraktCrewMember> = listOf(),
+        override var camera: List<TraktCrewMember> = listOf(),
+        override var lighting: List<TraktCrewMember> = listOf(),
         @SerializedName("visual effects")
-        override var visualEffects: List<TraktCrewMemberImpl> = listOf(),
-        override var editing: List<TraktCrewMemberImpl> = listOf()
+        override var visualEffects: List<TraktCrewMember> = listOf(),
+        override var editing: List<TraktCrewMember> = listOf()
 ) : TraktCrew
