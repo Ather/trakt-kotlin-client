@@ -11,6 +11,7 @@ import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktRating
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktStatistics
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeTranslation
 import media.thehoard.thirdparty.api.trakt.objects.get.users.TraktUser
 import media.thehoard.thirdparty.api.trakt.objects.get.users.lists.TraktList
 import media.thehoard.thirdparty.api.trakt.requests.base.AGetRequestHasResponse
@@ -67,7 +68,7 @@ internal class EpisodeCommentsRequest(
         }
 }
 
-internal class EpisodeListRequest(
+internal class EpisodeListsRequest(
         override var id: String,
         seasonNumber: Int,
         episodeNumber: Int,
@@ -144,7 +145,7 @@ internal class EpisodeTranslationsRequest(
         seasonNumber: Int,
         episodeNumber: Int,
         internal var languageCode: String? = null
-) : AEpisodeRequest<TraktEpisode>(
+) : AEpisodeRequest<TraktEpisodeTranslation>(
         "shows/{id}/seasons/{season}/episodes/{episode}/translations{/language}",
         id,
         seasonNumber,
