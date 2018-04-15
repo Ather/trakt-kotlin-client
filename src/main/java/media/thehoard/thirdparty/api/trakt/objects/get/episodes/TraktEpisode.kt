@@ -1,6 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.episodes
 
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeIdsImpl
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
@@ -11,7 +10,7 @@ interface TraktEpisode : IValidatable {
 
     var title: String
 
-    var ids: TraktEpisodeIdsImpl
+    var ids: TraktEpisodeIds
 
     var numberAbsolute: Int?
 

@@ -2,6 +2,7 @@ package media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations
 
 import com.google.gson.annotations.SerializedName
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
@@ -9,7 +10,7 @@ data class TraktEpisodeImpl(
         override var season: Int = -1,
         override var number: Int = -1,
         override var title: String = "",
-        override var ids: TraktEpisodeIdsImpl = TraktEpisodeIdsImpl(),
+        override var ids: TraktEpisodeIds = TraktEpisodeIdsImpl(),
         @SerializedName("number_abs")
         override var numberAbsolute: Int? = null,
         override var overview: String? = null,
