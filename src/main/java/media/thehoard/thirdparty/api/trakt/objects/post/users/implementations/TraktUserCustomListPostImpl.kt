@@ -9,9 +9,9 @@ import media.thehoard.thirdparty.api.trakt.objects.post.users.TraktUserCustomLis
 import media.thehoard.thirdparty.api.trakt.utils.Json
 
 data class TraktUserCustomListPostImpl(
-        override var name: String = "",
+        override var name: String,
         override var description: String? = null,
-        override var privacy: TraktAccessScope = TraktAccessScope.UNSPECIFIED,
+        override var privacy: TraktAccessScope? = null,
         @SerializedName("display_numbers")
         override var displayNumbers: Boolean? = null,
         @SerializedName("allow_comments")

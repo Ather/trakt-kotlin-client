@@ -23,10 +23,7 @@ import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.re
 import media.thehoard.thirdparty.api.trakt.objects.post.users.customlistitems.responses.TraktUserCustomListItemsRemovePostResponse
 import media.thehoard.thirdparty.api.trakt.objects.post.users.responses.TraktUserFollowUserPostResponse
 import media.thehoard.thirdparty.api.trakt.requests.base.*
-import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
-import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
-import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtendedInfo
-import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsPagination
+import media.thehoard.thirdparty.api.trakt.requests.interfaces.*
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.time.ZonedDateTime
 import java.util.*
@@ -105,8 +102,8 @@ internal class UserApproveFollowerRequest(
 }
 
 internal class UserCollectionMoviesRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktCollectionMovie>(
         "users/{username}/collection/movies{?extended}",
         TraktCollectionMovie::class
@@ -124,8 +121,8 @@ internal class UserCollectionMoviesRequest(
 
 //TODO FIXME 04/06/18 Consider the implications of nested generics here.
 internal class UserCollectionShowsRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktCollectionShow>(
         "users/{username}/collection/shows{?extended}",
         (object : TypeToken<TraktCollectionShow>() {}.type) as KClass<*>
@@ -142,10 +139,10 @@ internal class UserCollectionShowsRequest(
 }
 
 internal class UserCommentsRequest(
-        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String,
         internal var commentType: TraktCommentType?,
         internal var objectType: TraktObjectType?,
+        override var extendedInfo: TraktExtendedInfo?,
         override var page: Int?,
         override var limit: Int?
 ) : AUsersPagedGetRequest<TraktUserComment>(
@@ -186,8 +183,8 @@ internal class UserCustomListAddRequest(
 }
 
 internal class UserCustomListDeleteRequest(
-        override var id: String,
-        internal var username: String
+        internal var username: String,
+        override var id: String
 ) : AUsersDeleteByIdRequest(
         "users/{username}/lists/{id}"
 ) {
@@ -232,8 +229,8 @@ internal class UserCustomListItemsAddRequest(
 }
 
 internal class UserCustomListItemsRemoveRequest(
-        override var id: String,
         internal var username: String,
+        override var id: String,
         override var requestBody: TraktUserCustomListItemsPost?
 ) : AUsersPostByIdRequest<TraktUserCustomListItemsRemovePostResponse, TraktUserCustomListItemsPost>(
         "users/{username}/lists/{id}/items/remove",
@@ -254,8 +251,8 @@ internal class UserCustomListItemsRemoveRequest(
 }
 
 internal class UserCustomListItemsRequest(
-        override var id: String,
         internal var username: String,
+        override var id: String,
         internal var type: TraktListItemType?,
         override var extendedInfo: TraktExtendedInfo?,
         override var page: Int?,
@@ -346,8 +343,8 @@ internal class UserDenyFollowerRequest(
 }
 
 internal class UserFollowersRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktUserFollower>(
         "users/{username}/followers{?extended}",
         TraktUserFollower::class
@@ -364,8 +361,8 @@ internal class UserFollowersRequest(
 }
 
 internal class UserFollowingRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktUserFollower>(
         "users/{username}/following{?extended}",
         TraktUserFollower::class
@@ -405,8 +402,8 @@ internal class UserFollowUserRequest(
 }
 
 internal class UserFriendsRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktUserFollower>(
         "users/{username}/friends{?extended}",
         TraktUserFollower::class
@@ -468,8 +465,8 @@ internal class UserLikesRequest(
 }
 
 internal class UserListLikeRequest(
-        override var id: String,
-        internal var username: String
+        internal var username: String,
+        override var id: String
 ) : ABodylessPostRequest(), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Lists
@@ -486,8 +483,8 @@ internal class UserListLikeRequest(
 }
 
 internal class UserListUnlikeRequest(
-        override var id: String,
-        internal var username: String
+        internal var username: String,
+        override var id: String
 ) : AUsersDeleteByIdRequest(
         "users/{username}/lists/{id}/like"
 ), IHasId {
@@ -506,8 +503,8 @@ internal class UserListUnlikeRequest(
 }
 
 internal class UserProfileRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktUser>(
         "users/{username}/friends{?extended}",
         TraktUser::class
@@ -526,7 +523,7 @@ internal class UserProfileRequest(
 internal class UserRatingsRequest(
         internal var username: String,
         internal var type: TraktRatingsItemType?,
-        internal var ratingFilter: List<Int>?,
+        internal var ratingFilter: Array<Int>?,
         override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktRatingsItem>(
         "users/{username}/ratings{/type}{/rating}{?extended}",
@@ -594,7 +591,6 @@ internal class UserUnfollowUserRequest(
 
 internal class UserWatchedHistoryRequest(
         internal var username: String,
-        override var id: String,
         internal var type: TraktSyncItemType?,
         internal var itemId: Int?,
         internal var startAt: ZonedDateTime?,
@@ -605,7 +601,7 @@ internal class UserWatchedHistoryRequest(
 ) : AUsersPagedGetRequest<TraktHistoryItem>(
         "users/{username}/history{/type}{/item_id}{?start_at,end_at,extended,page,limit}",
         TraktHistoryItem::class
-), IHasId {
+), IObjectRequest {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Unspecified
 
@@ -629,8 +625,8 @@ internal class UserWatchedHistoryRequest(
 }
 
 internal class UserWatchedMoviesRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktWatchedMovie>(
         "users/{username}/watched/movies{?extended}",
         TraktWatchedMovie::class
@@ -647,8 +643,8 @@ internal class UserWatchedMoviesRequest(
 }
 
 internal class UserWatchedShowsRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktWatchedShow>(
         "users/{username}/watched/shows{?extended}",
         TraktWatchedShow::class
@@ -665,8 +661,8 @@ internal class UserWatchedShowsRequest(
 }
 
 internal class UserWatchingRequest(
-        override var extendedInfo: TraktExtendedInfo?,
-        internal var username: String
+        internal var username: String,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktUserWatchingItem>(
         "users/{username}/watching{?extended}",
         TraktUserWatchingItem::class
@@ -684,8 +680,8 @@ internal class UserWatchingRequest(
 
 internal class UserWatchlistRequest(
         internal var username: String,
+        internal var type: TraktSyncItemType?,
         override var extendedInfo: TraktExtendedInfo?,
-        var type: TraktSyncItemType?,
         override var page: Int?,
         override var limit: Int?
 ) : AUsersPagedGetRequest<TraktWatchlistItem>(

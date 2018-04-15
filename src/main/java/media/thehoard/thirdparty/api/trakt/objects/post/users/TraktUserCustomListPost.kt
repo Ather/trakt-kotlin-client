@@ -8,7 +8,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
 interface TraktUserCustomListPost : IRequestBody {
     var name: String
     var description: String?
-    var privacy: TraktAccessScope
+    var privacy: TraktAccessScope?
     var displayNumbers: Boolean?
     var allowComments: Boolean?
     var sortBy: TraktListSortBy?
