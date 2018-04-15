@@ -1,5 +1,10 @@
 package media.thehoard.thirdparty.api.trakt.extensions
 
+fun Float?.validate(variableName: String = "Float", test: (Float) -> Boolean, errorMessage: String? = "not valid") {
+    if (this == null || !test.invoke(this))
+        throw IllegalArgumentException("$variableName${if (errorMessage != null) " $errorMessage" else ""}")
+}
+
 fun Int?.validate(variableName: String = "Int", test: (Int) -> Boolean, errorMessage: String? = "not valid") {
     if (this == null || !test.invoke(this))
         throw IllegalArgumentException("$variableName${if (errorMessage != null) " $errorMessage" else ""}")
@@ -15,6 +20,9 @@ fun Boolean?.validate(variableName: String, errorMessage: String? = "not valid")
 }
 
 fun <T : Enum<T>> Enum<T>?.validateSpecified(variableName: String, errorMessage: String? = "must not be unspecified") = (this.toString() != "UNSPECIFIED").validate(variableName, errorMessage)
+
+/** Float Functions **/
+fun isValidProgress(f: Float?) = f ?: -1f in 0.0f..100.0f
 
 /** Integer functions **/
 fun isNotNegative(i: Int?) = i ?: -1 >= 0

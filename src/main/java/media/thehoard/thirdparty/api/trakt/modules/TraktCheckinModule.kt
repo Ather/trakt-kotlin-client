@@ -35,8 +35,6 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
             foursquareVenueName: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktMovieCheckinPostResponse>> {
-        movie.validate()
-
         val requestBody = TraktMovieCheckinPostImpl(
                 sharing, message, appVersion, appBuildDate.toString(), foursquareVenueID, foursquareVenueName,
                 TraktMovieImpl(

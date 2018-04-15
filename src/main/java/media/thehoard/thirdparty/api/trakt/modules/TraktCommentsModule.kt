@@ -2,8 +2,6 @@ package media.thehoard.thirdparty.api.trakt.modules
 
 import media.thehoard.thirdparty.api.trakt.TraktClient
 import media.thehoard.thirdparty.api.trakt.authentication.TraktAuthorization
-import media.thehoard.thirdparty.api.trakt.extensions.isPositive
-import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktComment
 import media.thehoard.thirdparty.api.trakt.objects.basic.TraktSharing
 import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
@@ -30,7 +28,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     fun getCommentAsync(
             commentId: Int
     ): CompletableFuture<TraktResponse<TraktComment>> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeSingleItemRequestAsync(CommentSummaryRequest(commentId.toString()))
     }
 
@@ -128,7 +125,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeSingleItemRequestAsync(CommentUpdateRequest(
                 commentId.toString(),
                 TraktCommentUpdatePostImpl(
@@ -144,7 +140,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeSingleItemRequestAsync(CommentReplyRequest(
                 commentId.toString(),
                 TraktCommentReplyPostImpl(
@@ -158,7 +153,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             commentId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktNoContentResponse> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeNoContentRequestAsync(CommentDeleteRequest(commentId.toString()), requestAuthorization)
     }
 
@@ -166,7 +160,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             commentId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktNoContentResponse> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeNoContentRequestAsync(CommentLikeRequest(commentId.toString()), requestAuthorization)
     }
 
@@ -174,7 +167,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             commentId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktNoContentResponse> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executeNoContentRequestAsync(CommentUnlikeRequest(commentId.toString()), requestAuthorization)
     }
 
@@ -183,7 +175,6 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
     ): CompletableFuture<TraktPagedResponse<TraktComment>> {
-        commentId.validate("comment id", ::isPositive)
         return RequestHandler(client).executePagedRequestAsync(CommentRepliesRequest(
                 commentId.toString(),
                 pagedParameters?.page,

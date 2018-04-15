@@ -6,5 +6,5 @@ import media.thehoard.thirdparty.api.trakt.objects.get.shows.TraktShow
 interface TraktEpisodeScrobblePost : TraktScrobblePost {
     var episode: TraktEpisode
 
-    var show: TraktShow
+    var show: TraktShow?
 }
