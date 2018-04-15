@@ -8,7 +8,6 @@ import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
 import media.thehoard.thirdparty.api.trakt.extensions.validate
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionMovie
 import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionShow
-import media.thehoard.thirdparty.api.trakt.objects.get.collections.TraktCollectionShowEpisode
 import media.thehoard.thirdparty.api.trakt.objects.get.history.TraktHistoryItem
 import media.thehoard.thirdparty.api.trakt.objects.get.ratings.TraktRatingsItem
 import media.thehoard.thirdparty.api.trakt.objects.get.syncs.activities.TraktSyncLastActivities
@@ -39,9 +38,9 @@ import java.time.ZonedDateTime
 import java.util.*
 import kotlin.reflect.KClass
 
-internal sealed class ASyncGetRequest<TResponseContentType>(
+internal sealed class ASyncGetRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass) {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
@@ -52,9 +51,9 @@ internal sealed class ASyncGetRequest<TResponseContentType>(
     override fun validate(variableName: String) {}
 }
 
-internal sealed class ASyncPostRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
+internal sealed class ASyncPostRequest<TResponseContentType : Any, TRequestBodyType : IRequestBody>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass) {
     abstract override var requestBody: TRequestBodyType?
 
@@ -93,7 +92,7 @@ internal class SyncCollectionShowsRequest(
         override var extendedInfo: TraktExtendedInfo?
 ) : ASyncGetRequest<TraktCollectionShow>(
         "sync/collection/shows{?extended}",
-        TraktCollectionShowEpisode::class
+        TraktCollectionShow::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

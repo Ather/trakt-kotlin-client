@@ -10,9 +10,9 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsExtended
 import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import kotlin.reflect.KClass
 
-internal sealed class APersonRequest<TResponseContentType>(
+internal sealed class APersonRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId, ISupportsExtendedInfo {
     override val requestObjectType: RequestObjectType = RequestObjectType.People
 

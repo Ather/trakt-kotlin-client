@@ -23,9 +23,9 @@ import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.util.*
 import kotlin.reflect.KClass
 
-internal sealed class AEpisodeRequest<TResponseContentType>(
+internal sealed class AEpisodeRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
     internal abstract var seasonNumber: Int
 
@@ -132,7 +132,7 @@ internal class EpisodeTranslationsRequest(
         internal var languageCode: String?
 ) : AEpisodeRequest<TraktEpisodeTranslation>(
         "shows/{id}/seasons/{season}/episodes/{episode}/translations{/language}",
-        TraktEpisode::class
+        TraktEpisodeTranslation::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

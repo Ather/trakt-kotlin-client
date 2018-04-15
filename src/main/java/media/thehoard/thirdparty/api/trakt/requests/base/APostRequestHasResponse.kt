@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IPostRequest
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
 import kotlin.reflect.KClass
 
-internal abstract class APostRequestHasResponse<TResponseContentType, TRequestBodyType : IRequestBody>(responseContentClass: KClass<*>) : ARequestHasResponse<TResponseContentType>(responseContentClass), IPostRequestHasResponse<TResponseContentType, TRequestBodyType> {
+internal abstract class APostRequestHasResponse<TResponseContentType : Any, TRequestBodyType : IRequestBody>(responseContentClass: KClass<TResponseContentType>) : ARequestHasResponse<TResponseContentType>(responseContentClass), IPostRequestHasResponse<TResponseContentType, TRequestBodyType> {
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
     override val method: HttpMethod = HttpMethod.POST

@@ -28,9 +28,9 @@ import java.time.ZonedDateTime
 import java.util.*
 import kotlin.reflect.KClass
 
-internal sealed class AShowRequest<TResponseContentType>(
+internal sealed class AShowRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
     override val requestObjectType: RequestObjectType = RequestObjectType.Movies
 
@@ -40,9 +40,9 @@ internal sealed class AShowRequest<TResponseContentType>(
     override fun validate(variableName: String) = id.validate("show id", ::isValidStringId)
 }
 
-internal sealed class AShowsMostPWCRequest<TResponseContentType>(
+internal sealed class AShowsMostPWCRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AShowsRequest<TResponseContentType>(uriTemplate, responseContentClass) {
     internal abstract var period: TraktTimePeriod?
 
@@ -53,9 +53,9 @@ internal sealed class AShowsMostPWCRequest<TResponseContentType>(
         }
 }
 
-internal sealed class AShowsRequest<TResponseContentType>(
+internal sealed class AShowsRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo, ISupportsFilter, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {

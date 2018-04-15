@@ -23,11 +23,11 @@ internal sealed class AUserRecommendationHideRequest(
     override fun validate(variableName: String) = id.validate("id or slug", ::isValidStringId)
 }
 
-internal sealed class AUserRecommendationsRequest<TResponseContentType>(
+internal sealed class AUserRecommendationsRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
         override var extendedInfo: TraktExtendedInfo?,
         var limit: Int? = null,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo {
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 

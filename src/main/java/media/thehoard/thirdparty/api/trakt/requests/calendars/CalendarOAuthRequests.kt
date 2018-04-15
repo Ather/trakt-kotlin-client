@@ -8,7 +8,7 @@ import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.time.ZonedDateTime
 import kotlin.reflect.KClass
 
-internal sealed class ACalendarUserRequest<TResponseContentType>(override val uriTemplate: String, responseContentClass: KClass<*>) : ACalendarRequest<TResponseContentType>(uriTemplate, responseContentClass) {
+internal sealed class ACalendarUserRequest<TResponseContentType : Any>(override val uriTemplate: String, responseContentClass: KClass<TResponseContentType>) : ACalendarRequest<TResponseContentType>(uriTemplate, responseContentClass) {
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 }
 

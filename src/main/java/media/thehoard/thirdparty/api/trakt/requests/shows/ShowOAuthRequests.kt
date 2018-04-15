@@ -9,9 +9,9 @@ import media.thehoard.thirdparty.api.trakt.requests.base.RequestObjectType
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IHasId
 import kotlin.reflect.KClass
 
-internal sealed class AShowProgressRequest<TResponseContentType>(
+internal sealed class AShowProgressRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
     internal abstract var hidden: Boolean?
 

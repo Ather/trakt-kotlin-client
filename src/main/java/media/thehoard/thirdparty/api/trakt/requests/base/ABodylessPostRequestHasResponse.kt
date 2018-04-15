@@ -4,7 +4,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.base.IBodylessPos
 import media.thehoard.thirdparty.api.trakt.utils.http.HttpMethod
 import kotlin.reflect.KClass
 
-internal abstract class ABodylessPostRequestHasResponse<TResponseContentType>(responseContentClass: KClass<*>) : ARequestHasResponse<TResponseContentType>(responseContentClass), IBodylessPostRequestHasResponse<TResponseContentType> {
+internal abstract class ABodylessPostRequestHasResponse<TResponseContentType : Any>(responseContentClass: KClass<TResponseContentType>) : ARequestHasResponse<TResponseContentType>(responseContentClass), IBodylessPostRequestHasResponse<TResponseContentType> {
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
     override val method: HttpMethod = HttpMethod.POST

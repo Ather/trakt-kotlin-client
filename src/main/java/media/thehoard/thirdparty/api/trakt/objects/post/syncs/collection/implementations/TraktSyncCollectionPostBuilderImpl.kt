@@ -79,7 +79,6 @@ class TraktSyncCollectionPostBuilderImpl {
         return collectionPost
     }
 
-    //TODO Consider the equality test used in these methods.
     private fun containsMovie(movie: TraktMovie): Boolean {
         for (m in collectionPost.movies)
             if (m.ids like movie.ids) return true
@@ -150,7 +149,6 @@ class TraktSyncCollectionPostBuilderImpl {
         return this
     }
 
-    //TODO Equality check
     private fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncCollectionPostShowSeason>, metadata: TraktMetadata? = null, collectedAt: ZonedDateTime? = null) {
         val existingShow = collectionPost.shows.firstOrNull { s -> s.ids like show.ids }
 

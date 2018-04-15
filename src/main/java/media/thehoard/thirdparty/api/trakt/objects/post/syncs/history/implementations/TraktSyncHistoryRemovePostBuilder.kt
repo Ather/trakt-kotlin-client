@@ -31,7 +31,6 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
         return historyPost
     }
 
-    //TODO Consider the equality test used in these methods.
     override fun containsMovie(movie: TraktMovie): Boolean {
         for (m in historyPost.movies)
             if (m.ids like movie.ids)
@@ -96,7 +95,6 @@ class TraktSyncHistoryRemovePostBuilder : AbstractTraktSyncHistoryPostBuilder<Tr
         return this
     }
 
-    //TODO Equality check
     override fun createOrSetShow(show: TraktShow, showSeasons: MutableList<TraktSyncHistoryPostShowSeason>) {
         val existingShow = historyPost.shows.firstOrNull { s -> s.ids like show.ids }
 

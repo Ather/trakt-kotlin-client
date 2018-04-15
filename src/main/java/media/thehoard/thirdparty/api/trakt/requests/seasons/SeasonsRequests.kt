@@ -22,9 +22,9 @@ import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.util.*
 import kotlin.reflect.KClass
 
-internal sealed class ASeasonRequest<TResponseContentType>(
+internal sealed class ASeasonRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
     internal abstract var seasonNumber: Int
 

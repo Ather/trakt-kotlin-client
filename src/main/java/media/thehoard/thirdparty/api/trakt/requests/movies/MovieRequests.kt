@@ -27,9 +27,9 @@ import java.time.ZonedDateTime
 import java.util.*
 import kotlin.reflect.KClass
 
-internal sealed class AMovieRequest<TResponseContentType>(
+internal sealed class AMovieRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
     override val requestObjectType: RequestObjectType = RequestObjectType.Movies
 
@@ -39,10 +39,10 @@ internal sealed class AMovieRequest<TResponseContentType>(
     override fun validate(variableName: String) = id.validate("movie id", ::isValidStringId)
 }
 
-internal sealed class AMoviesMostPWCRequest<TResponseContentType>(
+internal sealed class AMoviesMostPWCRequest<TResponseContentType : Any>(
         uriTemplate: String,
         var period: TraktTimePeriod?,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AMoviesRequest<TResponseContentType>(
         uriTemplate,
         responseContentClass
@@ -54,9 +54,9 @@ internal sealed class AMoviesMostPWCRequest<TResponseContentType>(
         }
 }
 
-internal sealed class AMoviesRequest<TResponseContentType>(
+internal sealed class AMoviesRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo, ISupportsFilter, ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {
@@ -290,7 +290,7 @@ internal class MovieStatisticsRequest(
         override var id: String
 ) : AMovieRequest<TraktStatistics>(
         "movies/{id}/stats",
-        TraktRating::class
+        TraktStatistics::class
 )
 
 internal class MoviesTrendingRequest(

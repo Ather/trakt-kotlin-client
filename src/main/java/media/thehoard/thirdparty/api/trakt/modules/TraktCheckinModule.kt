@@ -13,8 +13,6 @@ import media.thehoard.thirdparty.api.trakt.objects.post.checkins.implementations
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.implementations.TraktMovieCheckinPostImpl
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktEpisodeCheckinPostResponse
 import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.TraktMovieCheckinPostResponse
-import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktEpisodeCheckinPostResponseImpl
-import media.thehoard.thirdparty.api.trakt.objects.post.checkins.responses.implementations.TraktMovieCheckinPostResponseImpl
 import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinRequest
 import media.thehoard.thirdparty.api.trakt.requests.checkins.CheckinsDeleteRequest
 import media.thehoard.thirdparty.api.trakt.requests.handler.RequestHandler
@@ -43,7 +41,7 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
                         movie.ids
                 )
         )
-        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktMovieCheckinPostResponseImpl::class), requestAuthorization)
+        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktMovieCheckinPostResponse::class), requestAuthorization)
     }
 
     fun checkIntoEpisodeAsync(
@@ -67,7 +65,7 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
                 if (show == null) null else TraktShowImpl(show.title)
         )
 
-        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponseImpl::class), requestAuthorization)
+        return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponse::class), requestAuthorization)
     }
 
     fun deleteAnyActiveCheckinsAsync(): CompletableFuture<TraktNoContentResponse> =

@@ -1,6 +1,5 @@
 package media.thehoard.thirdparty.api.trakt.requests.users
 
-import com.google.gson.reflect.TypeToken
 import media.thehoard.thirdparty.api.trakt.enums.*
 import media.thehoard.thirdparty.api.trakt.extensions.isValidStringId
 import media.thehoard.thirdparty.api.trakt.extensions.toTraktLongDateTimeString
@@ -39,9 +38,9 @@ internal sealed class AUsersDeleteByIdRequest(
     override fun validate(variableName: String) = id.validate("id", ::isValidStringId)
 }
 
-internal sealed class AUsersGetRequest<TResponseContentType>(
+internal sealed class AUsersGetRequest<TResponseContentType : Any>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Optional
@@ -55,9 +54,9 @@ internal sealed class AUsersGetRequest<TResponseContentType>(
     override fun validate(variableName: String) {}
 }
 
-internal sealed class AUsersPagedGetRequest<TResponseContentType>(
+internal sealed class AUsersPagedGetRequest<TResponseContentType : Any>(
         uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : AUsersGetRequest<TResponseContentType>(
         uriTemplate,
         responseContentClass
@@ -72,9 +71,9 @@ internal sealed class AUsersPagedGetRequest<TResponseContentType>(
         }
 }
 
-internal sealed class AUsersPostByIdRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
+internal sealed class AUsersPostByIdRequest<TResponseContentType : Any, TRequestBodyType : IRequestBody>(
         override val uriTemplate: String,
-        responseContentClass: KClass<*>
+        responseContentClass: KClass<TResponseContentType>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass), IHasId {
 
     override val uriPathParameters: Map<String, Any>?
@@ -125,7 +124,7 @@ internal class UserCollectionShowsRequest(
         override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktCollectionShow>(
         "users/{username}/collection/shows{?extended}",
-        (object : TypeToken<TraktCollectionShow>() {}.type) as KClass<*>
+        TraktCollectionShow::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

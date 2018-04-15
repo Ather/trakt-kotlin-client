@@ -12,7 +12,7 @@ import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.time.ZonedDateTime
 import kotlin.reflect.KClass
 
-internal abstract class ACalendarRequest<TResponseConentType>(override val uriTemplate: String, responseContentClass: KClass<*>) : AGetRequestHasResponse<TResponseConentType>(responseContentClass), ISupportsExtendedInfo, ISupportsFilter {
+internal abstract class ACalendarRequest<TResponseConentType : Any>(override val uriTemplate: String, responseContentClass: KClass<TResponseConentType>) : AGetRequestHasResponse<TResponseConentType>(responseContentClass), ISupportsExtendedInfo, ISupportsFilter {
     internal abstract var startDate: ZonedDateTime?
 
     internal abstract var days: Int?
