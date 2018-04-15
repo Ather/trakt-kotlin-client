@@ -9,7 +9,7 @@ internal sealed class ACalendarUserRequest<TResponseContentType>(override val ur
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 }
 
-internal class CalendarUserDVDMoviesRequest : ACalendarUserRequest<TraktCalendarMovie>("calendars/my/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
+internal class CalendarUserDVDMoviesRequest: ACalendarUserRequest<TraktCalendarMovie>("calendars/my/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
 
 internal class CalendarUserMoviesRequest : ACalendarUserRequest<TraktCalendarMovie>("calendars/my/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
 
