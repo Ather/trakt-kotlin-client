@@ -12,8 +12,6 @@ import kotlin.reflect.KClass
 
 internal sealed class APersonRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var id: String,
-        override var extendedInfo: TraktExtendedInfo? = null,
         responseContentClass: KClass<*>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId, ISupportsExtendedInfo {
     override val requestObjectType: RequestObjectType = RequestObjectType.People
@@ -29,30 +27,24 @@ internal sealed class APersonRequest<TResponseContentType>(
 
 internal class PersonMovieCreditsRequest(
         override var id: String,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : APersonRequest<TraktPersonMovieCredits>(
         "people/{id}/movies{?extended}",
-        id,
-        extendedInfo,
         TraktPersonMovieCredits::class
 )
 
 internal class PersonShowCreditsRequest(
         override var id: String,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : APersonRequest<TraktPersonShowCredits>(
         "people/{id}/shows{?extended}",
-        id,
-        extendedInfo,
         TraktPersonShowCredits::class
 )
 
 internal class PersonSummaryRequest(
         override var id: String,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : APersonRequest<TraktPerson>(
         "people/{id}{?extended}",
-        id,
-        extendedInfo,
         TraktPerson::class
 )

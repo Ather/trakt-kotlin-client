@@ -13,9 +13,9 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.ISupportsPaginati
 internal class UserListCommentsRequest(
         internal var username: String,
         override var id: String,
-        internal var sortOrder: TraktCommentSortOrder? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        internal var sortOrder: TraktCommentSortOrder?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AGetRequestHasResponse<TraktComment>(TraktComment::class), IHasId, ISupportsPagination {
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.NotRequired

@@ -33,8 +33,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 internal sealed class AUsersDeleteByIdRequest(
-        override val uriTemplate: String,
-        override var id: String
+        override val uriTemplate: String
 ) : ADeleteRequest(), IHasId {
 
     override val uriPathParameters: Map<String, Any>?
@@ -45,7 +44,6 @@ internal sealed class AUsersDeleteByIdRequest(
 
 internal sealed class AUsersGetRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var extendedInfo: TraktExtendedInfo? = null,
         responseContentClass: KClass<*>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo {
 
@@ -62,13 +60,9 @@ internal sealed class AUsersGetRequest<TResponseContentType>(
 
 internal sealed class AUsersPagedGetRequest<TResponseContentType>(
         uriTemplate: String,
-        extendedInfo: TraktExtendedInfo? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null,
         responseContentClass: KClass<*>
 ) : AUsersGetRequest<TResponseContentType>(
         uriTemplate,
-        extendedInfo,
         responseContentClass
 ), ISupportsPagination {
 
@@ -83,8 +77,6 @@ internal sealed class AUsersPagedGetRequest<TResponseContentType>(
 
 internal sealed class AUsersPostByIdRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
         override val uriTemplate: String,
-        override var id: String,
-        override var requestBody: TRequestBodyType? = null,
         responseContentClass: KClass<*>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass), IHasId {
 
@@ -113,11 +105,10 @@ internal class UserApproveFollowerRequest(
 }
 
 internal class UserCollectionMoviesRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktCollectionMovie>(
         "users/{username}/collection/movies{?extended}",
-        extendedInfo,
         TraktCollectionMovie::class
 ) {
     override val uriPathParameters: Map<String, Any>?
@@ -133,11 +124,10 @@ internal class UserCollectionMoviesRequest(
 
 //TODO FIXME 04/06/18 Consider the implications of nested generics here.
 internal class UserCollectionShowsRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktCollectionShow>(
         "users/{username}/collection/shows{?extended}",
-        extendedInfo,
         (object : TypeToken<TraktCollectionShow>() {}.type) as KClass<*>
 ) {
     override val uriPathParameters: Map<String, Any>?
@@ -152,14 +142,15 @@ internal class UserCollectionShowsRequest(
 }
 
 internal class UserCommentsRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String,
-        internal var commentType: TraktCommentType? = null,
-        internal var objectType: TraktObjectType? = null
+        internal var commentType: TraktCommentType?,
+        internal var objectType: TraktObjectType?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AUsersPagedGetRequest<TraktUserComment>(
         "users/{username}/comments{/comment_type}{/object_type}{?extended,page,limit}",
-        extendedInfo,
-        responseContentClass = TraktUserComment::class
+        TraktUserComment::class
 ) {
 
     override val uriPathParameters: Map<String, Any>?
@@ -180,7 +171,7 @@ internal class UserCommentsRequest(
 
 internal class UserCustomListAddRequest(
         internal var username: String,
-        override var requestBody: TraktUserCustomListPost? = null
+        override var requestBody: TraktUserCustomListPost?
 ) : APostRequestHasResponse<TraktList, TraktUserCustomListPost>(TraktList::class) {
 
     override val uriTemplate: String = "users/{username}/lists"
@@ -195,11 +186,10 @@ internal class UserCustomListAddRequest(
 }
 
 internal class UserCustomListDeleteRequest(
-        id: String,
+        override var id: String,
         internal var username: String
 ) : AUsersDeleteByIdRequest(
-        "users/{username}/lists/{id}",
-        id
+        "users/{username}/lists/{id}"
 ) {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Lists
@@ -216,14 +206,12 @@ internal class UserCustomListDeleteRequest(
 }
 
 internal class UserCustomListItemsAddRequest(
-        id: String,
         internal var username: String,
-        requestBody: TraktUserCustomListItemsPost? = null,
-        internal var type: TraktListItemType? = null
+        override var id: String,
+        internal var type: TraktListItemType?,
+        override var requestBody: TraktUserCustomListItemsPost?
 ) : AUsersPostByIdRequest<TraktUserCustomListItemsPostResponse, TraktUserCustomListItemsPost>(
         "users/{username}/lists/{id}/items{/type}",
-        id,
-        requestBody,
         TraktUserCustomListItemsPostResponse::class
 ) {
 
@@ -244,13 +232,11 @@ internal class UserCustomListItemsAddRequest(
 }
 
 internal class UserCustomListItemsRemoveRequest(
-        id: String,
+        override var id: String,
         internal var username: String,
-        requestBody: TraktUserCustomListItemsPost? = null
+        override var requestBody: TraktUserCustomListItemsPost?
 ) : AUsersPostByIdRequest<TraktUserCustomListItemsRemovePostResponse, TraktUserCustomListItemsPost>(
         "users/{username}/lists/{id}/items/remove",
-        id,
-        requestBody,
         TraktUserCustomListItemsRemovePostResponse::class
 ) {
 
@@ -270,12 +256,13 @@ internal class UserCustomListItemsRemoveRequest(
 internal class UserCustomListItemsRequest(
         override var id: String,
         internal var username: String,
-        internal var type: TraktListItemType? = null,
-        extendedInfo: TraktExtendedInfo? = null
+        internal var type: TraktListItemType?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AUsersPagedGetRequest<TraktListItem>(
         "users/{username}/lists/{id}/items{/type}{?extended,page,limit}",
-        extendedInfo,
-        responseContentClass = TraktListItem::class
+        TraktListItem::class
 ), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Lists
@@ -313,7 +300,7 @@ internal class UserCustomListsRequest(
 internal class UserCustomListUpdateRequest(
         override var id: String,
         internal var username: String,
-        override var requestBody: TraktUserCustomListPost? = null
+        override var requestBody: TraktUserCustomListPost?
 ) : APutRequestHasResponse<TraktList, TraktUserCustomListPost>(TraktList::class), IHasId {
 
     override val uriTemplate: String = "users/{username}/lists/{id}"
@@ -351,21 +338,19 @@ internal class UserCustomSingleListRequest(
 }
 
 internal class UserDenyFollowerRequest(
-        id: String
+        override var id: String
 ) : AUsersDeleteByIdRequest(
-        "users/requests/{id}",
-        id
+        "users/requests/{id}"
 ) {
     override val requestObjectType: RequestObjectType = RequestObjectType.Unspecified
 }
 
 internal class UserFollowersRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktUserFollower>(
         "users/{username}/followers{?extended}",
-        extendedInfo,
-        responseContentClass = TraktUserFollower::class
+        TraktUserFollower::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -379,12 +364,11 @@ internal class UserFollowersRequest(
 }
 
 internal class UserFollowingRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktUserFollower>(
         "users/{username}/following{?extended}",
-        extendedInfo,
-        responseContentClass = TraktUserFollower::class
+        TraktUserFollower::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -398,10 +382,9 @@ internal class UserFollowingRequest(
 }
 
 internal class UserFollowRequestsRequest(
-        extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktUserFollowRequest>(
         "users/requests{?extended}",
-        extendedInfo,
         TraktUserFollowRequest::class
 ) {
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
@@ -422,12 +405,11 @@ internal class UserFollowUserRequest(
 }
 
 internal class UserFriendsRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktUserFollower>(
         "users/{username}/friends{?extended}",
-        extendedInfo,
-        responseContentClass = TraktUserFollower::class
+        TraktUserFollower::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -437,15 +419,12 @@ internal class UserFriendsRequest(
 
 internal class UserHiddenItemsRequest(
         internal var section: TraktHiddenItemsSection,
-        internal var type: TraktHiddenItemType? = null,
-        extendedInfo: TraktExtendedInfo? = null,
-        page: Int? = null,
-        limit: Int? = null
+        internal var type: TraktHiddenItemType?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AUsersPagedGetRequest<TraktUserHiddenItem>(
         "users/hidden/{section}{?type,extended,page,limit}",
-        extendedInfo,
-        page,
-        limit,
         TraktUserHiddenItem::class
 ) {
 
@@ -507,11 +486,10 @@ internal class UserListLikeRequest(
 }
 
 internal class UserListUnlikeRequest(
-        id: String,
+        override var id: String,
         internal var username: String
 ) : AUsersDeleteByIdRequest(
-        "users/{username}/lists/{id}/like",
-        id
+        "users/{username}/lists/{id}/like"
 ), IHasId {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Lists
@@ -528,12 +506,11 @@ internal class UserListUnlikeRequest(
 }
 
 internal class UserProfileRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktUser>(
         "users/{username}/friends{?extended}",
-        extendedInfo,
-        responseContentClass = TraktUser::class
+        TraktUser::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -548,12 +525,11 @@ internal class UserProfileRequest(
 
 internal class UserRatingsRequest(
         internal var username: String,
-        internal var type: TraktRatingsItemType? = null,
-        internal var ratingFilter: List<Int>? = null,
-        extendedInfo: TraktExtendedInfo? = null
+        internal var type: TraktRatingsItemType?,
+        internal var ratingFilter: List<Int>?,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AUsersGetRequest<TraktRatingsItem>(
         "users/{username}/ratings{/type}{/rating}{?extended}",
-        extendedInfo,
         TraktRatingsItem::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
@@ -619,18 +595,15 @@ internal class UserUnfollowUserRequest(
 internal class UserWatchedHistoryRequest(
         internal var username: String,
         override var id: String,
-        internal var type: TraktSyncItemType? = null,
-        internal var itemId: Int? = null,
-        internal var startAt: ZonedDateTime? = null,
-        internal var endAt: ZonedDateTime? = null,
-        page: Int? = null,
-        limit: Int? = null,
-        extendedInfo: TraktExtendedInfo? = null
+        internal var type: TraktSyncItemType?,
+        internal var itemId: Int?,
+        internal var startAt: ZonedDateTime?,
+        internal var endAt: ZonedDateTime?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AUsersPagedGetRequest<TraktHistoryItem>(
         "users/{username}/history{/type}{/item_id}{?start_at,end_at,extended,page,limit}",
-        extendedInfo,
-        page,
-        limit,
         TraktHistoryItem::class
 ), IHasId {
 
@@ -656,12 +629,11 @@ internal class UserWatchedHistoryRequest(
 }
 
 internal class UserWatchedMoviesRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktWatchedMovie>(
         "users/{username}/watched/movies{?extended}",
-        extendedInfo,
-        responseContentClass = TraktWatchedMovie::class
+        TraktWatchedMovie::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -675,12 +647,11 @@ internal class UserWatchedMoviesRequest(
 }
 
 internal class UserWatchedShowsRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktWatchedShow>(
         "users/{username}/watched/shows{?extended}",
-        extendedInfo,
-        responseContentClass = TraktWatchedShow::class
+        TraktWatchedShow::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -694,12 +665,11 @@ internal class UserWatchedShowsRequest(
 }
 
 internal class UserWatchingRequest(
-        extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         internal var username: String
 ) : AUsersGetRequest<TraktUserWatchingItem>(
         "users/{username}/watching{?extended}",
-        extendedInfo,
-        responseContentClass = TraktUserWatchingItem::class
+        TraktUserWatchingItem::class
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -714,15 +684,12 @@ internal class UserWatchingRequest(
 
 internal class UserWatchlistRequest(
         internal var username: String,
-        extendedInfo: TraktExtendedInfo? = null,
-        var type: TraktSyncItemType? = null,
-        page: Int? = null,
-        limit: Int? = null
+        override var extendedInfo: TraktExtendedInfo?,
+        var type: TraktSyncItemType?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AUsersPagedGetRequest<TraktWatchlistItem>(
         "users/{username}/watchlist{/type}{?extended,page,limit}",
-        extendedInfo,
-        page,
-        limit,
         TraktWatchlistItem::class
 ) {
     override val uriPathParameters: Map<String, Any>?

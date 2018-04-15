@@ -10,7 +10,7 @@ internal abstract class APostRequestHasResponse<TResponseContentType, TRequestBo
 
     override val method: HttpMethod = HttpMethod.POST
 
-    override var requestBody: TRequestBodyType? = null
+    abstract override var requestBody: TRequestBodyType?
 
     override fun validate(variableName: String) { requestBody?.validate(variableName) }
 }

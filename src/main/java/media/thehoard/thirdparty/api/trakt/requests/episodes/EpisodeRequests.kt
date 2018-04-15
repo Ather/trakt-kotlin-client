@@ -25,11 +25,11 @@ import kotlin.reflect.KClass
 
 internal sealed class AEpisodeRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var id: String,
-        internal var seasonNumber: Int,
-        internal var episodeNumber: Int,
         responseContentClass: KClass<*>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
+    internal abstract var seasonNumber: Int
+
+    internal abstract var episodeNumber: Int
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Episodes
 
@@ -45,16 +45,13 @@ internal sealed class AEpisodeRequest<TResponseContentType>(
 
 internal class EpisodeCommentsRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        internal var sortOrder: TraktCommentSortOrder? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        override var seasonNumber: Int,
+        override var episodeNumber: Int,
+        internal var sortOrder: TraktCommentSortOrder?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AEpisodeRequest<TraktComment>(
         "shows/{id}/seasons/{season}/episodes/{episode}/comments{/sort_order}{?page,limit}",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktComment::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
@@ -70,17 +67,14 @@ internal class EpisodeCommentsRequest(
 
 internal class EpisodeListsRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        internal var type: TraktListType? = null,
-        internal var sortOrder: TraktListSortOrder? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        override var seasonNumber: Int,
+        override var episodeNumber: Int,
+        internal var type: TraktListType?,
+        internal var sortOrder: TraktListSortOrder?,
+        override var page: Int?,
+        override var limit: Int?
 ) : AEpisodeRequest<TraktList>(
         "shows/{id}/seasons/{season}/episodes/{episode}/lists{/type}{/sort_order}{?page,limit}",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktList::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
@@ -99,38 +93,29 @@ internal class EpisodeListsRequest(
 
 internal class EpisodeRatingsRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int
+        override var seasonNumber: Int,
+        override var episodeNumber: Int
 ) : AEpisodeRequest<TraktRating>(
         "shows/{id}/seasons/{season}/episodes/{episode}/ratings",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktRating::class
 )
 
 internal class EpisodeStatisticsRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int
+        override var seasonNumber: Int,
+        override var episodeNumber: Int
 ) : AEpisodeRequest<TraktStatistics>(
         "shows/{id}/seasons/{season}/episodes/{episode}/stats",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktStatistics::class
 )
 
 internal class EpisodeSummaryRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var seasonNumber: Int,
+        override var episodeNumber: Int,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AEpisodeRequest<TraktEpisode>(
         "shows/{id}/seasons/{season}/episodes/{episode}{?extended}",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
@@ -142,14 +127,11 @@ internal class EpisodeSummaryRequest(
 
 internal class EpisodeTranslationsRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        internal var languageCode: String? = null
+        override var seasonNumber: Int,
+        override var episodeNumber: Int,
+        internal var languageCode: String?
 ) : AEpisodeRequest<TraktEpisodeTranslation>(
         "shows/{id}/seasons/{season}/episodes/{episode}/translations{/language}",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktEpisode::class
 ) {
     override val uriPathParameters: Map<String, Any>?
@@ -166,14 +148,11 @@ internal class EpisodeTranslationsRequest(
 
 internal class EpisodeWatchingUsersRequest(
         override var id: String,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var seasonNumber: Int,
+        override var episodeNumber: Int,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AEpisodeRequest<TraktUser>(
         "shows/{id}/seasons/{season}/episodes/{episode}/watching{?extended}",
-        id,
-        seasonNumber,
-        episodeNumber,
         TraktUser::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?

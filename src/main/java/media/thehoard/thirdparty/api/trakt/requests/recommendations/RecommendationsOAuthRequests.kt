@@ -15,7 +15,6 @@ import kotlin.reflect.KClass
 
 internal sealed class AUserRecommendationHideRequest(
         override val uriTemplate: String,
-        override var id: String,
         override val requestObjectType: RequestObjectType
 ) : ADeleteRequest(), IHasId {
     override val uriPathParameters: Map<String, Any>?
@@ -26,7 +25,7 @@ internal sealed class AUserRecommendationHideRequest(
 
 internal sealed class AUserRecommendationsRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var extendedInfo: TraktExtendedInfo? = null,
+        override var extendedInfo: TraktExtendedInfo?,
         var limit: Int? = null,
         responseContentClass: KClass<*>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), ISupportsExtendedInfo {
@@ -42,11 +41,13 @@ internal sealed class AUserRecommendationsRequest<TResponseContentType>(
 }
 
 internal class UserMovieRecommendationsRequest(
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?,
+        limit: Int?
 ) : AUserRecommendationsRequest<TraktMovie>(
         "recommendations/movies{?extended,limit}",
         extendedInfo,
-        responseContentClass = TraktMovie::class
+        limit,
+        TraktMovie::class
 ) {
     override fun validate(variableName: String) {}
 }
@@ -55,7 +56,6 @@ internal class UserRecommendationHideMovieRequest(
         override var id: String
 ) : AUserRecommendationHideRequest(
         "recommendations/movies/{id}",
-        id,
         RequestObjectType.Movies
 )
 
@@ -63,16 +63,17 @@ internal class UserRecommendationHideShowRequest(
         override var id: String
 ) : AUserRecommendationHideRequest(
         "recommendations/shows/{id}",
-        id,
         RequestObjectType.Shows
 )
 
 internal class UserShowRecommendationsRequest(
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?,
+        limit: Int?
 ) : AUserRecommendationsRequest<TraktShow>(
         "recommendations/shows{?extended,limit}",
         extendedInfo,
-        responseContentClass = TraktShow::class
+        limit,
+        TraktShow::class
 ) {
     override fun validate(variableName: String) {}
 }

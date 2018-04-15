@@ -13,13 +13,13 @@ import java.time.ZonedDateTime
 import kotlin.reflect.KClass
 
 internal abstract class ACalendarRequest<TResponseConentType>(override val uriTemplate: String, responseContentClass: KClass<*>) : AGetRequestHasResponse<TResponseConentType>(responseContentClass), ISupportsExtendedInfo, ISupportsFilter {
-    internal var startDate: ZonedDateTime? = null
+    internal abstract var startDate: ZonedDateTime?
 
-    internal var days: Int? = null
+    internal abstract var days: Int?
 
-    override var extendedInfo: TraktExtendedInfo? = null
+    abstract override var extendedInfo: TraktExtendedInfo?
 
-    override var filter: TraktCommonFilter? = null
+    abstract  override var filter: TraktCommonFilter?
 
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {
@@ -42,12 +42,37 @@ internal abstract class ACalendarRequest<TResponseConentType>(override val uriTe
     override fun validate(variableName: String) = (days ?: 0 in 1..31).validate("days must have a value between 1 and 31", null)
 }
 
-internal class CalendarAllDVDMoviesRequest : ACalendarRequest<TraktCalendarMovie>("calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
+internal class CalendarAllDVDMoviesRequest(
+        override var startDate: ZonedDateTime?,
+        override var days: Int?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?
+) : ACalendarRequest<TraktCalendarMovie>("calendars/all/dvd{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
 
-internal class CalendarAllMoviesRequest : ACalendarRequest<TraktCalendarMovie>("calendars/all/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
+internal class CalendarAllMoviesRequest(
+        override var startDate: ZonedDateTime?,
+        override var days: Int?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?
+) : ACalendarRequest<TraktCalendarMovie>("calendars/all/movies{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarMovie::class)
 
-internal class CalendarAllNewShowsRequest : ACalendarRequest<TraktCalendarShow>("calendars/all/shows/new{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
+internal class CalendarAllNewShowsRequest(
+        override var startDate: ZonedDateTime?,
+        override var days: Int?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?
+) : ACalendarRequest<TraktCalendarShow>("calendars/all/shows/new{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
 
-internal class CalendarAllSeasonPremieresRequest : ACalendarRequest<TraktCalendarShow>("calendars/all/shows/premieres{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
+internal class CalendarAllSeasonPremieresRequest(
+        override var startDate: ZonedDateTime?,
+        override var days: Int?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?
+) : ACalendarRequest<TraktCalendarShow>("calendars/all/shows/premieres{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
 
-internal class CalendarAllShowsRequest : ACalendarRequest<TraktCalendarShow>("calendars/all/shows{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)
+internal class CalendarAllShowsRequest(
+        override var startDate: ZonedDateTime?,
+        override var days: Int?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var filter: TraktCommonFilter?
+) : ACalendarRequest<TraktCalendarShow>("calendars/all/shows{/start_date}{/days}{?extended,query,years,genres,languages,countries,runtimes,ratings}", TraktCalendarShow::class)

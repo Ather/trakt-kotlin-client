@@ -54,23 +54,23 @@ internal sealed class ASyncGetRequest<TResponseContentType>(
 
 internal sealed class ASyncPostRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
         override val uriTemplate: String,
-        override var requestBody: TRequestBodyType? = null,
         responseContentClass: KClass<*>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass) {
+    abstract override var requestBody: TRequestBodyType?
+
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf()
 }
 
 internal class SyncCollectionAddRequest(
-        override var requestBody: TraktSyncCollectionPost? = null
+        override var requestBody: TraktSyncCollectionPost?
 ) : ASyncPostRequest<TraktSyncCollectionPostResponse, TraktSyncCollectionPost>(
         "sync/collection",
-        requestBody,
         TraktSyncCollectionPostResponse::class
 )
 
 internal class SyncCollectionMoviesRequest(
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASyncGetRequest<TraktCollectionMovie>(
         "sync/collection/movies{?extended}",
         TraktCollectionMovie::class
@@ -83,15 +83,14 @@ internal class SyncCollectionMoviesRequest(
 }
 
 internal class SyncCollectionRemoveRequest(
-        override var requestBody: TraktSyncCollectionPost? = null
+        override var requestBody: TraktSyncCollectionPost?
 ) : ASyncPostRequest<TraktSyncCollectionRemovePostResponse, TraktSyncCollectionPost>(
         "sync/collection/remove",
-        requestBody,
         TraktSyncCollectionRemovePostResponse::class
 )
 
 internal class SyncCollectionShowsRequest(
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASyncGetRequest<TraktCollectionShow>(
         "sync/collection/shows{?extended}",
         TraktCollectionShowEpisode::class
@@ -123,8 +122,8 @@ internal class SyncPlaybackDeleteRequest(
 }
 
 internal class SyncPlaybackProgressRequest(
-        internal var type: TraktSyncType? = null,
-        internal var limit: Int? = null
+        internal var type: TraktSyncType?,
+        internal var limit: Int?
 ) : ASyncGetRequest<TraktSyncPlaybackProgressItem>(
         "sync/playback{/type}{?limit}",
         TraktSyncPlaybackProgressItem::class
@@ -141,25 +140,23 @@ internal class SyncPlaybackProgressRequest(
 }
 
 internal class SyncRatingsAddRequest(
-        override var requestBody: TraktSyncRatingsPost? = null
+        override var requestBody: TraktSyncRatingsPost?
 ) : ASyncPostRequest<TraktSyncRatingsPostResponse, TraktSyncRatingsPost>(
         "sync/ratings",
-        requestBody,
         TraktSyncRatingsPostResponse::class
 )
 
 internal class SyncRatingsRemoveRequest(
-        override var requestBody: TraktSyncRatingsPost? = null
+        override var requestBody: TraktSyncRatingsPost?
 ) : ASyncPostRequest<TraktSyncRatingsRemovePostResponse, TraktSyncRatingsPost>(
         "sync/ratings/remove",
-        requestBody,
         TraktSyncRatingsRemovePostResponse::class
 )
 
 internal class SyncRatingsRequest(
-        internal var type: TraktRatingsItemType? = null,
-        internal var ratingFilter: List<Int>? = null,
-        override var extendedInfo: TraktExtendedInfo? = null
+        internal var type: TraktRatingsItemType?,
+        internal var ratingFilter: List<Int>?,
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASyncGetRequest<TraktRatingsItem>(
         "sync/ratings{/type}{/rating}{?extended}",
         TraktRatingsItem::class
@@ -180,29 +177,27 @@ internal class SyncRatingsRequest(
 }
 
 internal class SyncWatchedHistoryAddRequest(
-        override var requestBody: TraktSyncHistoryPost? = null
+        override var requestBody: TraktSyncHistoryPost?
 ) : ASyncPostRequest<TraktSyncHistoryPostResponse, TraktSyncHistoryPost>(
         "sync/history",
-        requestBody,
         TraktSyncHistoryPostResponse::class
 )
 
 internal class SyncWatchedHistoryRemoveRequest(
-        override var requestBody: TraktSyncHistoryRemovePost? = null
+        override var requestBody: TraktSyncHistoryRemovePost?
 ) : ASyncPostRequest<TraktSyncHistoryRemovePostResponse, TraktSyncHistoryRemovePost>(
         "sync/history/remove",
-        requestBody,
         TraktSyncHistoryRemovePostResponse::class
 )
 
 internal class SyncWatchedHistoryRequest(
-        internal var type: TraktSyncItemType? = null,
-        internal var itemId: Int? = null,
-        internal var startAt: ZonedDateTime? = null,
-        internal var endAt: ZonedDateTime? = null,
-        override var extendedInfo: TraktExtendedInfo? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        internal var type: TraktSyncItemType?,
+        internal var itemId: Int?,
+        internal var startAt: ZonedDateTime?,
+        internal var endAt: ZonedDateTime?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var page: Int?,
+        override var limit: Int?
 ) : ASyncGetRequest<TraktHistoryItem>(
         "sync/history{/type}{/item_id}{?start_at,end_at,extended,page,limit}",
         TraktHistoryItem::class
@@ -229,7 +224,7 @@ internal class SyncWatchedHistoryRequest(
 }
 
 internal class SyncWatchedMoviesRequest(
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASyncGetRequest<TraktWatchedMovie>(
         "sync/watched/movies{?extended}",
         TraktWatchedMovie::class
@@ -242,7 +237,7 @@ internal class SyncWatchedMoviesRequest(
 }
 
 internal class SyncWatchedShowsRequest(
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASyncGetRequest<TraktWatchedShow>(
         "sync/watched/shows{?extended}",
         TraktWatchedShow::class
@@ -255,26 +250,24 @@ internal class SyncWatchedShowsRequest(
 }
 
 internal class SyncWatchlistAddRequest(
-        override var requestBody: TraktSyncWatchlistPost? = null
+        override var requestBody: TraktSyncWatchlistPost?
 ) : ASyncPostRequest<TraktSyncWatchlistPostResponse, TraktSyncWatchlistPost>(
         "sync/watchlist",
-        requestBody,
         TraktSyncWatchlistPostResponse::class
 )
 
 internal class SyncWatchlistRemoveRequest(
-        override var requestBody: TraktSyncWatchlistPost? = null
+        override var requestBody: TraktSyncWatchlistPost?
 ) : ASyncPostRequest<TraktSyncWatchlistRemovePostResponse, TraktSyncWatchlistPost>(
         "sync/watchlist/remove",
-        requestBody,
         TraktSyncWatchlistRemovePostResponse::class
 )
 
 internal class SyncWatchlistRequest(
-        internal var type: TraktSyncItemType? = null,
-        override var extendedInfo: TraktExtendedInfo? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        internal var type: TraktSyncItemType?,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var page: Int?,
+        override var limit: Int?
 ) : ASyncGetRequest<TraktWatchlistItem>(
         "sync/watchlist{/type}{?extended,page,limit}",
         TraktWatchlistItem::class

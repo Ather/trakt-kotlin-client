@@ -5,7 +5,7 @@ import media.thehoard.thirdparty.api.trakt.requests.interfaces.IRequestBody
 import kotlin.reflect.KClass
 
 internal class ScrobblePauseRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
-        override var requestBody: TRequestBodyType? = null,
+        override var requestBody: TRequestBodyType?,
         responseContentClass: KClass<*>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass) {
     override val uriTemplate: String = "scrobble/pause"
@@ -15,7 +15,7 @@ internal class ScrobblePauseRequest<TResponseContentType, TRequestBodyType : IRe
 }
 
 internal class ScrobbleStartRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
-        override var requestBody: TRequestBodyType? = null,
+        override var requestBody: TRequestBodyType?,
         responseContentClass: KClass<*>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass) {
     override val uriTemplate: String = "scrobble/start"
@@ -25,7 +25,7 @@ internal class ScrobbleStartRequest<TResponseContentType, TRequestBodyType : IRe
 }
 
 internal class ScrobbleStopRequest<TResponseContentType, TRequestBodyType : IRequestBody>(
-        override var requestBody: TRequestBodyType? = null,
+        override var requestBody: TRequestBodyType?,
         responseContentClass: KClass<*>
 ) : APostRequestHasResponse<TResponseContentType, TRequestBodyType>(responseContentClass) {
     override val uriTemplate: String = "scrobble/stop"

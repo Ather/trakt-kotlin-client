@@ -11,12 +11,13 @@ import kotlin.reflect.KClass
 
 internal sealed class AShowProgressRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var id: String,
-        internal var hidden: Boolean? = null,
-        internal var specials: Boolean? = null,
-        internal var countSpecials: Boolean? = null,
         responseContentClass: KClass<*>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
+    internal abstract var hidden: Boolean?
+
+    internal abstract var specials: Boolean?
+
+    internal abstract var countSpecials: Boolean?
 
     override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.Required
 
@@ -37,28 +38,20 @@ internal sealed class AShowProgressRequest<TResponseContentType>(
 
 internal class ShowCollectionProgressRequest(
         override var id: String,
-        hidden: Boolean? = null,
-        specials: Boolean? = null,
-        countSpecials: Boolean? = null
+        override var hidden: Boolean?,
+        override var specials: Boolean?,
+        override var countSpecials: Boolean?
 ) : AShowProgressRequest<TraktShowCollectionProgress>(
         "shows/{id}/progress/collection{?hidden,specials,count_specials}",
-        id,
-        hidden,
-        specials,
-        countSpecials,
         TraktShowCollectionProgress::class
 )
 
 internal class ShowWatchedProgressRequest(
         override var id: String,
-        hidden: Boolean? = null,
-        specials: Boolean? = null,
-        countSpecials: Boolean? = null
+        override var hidden: Boolean?,
+        override var specials: Boolean?,
+        override var countSpecials: Boolean?
 ) : AShowProgressRequest<TraktShowCollectionProgress>(
         "shows/{id}/progress/watched{?hidden,specials,count_specials}",
-        id,
-        hidden,
-        specials,
-        countSpecials,
         TraktShowCollectionProgress::class
 )

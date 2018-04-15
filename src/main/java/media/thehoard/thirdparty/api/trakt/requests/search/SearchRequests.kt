@@ -16,12 +16,10 @@ import media.thehoard.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import java.util.*
 
 internal sealed class ASearchRequest(
-        override val uriTemplate: String,
-        override var extendedInfo: TraktExtendedInfo? = null,
-        internal open var resultTypes: TraktSearchResultType? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        override val uriTemplate: String
 ) : AGetRequestHasResponse<TraktSearchResult>(TraktSearchResult::class), ISupportsExtendedInfo, ISupportsPagination {
+    internal abstract var resultTypes: TraktSearchResultType?
+
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {
             if (extendedInfo != null && extendedInfo!!.hasAnySet)
@@ -35,18 +33,14 @@ internal sealed class ASearchRequest(
 
 internal class SearchIdLookupRequest(
         override val uriTemplate: String,
-        override var extendedInfo: TraktExtendedInfo? = null,
-        override var resultTypes: TraktSearchResultType? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var resultTypes: TraktSearchResultType?,
+        override var page: Int?,
+        override var limit: Int?,
         internal var idType: TraktSearchIdType,
         internal var lookupId: String
 ) : ASearchRequest(
-        "search/{id_type}/{id}{?type,extended,page,limit}",
-        extendedInfo,
-        resultTypes,
-        page,
-        limit
+        "search/{id_type}/{id}{?type,extended,page,limit}"
 ) {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
@@ -64,19 +58,15 @@ internal class SearchIdLookupRequest(
 }
 
 internal class SearchTextQueryRequest(
-        override var extendedInfo: TraktExtendedInfo? = null,
-        override var resultTypes: TraktSearchResultType? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null,
-        override var filter: TraktCommonFilter? = null,
-        internal var searchFields: TraktSearchField? = null,
+        override var extendedInfo: TraktExtendedInfo?,
+        override var resultTypes: TraktSearchResultType?,
+        override var page: Int?,
+        override var limit: Int?,
+        override var filter: TraktCommonFilter?,
+        internal var searchFields: TraktSearchField?,
         internal var query: String
 ) : ASearchRequest(
-        "search/{type}{?query,fields,years,genres,languages,countries,runtimes,ratings,extended,page,limit}",
-        extendedInfo,
-        resultTypes,
-        page,
-        limit
+        "search/{type}{?query,fields,years,genres,languages,countries,runtimes,ratings,extended,page,limit}"
 ), ISupportsFilter {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {

@@ -23,10 +23,10 @@ import kotlin.reflect.KClass
 
 internal sealed class ASeasonRequest<TResponseContentType>(
         override val uriTemplate: String,
-        override var id: String,
-        internal var seasonNumber: Int,
         responseContentClass: KClass<*>
 ) : AGetRequestHasResponse<TResponseContentType>(responseContentClass), IHasId {
+    internal abstract var seasonNumber: Int
+
     override val requestObjectType: RequestObjectType = RequestObjectType.Seasons
 
     override val uriPathParameters: Map<String, Any>?
@@ -37,14 +37,12 @@ internal sealed class ASeasonRequest<TResponseContentType>(
 
 internal class SeasonCommentsRequest(
         override var id: String,
-        seasonNumber: Int,
-        internal var sortOrder: TraktCommentSortOrder? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        override var seasonNumber: Int,
+        internal var sortOrder: TraktCommentSortOrder?,
+        override var page: Int?,
+        override var limit: Int?
 ) : ASeasonRequest<TraktComment>(
         "shows/{id}/seasons/{season}/comments{/sort_order}{?page,limit}",
-        id,
-        seasonNumber,
         TraktComment::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
@@ -60,15 +58,13 @@ internal class SeasonCommentsRequest(
 
 internal class SeasonListsRequest(
         override var id: String,
-        seasonNumber: Int,
-        internal var type: TraktListType? = null,
-        internal var sortOrder: TraktCommentSortOrder? = null,
-        override var page: Int? = null,
-        override var limit: Int? = null
+        override var seasonNumber: Int,
+        internal var type: TraktListType?,
+        internal var sortOrder: TraktCommentSortOrder?,
+        override var page: Int?,
+        override var limit: Int?
 ) : ASeasonRequest<TraktList>(
         "shows/{id}/seasons/{season}/lists{/type}{/sort_order}{?page,limit}",
-        id,
-        seasonNumber,
         TraktList::class
 ), ISupportsPagination {
     override val uriPathParameters: Map<String, Any>?
@@ -88,18 +84,16 @@ internal class SeasonListsRequest(
 
 internal class SeasonRatingsRequest(
         override var id: String,
-        seasonNumber: Int
+        override var seasonNumber: Int
 ) : ASeasonRequest<TraktRating>(
         "shows/{id}/seasons/{season}/ratings",
-        id,
-        seasonNumber,
         TraktRating::class
 )
 
 internal class SeasonsAllRequest(
         override var id: String,
-        internal var translationLanguageCode: String? = null,
-        override var extendedInfo: TraktExtendedInfo? = null
+        internal var translationLanguageCode: String?,
+        override var extendedInfo: TraktExtendedInfo?
 ) : AGetRequestHasResponse<TraktSeason>(TraktSeason::class), IHasId, ISupportsExtendedInfo {
 
     override val requestObjectType: RequestObjectType = RequestObjectType.Shows
@@ -122,13 +116,11 @@ internal class SeasonsAllRequest(
 
 internal class SeasonSingleRequest(
         override var id: String,
-        seasonNumber: Int,
-        internal var translationLanguageCode: String? = null,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var seasonNumber: Int,
+        internal var translationLanguageCode: String?,
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASeasonRequest<TraktEpisode>(
         "shows/{id}/seasons/{season}{?extended,translations}",
-        id,
-        seasonNumber,
         TraktEpisode::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
@@ -147,22 +139,18 @@ internal class SeasonSingleRequest(
 
 internal class SeasonStatisticsRequest(
         override var id: String,
-        seasonNumber: Int
+        override var seasonNumber: Int
 ) : ASeasonRequest<TraktStatistics>(
         "shows/{id}/seasons/{season}/stats",
-        id,
-        seasonNumber,
         TraktStatistics::class
 )
 
 internal class SeasonWatchingUsersRequest(
         override var id: String,
-        seasonNumber: Int,
-        override var extendedInfo: TraktExtendedInfo? = null
+        override var seasonNumber: Int,
+        override var extendedInfo: TraktExtendedInfo?
 ) : ASeasonRequest<TraktUser>(
         "shows/{id}/seasons/{season}/watching{?extended}",
-        id,
-        seasonNumber,
         TraktUser::class
 ), ISupportsExtendedInfo {
     override val uriPathParameters: Map<String, Any>?
