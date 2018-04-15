@@ -1,6 +1,6 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.collections
 
-import media.thehoard.thirdparty.api.trakt.objects.basic.implementations.TraktMetadataImpl
+import media.thehoard.thirdparty.api.trakt.objects.basic.TraktMetadata
 import java.time.ZonedDateTime
 
 interface TraktCollectionShowEpisode {
@@ -8,5 +8,5 @@ interface TraktCollectionShowEpisode {
 
     var collectedAt: ZonedDateTime?
 
-    var metadata: TraktMetadataImpl?
+    var metadata: TraktMetadata?
 }
