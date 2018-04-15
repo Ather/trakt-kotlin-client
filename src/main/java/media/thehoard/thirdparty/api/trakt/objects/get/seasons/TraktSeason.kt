@@ -1,14 +1,13 @@
 package media.thehoard.thirdparty.api.trakt.objects.get.seasons
 
-import media.thehoard.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
-import media.thehoard.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonIdsImpl
+import media.thehoard.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import media.thehoard.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 
 interface TraktSeason : IValidatable {
     var number: Int
 
-    var ids: TraktSeasonIdsImpl
+    var ids: TraktSeasonIds
 
     var rating: Float?
 
@@ -26,5 +25,5 @@ interface TraktSeason : IValidatable {
 
     var network: String?
 
-    var episodes: MutableList<TraktEpisodeImpl>?
+    var episodes: MutableList<TraktEpisode>?
 }
