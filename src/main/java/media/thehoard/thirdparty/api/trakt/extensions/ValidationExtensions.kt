@@ -1,5 +1,7 @@
 package media.thehoard.thirdparty.api.trakt.extensions
 
+import media.thehoard.thirdparty.api.trakt.enums.TraktEnumeration
+
 fun Float?.validate(variableName: String = "Float", test: (Float) -> Boolean, errorMessage: String? = "not valid") {
     if (this == null || !test.invoke(this))
         throw IllegalArgumentException("$variableName${if (errorMessage != null) " $errorMessage" else ""}")
@@ -19,7 +21,7 @@ fun Boolean?.validate(variableName: String, errorMessage: String? = "not valid")
     if (this != true) throw IllegalArgumentException("$variableName${if (errorMessage != null) " $errorMessage" else ""}")
 }
 
-fun <T : Enum<T>> Enum<T>?.validateSpecified(variableName: String, errorMessage: String? = "must not be unspecified") = (this.toString() != "UNSPECIFIED").validate(variableName, errorMessage)
+fun TraktEnumeration?.validateSpecified(variableName: String, errorMessage: String? = "must not be unspecified") = (this?.displayName != "UNSPECIFIED").validate(variableName, errorMessage)
 
 /** Float Functions **/
 fun isValidProgress(f: Float?) = f ?: -1f in 0.0f..100.0f

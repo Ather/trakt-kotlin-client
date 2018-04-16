@@ -3,7 +3,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktSearchField(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktSearchField(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("title")
@@ -23,25 +23,75 @@ enum class TraktSearchField(val value: Int = 0, val objectName: String = "", val
     @SerializedName("biography")
     BIOGRAPHY(128, "biography", "biography", "Biography"),
     @SerializedName("description")
-    DESCRIPTION(256, "description", "description", "Description")
+    DESCRIPTION(256, "description", "description", "Description");
 
-    /*
-	public TraktSearchField join(TraktSearchField second) {
-		return join(this, second);
-	}
+    operator fun plus(searchField: TraktSearchField): CombinedTraktSearchField = CombinedTraktSearchField(this, searchField)
 
-	public static TraktSearchField join(TraktSearchField first, TraktSearchField second) {
-		if(first == null || second == null)
-			return null;
+    operator fun plus(combinedSearchField: CombinedTraktSearchField): CombinedTraktSearchField = CombinedTraktSearchField(this, combinedSearchField)
 
-		if (first.equals(UNSPECIFIED) || second.equals(UNSPECIFIED))
-			return UNSPECIFIED;
+    operator fun unaryPlus() = CombinedTraktSearchField(this)
 
-		int newValue = first.value | second.value;
-		String newObjectName = String.join(",", first.objectName, second.objectName);
-		String newUriName = String.join(",", first.uriName, second.uriName);
-		String newDisplayName = String.join(",", first.displayName, second.displayName);
+    override fun toString() = displayName
 
-		return new TraktSearchField(newValue, newObjectName, newUriName, newDisplayName);
-	}*/
+    inner class CombinedTraktSearchField : TraktEnumeration {
+        override var value: Int = 0
+
+        override var objectName: String = ""
+
+        override var uriName: String = ""
+
+        override var displayName: String = ""
+
+        constructor(original: TraktSearchField) {
+            value = original.value
+            objectName = original.objectName
+            uriName = original.uriName
+            displayName = original.displayName
+        }
+
+        constructor(original: TraktSearchField, secondary: TraktSearchField) {
+            join(original, secondary)
+        }
+
+        constructor(original: TraktSearchField, secondary: CombinedTraktSearchField) {
+            join(original, secondary)
+        }
+
+        constructor(original: CombinedTraktSearchField, secondary: TraktSearchField) {
+            join(original, secondary)
+        }
+
+        constructor(original: CombinedTraktSearchField, secondary: CombinedTraktSearchField) {
+            join(original, secondary)
+        }
+
+        private fun join(original: TraktEnumeration, secondary: TraktEnumeration) {
+            value = original.value + secondary.value
+            objectName = "${original.objectName},${secondary.objectName}"
+            uriName = "${original.uriName},${secondary.uriName}"
+            displayName = "${original.displayName}, ${secondary.displayName}"
+        }
+
+        operator fun plus(searchField: TraktSearchField): CombinedTraktSearchField = CombinedTraktSearchField(this, searchField)
+
+        operator fun plus(combinedSearchField: CombinedTraktSearchField): CombinedTraktSearchField = CombinedTraktSearchField(this, combinedSearchField)
+
+        override fun equals(other: Any?): Boolean {
+            if (other is CombinedTraktSearchField)
+                return this.objectName == other.objectName
+            if (other is TraktSearchField)
+                return this.objectName == other.objectName
+            return false
+        }
+
+        override fun hashCode(): Int {
+            var result = value
+            result = 31 * result + objectName.hashCode()
+            result = 31 * result + uriName.hashCode()
+            result = 31 * result + displayName.hashCode()
+            return result
+        }
+
+        override fun toString() = displayName
+    }
 }

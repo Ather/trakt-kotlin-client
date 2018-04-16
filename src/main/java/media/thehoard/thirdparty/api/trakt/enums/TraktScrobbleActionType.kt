@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktScrobbleActionType(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktScrobbleActionType(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("start")
@@ -10,5 +10,7 @@ enum class TraktScrobbleActionType(val value: Int = 0, val objectName: String = 
     @SerializedName("pause")
     PAUSE(2, "pause", "pause", "Pause"),
     @SerializedName("scrobble")
-    STOP(4, "scrobble", "scrobble", "Stop")
+    STOP(4, "scrobble", "scrobble", "Stop");
+
+    override fun toString() = displayName
 }

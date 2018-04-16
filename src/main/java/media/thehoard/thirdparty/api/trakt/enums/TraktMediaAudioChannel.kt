@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktMediaAudioChannel(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktMediaAudioChannel(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("1.0")
@@ -26,5 +26,7 @@ enum class TraktMediaAudioChannel(val value: Int = 0, val objectName: String = "
     @SerializedName("6.1")
     CHANNELS_6_1(512, "6.1", "6.1", "Channels 6.1"),
     @SerializedName("7.1")
-    CHANNELS_7_1(1024, "7.1", "7.1", "Channels 7.1")
+    CHANNELS_7_1(1024, "7.1", "7.1", "Channels 7.1");
+
+    override fun toString() = displayName
 }

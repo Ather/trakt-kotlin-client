@@ -18,7 +18,7 @@ import java.util.*
 internal sealed class ASearchRequest(
         override val uriTemplate: String
 ) : AGetRequestHasResponse<TraktSearchResult>(TraktSearchResult::class), ISupportsExtendedInfo, ISupportsPagination {
-    internal abstract var resultTypes: TraktSearchResultType?
+    internal abstract var resultTypes: TraktSearchResultType.CombinedTraktSearchResultType?
 
     override val uriPathParameters: Map<String, Any>?
         get() = hashMapOf<String, String>().apply {
@@ -33,7 +33,7 @@ internal sealed class ASearchRequest(
 
 internal class SearchIdLookupRequest(
         override var extendedInfo: TraktExtendedInfo?,
-        override var resultTypes: TraktSearchResultType?,
+        override var resultTypes: TraktSearchResultType.CombinedTraktSearchResultType?,
         override var page: Int?,
         override var limit: Int?,
         internal var idType: TraktSearchIdType,
@@ -46,7 +46,7 @@ internal class SearchIdLookupRequest(
             this["id_type"] = idType.uriName
             this["id"] = lookupId
 
-            if (resultTypes != null && resultTypes != TraktSearchResultType.UNSPECIFIED)
+            if (resultTypes != null && resultTypes!!.objectName != TraktSearchResultType.UNSPECIFIED.objectName)
                 this["type"] = resultTypes!!.uriName
         }
 
@@ -58,21 +58,23 @@ internal class SearchIdLookupRequest(
 
 internal class SearchTextQueryRequest(
         override var extendedInfo: TraktExtendedInfo?,
-        override var resultTypes: TraktSearchResultType?,
+        override var resultTypes: TraktSearchResultType.CombinedTraktSearchResultType?,
         override var page: Int?,
         override var limit: Int?,
         override var filter: TraktCommonFilter?,
-        internal var searchFields: TraktSearchField?,
+        internal var searchFields: TraktSearchField.CombinedTraktSearchField?,
         internal var query: String
 ) : ASearchRequest(
         "search/{type}{?query,fields,years,genres,languages,countries,runtimes,ratings,extended,page,limit}"
 ), ISupportsFilter {
     override val uriPathParameters: Map<String, Any>?
         get() = (super.uriPathParameters as HashMap<String, Any>).apply {
-            this["type"] = resultTypes!!.uriName
+            if (resultTypes != null)
+                this["type"] = resultTypes!!.uriName
+
             this["query"] = query
 
-            if (searchFields != null && searchFields != TraktSearchField.UNSPECIFIED)
+            if (searchFields != null && searchFields!!.objectName != TraktSearchField.UNSPECIFIED.objectName)
                 this["fields"] = searchFields!!.uriName
             if (filter != null && filter!!.hasValues)
                 for (parameter in filter!!.getParameters())

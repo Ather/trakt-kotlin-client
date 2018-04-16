@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktMediaResolution(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktMediaResolution(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("uhd_4k")
@@ -20,5 +20,7 @@ enum class TraktMediaResolution(val value: Int = 0, val objectName: String = "",
     @SerializedName("sd_576p")
     SD_576P(64, "sd_576p", "sd_576p", "SD 576p"),
     @SerializedName("sd_576i")
-    SD_576I(128, "sd_576i", "sd_576i", "SD 576i")
+    SD_576I(128, "sd_576i", "sd_576i", "SD 576i");
+
+    override fun toString() = displayName
 }

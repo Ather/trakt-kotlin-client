@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktAccessScope(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktAccessScope(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("public")
@@ -10,5 +10,7 @@ enum class TraktAccessScope(val value: Int = 0, val objectName: String = "", val
     @SerializedName("private")
     PRIVATE(2, "private", "private", "Private"),
     @SerializedName("friends")
-    FRIENDS(4, "friends", "friends", "Friends")
+    FRIENDS(4, "friends", "friends", "Friends");
+
+    override fun toString() = displayName
 }

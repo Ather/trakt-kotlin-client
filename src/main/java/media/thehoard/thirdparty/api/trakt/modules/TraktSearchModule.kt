@@ -16,11 +16,20 @@ import media.thehoard.thirdparty.api.trakt.responses.TraktPagedResponse
 import java.util.concurrent.CompletableFuture
 
 class TraktSearchModule internal constructor(override val client: TraktClient) : TraktModule {
-    //TODO Support combined enums
+
+    fun getTextQueryResultAsync(searchResultTypes: TraktSearchResultType, searchQuery: String, searchFields: TraktSearchField? = null, filter: TraktSearchFilter? = null, extendedInfo: TraktExtendedInfo? = null, pagedParameters: TraktPagedParameters? = null, requestAuthorization: TraktAuthorization = client.authorization
+    ) = getTextQueryResultAsync(+searchResultTypes, searchQuery, if (searchFields != null) +searchFields else null, filter, extendedInfo, pagedParameters, requestAuthorization)
+
+    fun getTextQueryResultAsync(searchResultTypes: TraktSearchResultType.CombinedTraktSearchResultType, searchQuery: String, searchFields: TraktSearchField? = null, filter: TraktSearchFilter? = null, extendedInfo: TraktExtendedInfo? = null, pagedParameters: TraktPagedParameters? = null, requestAuthorization: TraktAuthorization = client.authorization
+    ) = getTextQueryResultAsync(searchResultTypes, searchQuery, if (searchFields != null) +searchFields else null, filter, extendedInfo, pagedParameters, requestAuthorization)
+
+    fun getTextQueryResultAsync(searchResultTypes: TraktSearchResultType, searchQuery: String, searchFields: TraktSearchField.CombinedTraktSearchField? = null, filter: TraktSearchFilter? = null, extendedInfo: TraktExtendedInfo? = null, pagedParameters: TraktPagedParameters? = null, requestAuthorization: TraktAuthorization = client.authorization
+    ) = getTextQueryResultAsync(+searchResultTypes, searchQuery, searchFields, filter, extendedInfo, pagedParameters, requestAuthorization)
+
     fun getTextQueryResultAsync(
-            searchResultTypes: TraktSearchResultType,
+            searchResultTypes: TraktSearchResultType.CombinedTraktSearchResultType,
             searchQuery: String,
-            searchFields: TraktSearchField? = null,
+            searchFields: TraktSearchField.CombinedTraktSearchField? = null,
             filter: TraktSearchFilter? = null,
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
@@ -31,10 +40,13 @@ class TraktSearchModule internal constructor(override val client: TraktClient) :
         ), requestAuthorization)
     }
 
+    fun getIdLookupResultsAsync(searchIdType: TraktSearchIdType, lookupId: String, searchResultTypes: TraktSearchResultType, extendedInfo: TraktExtendedInfo? = null, pagedParameters: TraktPagedParameters? = null, requestAuthorization: TraktAuthorization = client.authorization
+    ) = getIdLookupResultsAsync(searchIdType, lookupId, +searchResultTypes, extendedInfo, pagedParameters, requestAuthorization)
+
     fun getIdLookupResultsAsync(
             searchIdType: TraktSearchIdType,
             lookupId: String,
-            searchResultTypes: TraktSearchResultType,
+            searchResultTypes: TraktSearchResultType.CombinedTraktSearchResultType,
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization

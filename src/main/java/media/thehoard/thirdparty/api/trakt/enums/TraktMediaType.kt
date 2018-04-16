@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktMediaType(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktMediaType(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("digital")
@@ -20,5 +20,7 @@ enum class TraktMediaType(val value: Int = 0, val objectName: String = "", val u
     @SerializedName("betamax")
     BETA_MAX(64, "betamax", "betamax", "BetaMax"),
     @SerializedName("laserdisc")
-    LASER_DISC(128, "laserdisc", "laserdisc", "LaserDisc")
+    LASER_DISC(128, "laserdisc", "laserdisc", "LaserDisc");
+
+    override fun toString() = displayName
 }

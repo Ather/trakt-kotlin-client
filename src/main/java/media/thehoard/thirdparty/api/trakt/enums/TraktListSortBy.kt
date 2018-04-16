@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktListSortBy(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktListSortBy(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("rank")
@@ -24,5 +24,7 @@ enum class TraktListSortBy(val value: Int = 0, val objectName: String = "", val 
     @SerializedName("my_rating")
     MY_RATING(256, "my_rating", "my_rating", "My Rating"),
     @SerializedName("random")
-    RANDOM(512, "random", "random", "Random")
+    RANDOM(512, "random", "random", "Random");
+
+    override fun toString() = displayName
 }

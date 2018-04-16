@@ -2,7 +2,7 @@ package media.thehoard.thirdparty.api.trakt.enums
 
 import com.google.gson.annotations.SerializedName
 
-enum class TraktMediaAudio(val value: Int = 0, val objectName: String = "", val uriName: String = "", val displayName: String = "Unspecified") {
+enum class TraktMediaAudio(override val value: Int = 0, override val objectName: String = "", override val uriName: String = "", override val displayName: String = "Unspecified") : TraktEnumeration {
     @SerializedName("")
     UNSPECIFIED,
     @SerializedName("lpcm")
@@ -30,5 +30,7 @@ enum class TraktMediaAudio(val value: Int = 0, val objectName: String = "", val 
     @SerializedName("dolby_truehd")
     DOLBY_TRUEHD(2048, "dolby_truehd", "dolby_truehd", "Dolby True HD"),
     @SerializedName("dolby_atmos")
-    DOLBY_ATMOS(4096, "dolby_atmos", "dolby_atmos", "Dolby Atmos")
+    DOLBY_ATMOS(4096, "dolby_atmos", "dolby_atmos", "Dolby Atmos");
+
+    override fun toString() = displayName
 }
