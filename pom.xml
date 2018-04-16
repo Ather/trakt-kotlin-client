@@ -9,8 +9,8 @@
         <kotlin.version>1.2.31</kotlin.version>
     </properties>
     <groupId>media.thehoard.thirdparty</groupId>
-    <artifactId>trakt-api-java-wrapper</artifactId>
-    <version>0.5.0</version>
+    <artifactId>trakt-api-kotlin-wrapper</artifactId>
+    <version>0.6.0</version>
     <dependencies>
         <dependency>
             <groupId>org.asynchttpclient</groupId>
@@ -53,6 +53,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.0.0</version>
         </dependency>
     </dependencies>
     <build>
