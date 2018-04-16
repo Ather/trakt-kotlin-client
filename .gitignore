@@ -49,4 +49,4 @@ trakt-api-java-wrapper.iml
 
 target/
 
-src/test/java/media/thehoard/thirdparty/api/trakt/Playground.kt
+src/test/kotlin/media/thehoard/thirdparty/api/trakt/Playground.kt
