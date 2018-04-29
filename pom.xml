@@ -8,8 +8,8 @@
         <maven.compiler.target>1.9</maven.compiler.target>
         <kotlin.version>1.2.31</kotlin.version>
     </properties>
-    <groupId>media.thehoard.thirdparty</groupId>
-    <artifactId>trakt-api-kotlin-wrapper</artifactId>
+    <groupId>com.atherapp.thirdparty</groupId>
+    <artifactId>trakt-kotlin-client</artifactId>
     <version>0.6.0</version>
     <dependencies>
         <dependency>
