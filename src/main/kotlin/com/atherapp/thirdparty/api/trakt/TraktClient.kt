@@ -70,14 +70,14 @@ class TraktClient internal constructor() {
             authentication.authorization = value
         }
 
-    val isValidForUseWithoutAuthorization: Boolean?
-        get() = clientId.isNullOrBlank() && !clientId!!.containsSpace()
+    val isValidForUseWithoutAuthorization: Boolean
+        get() = !clientId.isNullOrBlank() && !clientId!!.containsSpace()
 
-    val isValidForUseWithAuthorization: Boolean?
-        get() = isValidForUseWithoutAuthorization!! && authentication.isAuthorized
+    val isValidForUseWithAuthorization: Boolean
+        get() = isValidForUseWithoutAuthorization && authentication.isAuthorized
 
-    val isValidForAuthenticationProcess: Boolean?
-        get() = isValidForUseWithoutAuthorization!! && !clientSecret.isNullOrBlank() && !clientSecret!!.containsSpace()
+    val isValidForAuthenticationProcess: Boolean
+        get() = isValidForUseWithoutAuthorization && !clientSecret.isNullOrBlank() && !clientSecret!!.containsSpace()
 
     constructor(clientId: String) : this() {
         this.clientId = clientId
@@ -85,9 +85,5 @@ class TraktClient internal constructor() {
 
     constructor(clientId: String, clientSecret: String) : this(clientId) {
         this.clientSecret = clientSecret
-    }
-
-    companion object {
-        internal val MAIN_THREAD_POOL = Executors.newCachedThreadPool()
     }
 }
