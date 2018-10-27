@@ -38,11 +38,11 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             return CompletableFuture.completedFuture(listOf())
 
         var i = 0
-        val tasks = Array(commentIds.size, { getCommentAsync(commentIds[i++]) })
+        val tasks = Array(commentIds.size) { getCommentAsync(commentIds[i++]) }
 
         return CompletableFuture.supplyAsync {
             i = 0
-            List(tasks.size, { tasks[i++].get() })
+            List(tasks.size) { tasks[i++].get() }
         }
     }
 

@@ -29,6 +29,8 @@ class TraktClient internal constructor() {
 
     val genres: TraktGenresModule = TraktGenresModule(this)
 
+    val lists: TraktListsModule = TraktListsModule(this)
+
     val movies: TraktMoviesModule = TraktMoviesModule(this)
 
     val networks: TraktNetworksModule = TraktNetworksModule(this)

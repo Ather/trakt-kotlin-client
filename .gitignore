@@ -49,4 +49,7 @@ trakt-api-kotlin-wrapper.iml
 
 target/
 
-src/test/kotlin/media/thehoard/thirdparty/api/trakt/Playground.kt
+src/test/kotlin/com/atherapp/thirdparty/api/trakt/Playground.kt
+
+.idea/
+*.iml
