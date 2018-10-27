@@ -19,7 +19,10 @@ import com.atherapp.thirdparty.api.trakt.requests.parameters.TraktPagedParameter
 import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class TraktEpisodesModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getEpisodeAsync(
@@ -28,7 +31,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             episodeNumber: Int,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktEpisode>> {
+    ): Deferred<TraktResponse<TraktEpisode>> {
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeSummaryRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, extendedInfo
         ), requestAuthorization)
@@ -37,20 +40,17 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
     fun getMultipleEpisodesAsync(
             episodesQueryParams: TraktMultipleEpisodesQueryParams,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<List<TraktResponse<TraktEpisode>>> {
+    ): Deferred<List<TraktResponse<TraktEpisode>>> {
         if (episodesQueryParams.isEmpty())
-            return CompletableFuture.completedFuture(listOf())
+            return CompletableDeferred(listOf())
 
         var i = 0
-        val tasks = Array(episodesQueryParams.size, {
+        val tasks = Array(episodesQueryParams.size) {
             val queryParam = episodesQueryParams[i++]
             return@Array getEpisodeAsync(queryParam.showId, queryParam.seasonNumber, queryParam.episodeNumber, queryParam.extendedInfo, requestAuthorization)
-        })
-
-        return CompletableFuture.supplyAsync {
-            i = 0
-            List(tasks.size, { tasks[i++].get() })
         }
+
+        return GlobalScope.async { tasks.map { it.await() } }
     }
 
     fun getEpisodeCommentsAsync(
@@ -60,7 +60,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             commentSortOrder: TraktCommentSortOrder? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktComment>> {
+    ): Deferred<TraktPagedResponse<TraktComment>> {
         return RequestHandler(client).executePagedRequestAsync(EpisodeCommentsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, commentSortOrder, pagedParameters?.page, pagedParameters?.limit
         ), requestAuthorization)
@@ -74,7 +74,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             listSortOrder: TraktListSortOrder? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktList>> {
+    ): Deferred<TraktPagedResponse<TraktList>> {
         return RequestHandler(client).executePagedRequestAsync(EpisodeListsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, listType, listSortOrder, pagedParameters?.page, pagedParameters?.limit
         ), requestAuthorization)
@@ -85,7 +85,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             seasonNumber: Int,
             episodeNumber: Int,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktRating>> {
+    ): Deferred<TraktResponse<TraktRating>> {
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeRatingsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber
         ), requestAuthorization)
@@ -96,7 +96,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             seasonNumber: Int,
             episodeNumber: Int,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktStatistics>> {
+    ): Deferred<TraktResponse<TraktStatistics>> {
         return RequestHandler(client).executeSingleItemRequestAsync(EpisodeStatisticsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber
         ), requestAuthorization)
@@ -108,7 +108,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             episodeNumber: Int,
             languageCode: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktEpisodeTranslation>> {
+    ): Deferred<TraktListResponse<TraktEpisodeTranslation>> {
         return RequestHandler(client).executeListRequestAsync(EpisodeTranslationsRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, languageCode
         ), requestAuthorization)
@@ -120,7 +120,7 @@ class TraktEpisodesModule internal constructor(override val client: TraktClient)
             episodeNumber: Int,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktUser>> {
+    ): Deferred<TraktListResponse<TraktUser>> {
         return RequestHandler(client).executeListRequestAsync(EpisodeWatchingUsersRequest(
                 showIdOrSlug, seasonNumber, episodeNumber, extendedInfo
         ), requestAuthorization)

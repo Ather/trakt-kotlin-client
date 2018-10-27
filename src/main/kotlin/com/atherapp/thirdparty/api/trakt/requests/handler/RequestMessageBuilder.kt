@@ -8,6 +8,8 @@ import com.atherapp.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IHasId
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IRequestBody
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.base.IRequest
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Method
 
 internal class RequestMessageBuilder(
         private val client: TraktClient,
@@ -42,8 +44,7 @@ internal class RequestMessageBuilder(
     private fun createRequestMessage(): ExtendedHttpRequestMessage {
         val url = buildUrl()
 
-        val requestMessage = ExtendedHttpRequestMessage(request!!.method, url)
-        requestMessage.url = url
+        val requestMessage = ExtendedHttpRequestMessage(Fuel.request(Method.valueOf(request!!.method.toString()), url))
 
         if (request is IHasId) {
             val idRequest = request as IHasId
@@ -88,7 +89,7 @@ internal class RequestMessageBuilder(
     private fun addRequestBodyContent(requestMessage: ExtendedHttpRequestMessage) {
         if (requestBody != null) {
             val json = requestBody!!.toJson()
-            requestMessage.setBody(json)
+            requestMessage.request.body(json)
             requestMessage.requestBodyJson = json
         }
     }
@@ -105,7 +106,7 @@ internal class RequestMessageBuilder(
         }
 
         if (authorizationRequirement == AuthorizationRequirement.Required || authorizationRequirement == AuthorizationRequirement.Optional || client.configuration.forceAuthorization)
-            requestMessage.setHeader("Authorization", "$AUTHENTICATION_SCHEME ${authorization.accessToken}")
+            requestMessage.request.header("Authorization" to "$AUTHENTICATION_SCHEME ${authorization.accessToken}")
     }
 
     companion object {

@@ -9,8 +9,8 @@ import com.atherapp.thirdparty.api.trakt.requests.handler.RequestHandler
 import com.atherapp.thirdparty.api.trakt.requests.parameters.TraktCalendarFilter
 import com.atherapp.thirdparty.api.trakt.requests.parameters.TraktExtendedInfo
 import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse
+import kotlinx.coroutines.Deferred
 import java.time.ZonedDateTime
-import java.util.concurrent.CompletableFuture
 
 class TraktCalendarsModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getUserShowsAsync(
@@ -19,7 +19,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
+    ): Deferred<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -29,7 +29,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
+    ): Deferred<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserNewShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -39,7 +39,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
+    ): Deferred<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserSeasonPremieresRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -49,7 +49,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
+    ): Deferred<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -59,7 +59,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
+    ): Deferred<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarUserDVDMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -69,7 +69,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
+    ): Deferred<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -79,7 +79,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
+    ): Deferred<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllNewShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -89,7 +89,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarShow>> {
+    ): Deferred<TraktListResponse<TraktCalendarShow>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllShowsRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -99,7 +99,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
+    ): Deferred<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 
@@ -109,7 +109,7 @@ class TraktCalendarsModule internal constructor(override val client: TraktClient
             extendedInfo: TraktExtendedInfo? = null,
             filter: TraktCalendarFilter? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCalendarMovie>> {
+    ): Deferred<TraktListResponse<TraktCalendarMovie>> {
         return RequestHandler(client).executeListRequestAsync(CalendarAllDVDMoviesRequest(startDate, days, extendedInfo, filter), requestAuthorization)
     }
 }

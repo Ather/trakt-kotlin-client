@@ -11,41 +11,41 @@ import com.atherapp.thirdparty.api.trakt.requests.people.PersonMovieCreditsReque
 import com.atherapp.thirdparty.api.trakt.requests.people.PersonShowCreditsRequest
 import com.atherapp.thirdparty.api.trakt.requests.people.PersonSummaryRequest
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class TraktPeopleModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getPersonAsync(
             personIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktPerson>> {
+    ): Deferred<TraktResponse<TraktPerson>> {
         return RequestHandler(client).executeSingleItemRequestAsync(PersonSummaryRequest(personIdOrSlug, extendedInfo), requestAuthorization)
     }
 
     fun getMultiplePersonsAsync(
             personsQueryParams: TraktMultipleObjectsQueryParams,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<List<TraktResponse<TraktPerson>>> {
+    ): Deferred<List<TraktResponse<TraktPerson>>> {
         if (personsQueryParams.isEmpty())
-            return CompletableFuture.completedFuture(listOf())
+            return CompletableDeferred(listOf())
 
         var i = 0
-        val tasks = Array(personsQueryParams.size, {
+        val tasks = Array(personsQueryParams.size) {
             val queryParam = personsQueryParams[i++]
             return@Array getPersonAsync(queryParam.idOrSlug, queryParam.extendedInfo, requestAuthorization)
-        })
-
-        return CompletableFuture.supplyAsync {
-            i = 0
-            List(tasks.size, { tasks[i++].get() })
         }
+
+        return GlobalScope.async { tasks.map { it.await() } }
     }
 
     fun getPersonMovieCreditsAsync(
             personIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktPersonMovieCredits>> {
+    ): Deferred<TraktResponse<TraktPersonMovieCredits>> {
         return RequestHandler(client).executeSingleItemRequestAsync(PersonMovieCreditsRequest(personIdOrSlug, extendedInfo), requestAuthorization)
     }
 
@@ -53,7 +53,7 @@ class TraktPeopleModule internal constructor(override val client: TraktClient) :
             personIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktPersonShowCredits>> {
+    ): Deferred<TraktResponse<TraktPersonShowCredits>> {
         return RequestHandler(client).executeSingleItemRequestAsync(PersonShowCreditsRequest(personIdOrSlug, extendedInfo), requestAuthorization)
     }
 }

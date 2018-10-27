@@ -2,21 +2,21 @@ package com.atherapp.thirdparty.api.trakt.authentication
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
 import com.atherapp.thirdparty.api.trakt.core.Constants
-import com.atherapp.thirdparty.api.trakt.core.TraktConfiguration
 import com.atherapp.thirdparty.api.trakt.enums.TraktAccessTokenGrantType
 import com.atherapp.thirdparty.api.trakt.exceptions.*
 import com.atherapp.thirdparty.api.trakt.extensions.containsSpace
 import com.atherapp.thirdparty.api.trakt.objects.basic.TraktError
 import com.atherapp.thirdparty.api.trakt.utils.Json
-import com.atherapp.thirdparty.api.trakt.utils.http.HttpMethod
-import org.asynchttpclient.Dsl
-import org.asynchttpclient.Request
-import org.asynchttpclient.RequestBuilder
-import org.asynchttpclient.Response
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.net.HttpURLConnection
 import java.net.URLEncoder
+import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
-import java.util.concurrent.CompletableFuture
 
 class TraktOAuth internal constructor(val client: TraktClient) {
     fun createAuthorizationUrl(
@@ -46,7 +46,7 @@ class TraktOAuth internal constructor(val client: TraktClient) {
             clientId: String? = client.clientId,
             clientSecret: String? = client.clientSecret,
             redirectUri: String = client.authentication.redirectUri
-    ): CompletableFuture<TraktAuthorization> {
+    ): Deferred<TraktAuthorization> = GlobalScope.async {
         val grantType = TraktAccessTokenGrantType.AUTHORIZATION_CODE.objectName
 
         validateAccessTokenInput(code, clientId, clientSecret, redirectUri, grantType)
@@ -55,52 +55,50 @@ class TraktOAuth internal constructor(val client: TraktClient) {
                 "\"client_secret\": \"$clientSecret\", \"redirect_uri\": " +
                 "\"$redirectUri\", \"grant_type\": \"$grantType\" }}"
 
-        val httpClient = TraktConfiguration.httpClient ?: Dsl.asyncHttpClient()
-        val request = RequestBuilder().setMethod(HttpMethod.POST.toString()).setBody(postContent).build()
+        val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_TOKEN_URI}"
+        val request = Fuel.post(tokenUrl).body(postContent)
 
         setDefaultRequestHeaders(request)
 
-        val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_TOKEN_URI}"
+        val response = request.response().second
+        val responseCode = response.statusCode
+        val responseContent = response.data.toString(Charset.forName("UTF-8"))
+        val reasonPhrase = response.responseMessage
 
-        return httpClient.executeRequest(request).toCompletableFuture().thenApply {
-            val responseCode = it.statusCode
-            val responseContent = it.responseBody ?: ""
-            val reasonPhrase = it.statusText
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            var token = TraktAuthorization()
+            if (!responseContent.isBlank())
+                token = Json.deserialize(responseContent)
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                var token = TraktAuthorization()
-                if (!responseContent.isBlank())
-                    token = Json.deserialize(responseContent)
+            client.authentication.authorization = token
+            return@async token
+        } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            var error: TraktError? = null
+            if (!responseContent.isBlank())
+                error = Json.deserialize(responseContent)
 
-                client.authentication.authorization = token
-                return@thenApply token
-            } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                var error: TraktError? = null
-                if (!responseContent.isBlank())
-                    error = Json.deserialize(responseContent)
+            val errorMessage = if (error == null) "unknown error" else "error on retrieving oauth access token\nerror: ${error.error}\n" +
+                    "description: ${error.description}"
 
-                val errorMessage = if (error == null) "unknown error" else "error on retrieving oauth access token\nerror: ${error.error}\n" +
-                        "description: ${error.description}"
-
-                throw TraktAuthenticationException(errorMessage).apply {
-                    statusCode = responseCode
-                    requestUrl = tokenUrl
-                    requestBody = postContent
-                    serverReasonPhrase = reasonPhrase
-                }
+            throw TraktAuthenticationException(errorMessage).apply {
+                statusCode = responseCode
+                requestUrl = tokenUrl
+                requestBody = postContent
+                serverReasonPhrase = reasonPhrase
             }
-
-            errorHandling(it, tokenUrl, postContent)
-            return@thenApply TraktAuthorization()
         }
+
+        errorHandling(response, tokenUrl, postContent)
+        return@async TraktAuthorization()
     }
+
 
     fun refreshAuthorizationAsync(
             refreshToken: String? = client.authentication.authorization.refreshToken,
             clientId: String? = client.clientId,
             clientSecret: String? = client.clientSecret,
             redirectUri: String = client.authentication.redirectUri
-    ): CompletableFuture<TraktAuthorization> = client.authentication.refreshAuthorizationAsync(
+    ): Deferred<TraktAuthorization> = client.authentication.refreshAuthorizationAsync(
             refreshToken,
             clientId,
             clientSecret,
@@ -110,7 +108,7 @@ class TraktOAuth internal constructor(val client: TraktClient) {
     fun revokeAuthorizationAsync(
             accessToken: String = client.authentication.authorization.accessToken ?: "",
             clientId: String? = client.clientId
-    ): CompletableFuture<Unit>? = client.authentication.revokeAuthorizationAsync(
+    ): Deferred<Unit>? = client.authentication.revokeAuthorizationAsync(
             accessToken,
             clientId
     )
@@ -172,13 +170,10 @@ class TraktOAuth internal constructor(val client: TraktClient) {
     }
 
     private fun errorHandling(resp: Response, reqUrl: String, reqContent: String) {
-        var responseContent = ""
-
-        if (resp.responseBody != null)
-            responseContent = resp.responseBody
+        val responseContent = resp.data.toString(Charset.forName("UTF-8"))
 
         val code = resp.statusCode
-        val reasonPhrase = resp.statusText
+        val reasonPhrase = resp.responseMessage
 
         when (code) {
             HttpURLConnection.HTTP_NOT_FOUND -> throw TraktNotFoundException("Resource not found").apply {

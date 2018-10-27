@@ -12,21 +12,21 @@ import com.atherapp.thirdparty.api.trakt.requests.recommendations.UserRecommenda
 import com.atherapp.thirdparty.api.trakt.requests.recommendations.UserShowRecommendationsRequest
 import com.atherapp.thirdparty.api.trakt.responses.TraktNoContentResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.Deferred
 
 class TraktRecommendationsModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getMovieRecommendationsAsync(
             limit: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMovie>> {
         return RequestHandler(client).executePagedRequestAsync(UserMovieRecommendationsRequest(extendedInfo, limit), requestAuthorization)
     }
-    
+
     fun hideMovieRecommendationAsync(
             movieIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktNoContentResponse> {
+    ): Deferred<TraktNoContentResponse> {
         return RequestHandler(client).executeNoContentRequestAsync(UserRecommendationHideMovieRequest(movieIdOrSlug), requestAuthorization)
     }
 
@@ -34,14 +34,14 @@ class TraktRecommendationsModule internal constructor(override val client: Trakt
             limit: Int? = null,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktShow>> {
+    ): Deferred<TraktPagedResponse<TraktShow>> {
         return RequestHandler(client).executePagedRequestAsync(UserShowRecommendationsRequest(extendedInfo, limit), requestAuthorization)
     }
 
     fun hideShowRecommendationAsync(
             showIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktNoContentResponse> {
+    ): Deferred<TraktNoContentResponse> {
         return RequestHandler(client).executeNoContentRequestAsync(UserRecommendationHideShowRequest(showIdOrSlug), requestAuthorization)
     }
 }

@@ -21,41 +21,41 @@ import com.atherapp.thirdparty.api.trakt.requests.shows.*
 import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.time.ZonedDateTime
-import java.util.concurrent.CompletableFuture
 
 class TraktShowsModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getShowAsync(
             showIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktShow>> {
+    ): Deferred<TraktResponse<TraktShow>> {
         return RequestHandler(client).executeSingleItemRequestAsync(ShowSummaryRequest(showIdOrSlug, extendedInfo), requestAuthorization)
     }
 
     fun getMultipleShowsAsync(
             showsQueryParams: TraktMultipleObjectsQueryParams,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<List<TraktResponse<TraktShow>>> {
+    ): Deferred<List<TraktResponse<TraktShow>>> {
         if (showsQueryParams.isEmpty())
-            return CompletableFuture.completedFuture(listOf())
+            return CompletableDeferred(listOf())
 
         var i = 0
-        val tasks = Array(showsQueryParams.size, {
+        val tasks = Array(showsQueryParams.size) {
             val queryParam = showsQueryParams[i++]
             return@Array getShowAsync(queryParam.idOrSlug, queryParam.extendedInfo, requestAuthorization)
-        })
-
-        return CompletableFuture.supplyAsync {
-            i = 0
-            List(tasks.size, { tasks[i++].get() })
         }
+
+        return GlobalScope.async { tasks.map { it.await() } }
     }
 
     fun getShowAliasesAsync(
             showIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktShowAlias>> {
+    ): Deferred<TraktListResponse<TraktShowAlias>> {
         return RequestHandler(client).executeListRequestAsync(ShowAliasesRequest(showIdOrSlug), requestAuthorization)
     }
 
@@ -63,7 +63,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             showIdOrSlug: String,
             languageCode: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktShowTranslation>> {
+    ): Deferred<TraktListResponse<TraktShowTranslation>> {
         return RequestHandler(client).executeListRequestAsync(ShowTranslationsRequest(showIdOrSlug, languageCode), requestAuthorization)
     }
 
@@ -72,7 +72,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             commentSortOrder: TraktCommentSortOrder? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktComment>> {
+    ): Deferred<TraktPagedResponse<TraktComment>> {
         return RequestHandler(client).executePagedRequestAsync(ShowCommentsRequest(showIdOrSlug, commentSortOrder, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -82,7 +82,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             listSortOrder: TraktListSortOrder? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktList>> {
+    ): Deferred<TraktPagedResponse<TraktList>> {
         return RequestHandler(client).executePagedRequestAsync(ShowListsRequest(showIdOrSlug, listType, listSortOrder, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -90,14 +90,14 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             showIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCastAndCrew>> {
+    ): Deferred<TraktResponse<TraktCastAndCrew>> {
         return RequestHandler(client).executeSingleItemRequestAsync(ShowPeopleRequest(showIdOrSlug, extendedInfo), requestAuthorization)
     }
 
     fun getShowRatingsAsync(
             showIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktRating>> {
+    ): Deferred<TraktResponse<TraktRating>> {
         return RequestHandler(client).executeSingleItemRequestAsync(ShowRatingsRequest(showIdOrSlug), requestAuthorization)
     }
 
@@ -106,14 +106,14 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktShow>> {
+    ): Deferred<TraktPagedResponse<TraktShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowRelatedShowsRequest(showIdOrSlug, extendedInfo, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
     fun getShowStatisticsAsync(
             showIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktStatistics>> {
+    ): Deferred<TraktResponse<TraktStatistics>> {
         return RequestHandler(client).executeSingleItemRequestAsync(ShowStatisticsRequest(showIdOrSlug), requestAuthorization)
     }
 
@@ -121,7 +121,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             showIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktUser>> {
+    ): Deferred<TraktListResponse<TraktUser>> {
         return RequestHandler(client).executeListRequestAsync(ShowWatchingUsersRequest(showIdOrSlug, extendedInfo), requestAuthorization)
     }
 
@@ -130,7 +130,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             filter: TraktShowFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktTrendingShow>> {
+    ): Deferred<TraktPagedResponse<TraktTrendingShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsTrendingRequest(extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -139,7 +139,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             filter: TraktShowFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktShow>> {
+    ): Deferred<TraktPagedResponse<TraktShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsPopularRequest(extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -149,7 +149,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             filter: TraktShowFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostPWCShow>> {
+    ): Deferred<TraktPagedResponse<TraktMostPWCShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsMostPlayedRequest(period, extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -159,7 +159,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             filter: TraktShowFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostPWCShow>> {
+    ): Deferred<TraktPagedResponse<TraktMostPWCShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsMostWatchedRequest(period, extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -169,7 +169,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             filter: TraktShowFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostPWCShow>> {
+    ): Deferred<TraktPagedResponse<TraktMostPWCShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsMostCollectedRequest(period, extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -178,7 +178,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             filter: TraktShowFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostAnticipatedShow>> {
+    ): Deferred<TraktPagedResponse<TraktMostAnticipatedShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsMostAnticipatedRequest(extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -187,7 +187,7 @@ class TraktShowsModule internal constructor(override val client: TraktClient) : 
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktRecentlyUpdatedShow>> {
+    ): Deferred<TraktPagedResponse<TraktRecentlyUpdatedShow>> {
         return RequestHandler(client).executePagedRequestAsync(ShowsRecentlyUpdatedRequest(startDate, extendedInfo, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 }

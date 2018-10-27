@@ -1,6 +1,5 @@
 package com.atherapp.thirdparty.api.trakt.requests.handler
 
-import io.netty.handler.codec.http.HttpHeaders
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortBy
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortHow
 import com.atherapp.thirdparty.api.trakt.responses.interfaces.ITraktPagedResponseHeaders
@@ -23,40 +22,40 @@ internal object ResponseHeaderParser {
     private const val HEADER_X_ITEM_ID = "X-Item-ID"
     private const val HEADER_X_ITEM_TYPE = "X-Item-Type"
 
-    fun parseResponseHeaderValues(headerResults: ITraktResponseHeaders, responseHeaders: HttpHeaders) {
+    fun parseResponseHeaderValues(headerResults: ITraktResponseHeaders, responseHeaders: Map<String, List<String>>) {
         when {
-            HEADER_PAGINATION_PAGE_KEY in responseHeaders -> headerResults.page = responseHeaders[HEADER_PAGINATION_PAGE_KEY].toIntOrNull()
-            HEADER_PAGINATION_LIMIT_KEY in responseHeaders -> headerResults.limit = responseHeaders[HEADER_PAGINATION_LIMIT_KEY].toIntOrNull()
-            HEADER_TRENDING_USER_COUNT_KEY in responseHeaders -> headerResults.trendingUserCount = responseHeaders[HEADER_TRENDING_USER_COUNT_KEY].toIntOrNull()
-            HEADER_SORT_BY_KEY in responseHeaders -> headerResults.sortBy = TraktListSortBy.valueOf(responseHeaders[HEADER_SORT_BY_KEY])
-            HEADER_SORT_HOW_KEY in responseHeaders -> headerResults.sortHow = TraktListSortHow.valueOf(responseHeaders[HEADER_SORT_HOW_KEY])
-            HEADER_PRIVATE_USER_KEY in responseHeaders -> headerResults.isPrivateUser = responseHeaders[HEADER_PRIVATE_USER_KEY]?.toBoolean()
-            HEADER_STARTDATE_KEY in responseHeaders -> {
+            HEADER_PAGINATION_PAGE_KEY in responseHeaders.keys -> headerResults.page = responseHeaders[HEADER_PAGINATION_PAGE_KEY]?.firstOrNull()?.toIntOrNull()
+            HEADER_PAGINATION_LIMIT_KEY in responseHeaders.keys -> headerResults.limit = responseHeaders[HEADER_PAGINATION_LIMIT_KEY]?.firstOrNull()?.toIntOrNull()
+            HEADER_TRENDING_USER_COUNT_KEY in responseHeaders.keys -> headerResults.trendingUserCount = responseHeaders[HEADER_TRENDING_USER_COUNT_KEY]?.firstOrNull()?.toIntOrNull()
+            HEADER_SORT_BY_KEY in responseHeaders.keys -> headerResults.sortBy = TraktListSortBy.valueOf(responseHeaders[HEADER_SORT_BY_KEY]?.first()!!)
+            HEADER_SORT_HOW_KEY in responseHeaders.keys -> headerResults.sortHow = TraktListSortHow.valueOf(responseHeaders[HEADER_SORT_HOW_KEY]?.first()!!)
+            HEADER_PRIVATE_USER_KEY in responseHeaders.keys -> headerResults.isPrivateUser = responseHeaders[HEADER_PRIVATE_USER_KEY]?.firstOrNull()?.toBoolean()
+            HEADER_STARTDATE_KEY in responseHeaders.keys -> {
                 headerResults.startDate = try {
-                    ZonedDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_STARTDATE_KEY]))
+                    ZonedDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_STARTDATE_KEY]?.firstOrNull()))
                 } catch (e: DateTimeParseException) {
                     null
                 }
             }
-            HEADER_ENDDATE_KEY in responseHeaders -> {
+            HEADER_ENDDATE_KEY in responseHeaders.keys -> {
                 headerResults.endDate = try {
-                    ZonedDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_ENDDATE_KEY]))
+                    ZonedDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(responseHeaders[HEADER_ENDDATE_KEY]?.firstOrNull()))
                 } catch (e: DateTimeParseException) {
                     null
                 }
             }
-            HEADER_X_ITEM_ID in responseHeaders -> headerResults.xItemId = responseHeaders[HEADER_X_ITEM_ID].toIntOrNull()
-            HEADER_X_ITEM_TYPE in responseHeaders -> headerResults.xItemType = responseHeaders[HEADER_X_ITEM_TYPE]
+            HEADER_X_ITEM_ID in responseHeaders.keys -> headerResults.xItemId = responseHeaders[HEADER_X_ITEM_ID]?.firstOrNull()?.toIntOrNull()
+            HEADER_X_ITEM_TYPE in responseHeaders.keys -> headerResults.xItemType = responseHeaders[HEADER_X_ITEM_TYPE]?.first()!!
 
         }
     }
 
-    fun parsePagedResponseHeaderValue(headerResults: ITraktPagedResponseHeaders, responseHeaders: HttpHeaders) {
+    fun parsePagedResponseHeaderValue(headerResults: ITraktPagedResponseHeaders, responseHeaders: Map<String, List<String>>) {
         parseResponseHeaderValues(headerResults, responseHeaders)
 
         when {
-            HEADER_PAGINATION_PAGE_COUNT_KEY in responseHeaders -> headerResults.pageCount = responseHeaders[HEADER_PAGINATION_PAGE_COUNT_KEY].toIntOrNull()
-            HEADER_PAGINATION_ITEM_COUNT_KEY in responseHeaders -> headerResults.itemCount = responseHeaders[HEADER_PAGINATION_ITEM_COUNT_KEY].toIntOrNull()
+            HEADER_PAGINATION_PAGE_COUNT_KEY in responseHeaders.keys -> headerResults.pageCount = responseHeaders[HEADER_PAGINATION_PAGE_COUNT_KEY]?.firstOrNull()?.toIntOrNull()
+            HEADER_PAGINATION_ITEM_COUNT_KEY in responseHeaders.keys -> headerResults.itemCount = responseHeaders[HEADER_PAGINATION_ITEM_COUNT_KEY]?.firstOrNull()?.toIntOrNull()
         }
     }
 }

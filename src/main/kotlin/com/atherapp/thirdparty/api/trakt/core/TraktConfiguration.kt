@@ -2,7 +2,6 @@ package com.atherapp.thirdparty.api.trakt.core
 
 import com.atherapp.thirdparty.api.trakt.utils.Json
 import com.atherapp.thirdparty.api.trakt.utils.gson.ZonedDateTimeTypeAdapter
-import org.asynchttpclient.AsyncHttpClient
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import kotlin.properties.Delegates
@@ -25,7 +24,5 @@ class TraktConfiguration {
         }
 
         val traktTimezone: ZoneId = ZoneId.of("GMT")
-
-        internal var httpClient: AsyncHttpClient? = null
     }
 }

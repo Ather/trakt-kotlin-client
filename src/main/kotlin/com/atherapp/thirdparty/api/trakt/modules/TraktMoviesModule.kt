@@ -21,41 +21,41 @@ import com.atherapp.thirdparty.api.trakt.requests.parameters.TraktPagedParameter
 import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.time.ZonedDateTime
-import java.util.concurrent.CompletableFuture
 
 class TraktMoviesModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getMovieAsync(
             movieIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovie>> {
+    ): Deferred<TraktResponse<TraktMovie>> {
         return RequestHandler(client).executeSingleItemRequestAsync(MovieSummaryRequest(movieIdOrSlug, extendedInfo), requestAuthorization)
     }
 
     fun getMultipleMoviesAsync(
             moviesQueryParams: TraktMultipleObjectsQueryParams,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<List<TraktResponse<TraktMovie>>> {
+    ): Deferred<List<TraktResponse<TraktMovie>>> {
         if (moviesQueryParams.isEmpty())
-            return CompletableFuture.completedFuture(listOf())
+            return CompletableDeferred(listOf())
 
         var i = 0
-        val tasks = Array(moviesQueryParams.size, {
+        val tasks = Array(moviesQueryParams.size) {
             val queryParam = moviesQueryParams[i++]
             return@Array getMovieAsync(queryParam.idOrSlug, queryParam.extendedInfo, requestAuthorization)
-        })
-
-        return CompletableFuture.supplyAsync {
-            i = 0
-            List(tasks.size, { tasks[i++].get() })
         }
+
+        return GlobalScope.async { tasks.map { it.await() } }
     }
 
     fun getMovieAliasesAsync(
             movieIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktMovieAlias>> {
+    ): Deferred<TraktListResponse<TraktMovieAlias>> {
         return RequestHandler(client).executeListRequestAsync(MovieAliasesRequest(movieIdOrSlug), requestAuthorization)
     }
 
@@ -63,7 +63,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             movieIdOrSlug: String,
             countryCode: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktMovieRelease>> {
+    ): Deferred<TraktListResponse<TraktMovieRelease>> {
         return RequestHandler(client).executeListRequestAsync(MovieReleasesRequest(movieIdOrSlug, countryCode), requestAuthorization)
     }
 
@@ -71,7 +71,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             movieIdOrSlug: String,
             languageCode: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktMovieTranslation>> {
+    ): Deferred<TraktListResponse<TraktMovieTranslation>> {
         return RequestHandler(client).executeListRequestAsync(MovieTranslationsRequest(movieIdOrSlug, languageCode), requestAuthorization)
     }
 
@@ -80,7 +80,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             commentSortOrder: TraktCommentSortOrder? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktComment>> {
+    ): Deferred<TraktPagedResponse<TraktComment>> {
         return RequestHandler(client).executePagedRequestAsync(MovieCommentsRequest(movieIdOrSlug, commentSortOrder, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -90,7 +90,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             listSortOrder: TraktListSortOrder? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktList>> {
+    ): Deferred<TraktPagedResponse<TraktList>> {
         return RequestHandler(client).executePagedRequestAsync(MovieListsRequest(movieIdOrSlug, listType, listSortOrder, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -98,14 +98,14 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             movieIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCastAndCrew>> {
+    ): Deferred<TraktResponse<TraktCastAndCrew>> {
         return RequestHandler(client).executeSingleItemRequestAsync(MoviePeopleRequest(movieIdOrSlug, extendedInfo), requestAuthorization)
     }
 
     fun getMovieRatingsAsync(
             movieIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktRating>> {
+    ): Deferred<TraktResponse<TraktRating>> {
         return RequestHandler(client).executeSingleItemRequestAsync(MovieRatingsRequest(movieIdOrSlug), requestAuthorization)
     }
 
@@ -114,14 +114,14 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MovieRelatedMoviesRequest(movieIdOrSlug, extendedInfo, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
     fun getMovieStatisticsAsync(
             movieIdOrSlug: String,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktStatistics>> {
+    ): Deferred<TraktResponse<TraktStatistics>> {
         return RequestHandler(client).executeSingleItemRequestAsync(MovieStatisticsRequest(movieIdOrSlug), requestAuthorization)
     }
 
@@ -129,7 +129,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             movieIdOrSlug: String,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktUser>> {
+    ): Deferred<TraktListResponse<TraktUser>> {
         return RequestHandler(client).executeListRequestAsync(MovieWatchingUsersRequest(movieIdOrSlug, extendedInfo), requestAuthorization)
     }
 
@@ -138,7 +138,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             filter: TraktMovieFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktTrendingMovie>> {
+    ): Deferred<TraktPagedResponse<TraktTrendingMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesTrendingRequest(extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -147,7 +147,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             filter: TraktMovieFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesPopularRequest(extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -157,7 +157,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             filter: TraktMovieFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostPWCMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMostPWCMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesMostPlayedRequest(period, extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -167,7 +167,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             filter: TraktMovieFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostPWCMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMostPWCMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesMostWatchedRequest(period, extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -177,7 +177,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             filter: TraktMovieFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostPWCMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMostPWCMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesMostCollectedRequest(period, extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
@@ -186,14 +186,14 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             filter: TraktMovieFilter? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktMostAnticipatedMovie>> {
+    ): Deferred<TraktPagedResponse<TraktMostAnticipatedMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesMostAnticipatedRequest(extendedInfo, filter, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 
     fun getBoxOfficeMoviesAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktBoxOfficeMovie>> {
+    ): Deferred<TraktListResponse<TraktBoxOfficeMovie>> {
         return RequestHandler(client).executeListRequestAsync(MoviesBoxOfficeRequest(extendedInfo), requestAuthorization)
     }
 
@@ -202,7 +202,7 @@ class TraktMoviesModule internal constructor(override val client: TraktClient) :
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktRecentlyUpdatedMovie>> {
+    ): Deferred<TraktPagedResponse<TraktRecentlyUpdatedMovie>> {
         return RequestHandler(client).executePagedRequestAsync(MoviesRecentlyUpdatedRequest(startDate, extendedInfo, pagedParameters?.page, pagedParameters?.limit), requestAuthorization)
     }
 }

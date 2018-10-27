@@ -6,10 +6,10 @@ import com.atherapp.thirdparty.api.trakt.objects.basic.TraktNetwork
 import com.atherapp.thirdparty.api.trakt.requests.handler.RequestHandler
 import com.atherapp.thirdparty.api.trakt.requests.networks.NetworksRequest
 import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.Deferred
 
 class TraktNetworksModule internal constructor(override val client: TraktClient) : TraktModule {
-    fun getNetworksAsync(requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktListResponse<TraktNetwork>> {
+    fun getNetworksAsync(requestAuthorization: TraktAuthorization = client.authorization): Deferred<TraktListResponse<TraktNetwork>> {
         return RequestHandler(client).executeListRequestAsync(NetworksRequest(), requestAuthorization)
     }
 }

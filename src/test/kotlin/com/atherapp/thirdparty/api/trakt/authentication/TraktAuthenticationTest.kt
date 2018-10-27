@@ -40,9 +40,9 @@ internal class TraktAuthenticationTest {
     }
 
     @Test
-    fun `test authorization checks`() {
+    suspend fun `test authorization checks`() {
         authentication.run {
-            assertEquals(checkIfAuthorizationIsExpiredOrWasRevokedAsync(false).get(), true to null)
+            assertEquals(checkIfAuthorizationIsExpiredOrWasRevokedAsync(false).await(), true to null)
             assertFails { checkIfAuthorizationIsExpiredOrWasRevokedAsync(null, false) }
             assertFails { checkIfAccessTokenWasRevokedOrIsNotValidAsync("") }
 

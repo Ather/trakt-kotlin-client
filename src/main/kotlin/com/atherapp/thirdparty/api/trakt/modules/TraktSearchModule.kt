@@ -13,7 +13,7 @@ import com.atherapp.thirdparty.api.trakt.requests.parameters.TraktSearchFilter
 import com.atherapp.thirdparty.api.trakt.requests.search.SearchIdLookupRequest
 import com.atherapp.thirdparty.api.trakt.requests.search.SearchTextQueryRequest
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.Deferred
 
 class TraktSearchModule internal constructor(override val client: TraktClient) : TraktModule {
 
@@ -34,7 +34,7 @@ class TraktSearchModule internal constructor(override val client: TraktClient) :
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktSearchResult>> {
+    ): Deferred<TraktPagedResponse<TraktSearchResult>> {
         return RequestHandler(client).executePagedRequestAsync(SearchTextQueryRequest(
                 extendedInfo, searchResultTypes, pagedParameters?.page, pagedParameters?.limit, filter, searchFields, searchQuery
         ), requestAuthorization)
@@ -50,7 +50,7 @@ class TraktSearchModule internal constructor(override val client: TraktClient) :
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktSearchResult>> {
+    ): Deferred<TraktPagedResponse<TraktSearchResult>> {
         return RequestHandler(client).executePagedRequestAsync(SearchIdLookupRequest(
                 extendedInfo, searchResultTypes, pagedParameters?.page, pagedParameters?.limit, searchIdType, lookupId
         ), requestAuthorization)

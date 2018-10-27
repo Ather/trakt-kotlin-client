@@ -7,14 +7,14 @@ import com.atherapp.thirdparty.api.trakt.requests.certifications.MovieCertificat
 import com.atherapp.thirdparty.api.trakt.requests.certifications.ShowCertificationsRequest
 import com.atherapp.thirdparty.api.trakt.requests.handler.RequestHandler
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.Deferred
 
 class TraktCertificationsModule internal constructor(override val client: TraktClient) : TraktModule {
-    fun getMovieCertificationsAsync(requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktResponse<TraktCertifications>> {
+    fun getMovieCertificationsAsync(requestAuthorization: TraktAuthorization = client.authorization): Deferred<TraktResponse<TraktCertifications>> {
         return RequestHandler(client).executeSingleItemRequestAsync(MovieCertificationsRequest(), requestAuthorization)
     }
 
-    fun getShowCertificationsAsync(requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktResponse<TraktCertifications>> {
+    fun getShowCertificationsAsync(requestAuthorization: TraktAuthorization = client.authorization): Deferred<TraktResponse<TraktCertifications>> {
         return RequestHandler(client).executeSingleItemRequestAsync(ShowCertificationsRequest(), requestAuthorization)
     }
 }

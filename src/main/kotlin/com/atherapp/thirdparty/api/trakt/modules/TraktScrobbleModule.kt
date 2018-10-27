@@ -16,8 +16,8 @@ import com.atherapp.thirdparty.api.trakt.requests.scrobbles.ScrobblePauseRequest
 import com.atherapp.thirdparty.api.trakt.requests.scrobbles.ScrobbleStartRequest
 import com.atherapp.thirdparty.api.trakt.requests.scrobbles.ScrobbleStopRequest
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
+import kotlinx.coroutines.Deferred
 import java.time.LocalDate
-import java.util.concurrent.CompletableFuture
 
 class TraktScrobbleModule internal constructor(override val client: TraktClient) : TraktModule {
     fun startMovieAsync(
@@ -26,7 +26,7 @@ class TraktScrobbleModule internal constructor(override val client: TraktClient)
             appVersion: String? = null,
             appBuildDate: LocalDate? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieScrobblePostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieScrobblePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(
                 ScrobbleStartRequest(
                         TraktMovieScrobblePostImpl(
@@ -41,7 +41,7 @@ class TraktScrobbleModule internal constructor(override val client: TraktClient)
             appVersion: String? = null,
             appBuildDate: LocalDate? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieScrobblePostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieScrobblePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(
                 ScrobblePauseRequest(
                         TraktMovieScrobblePostImpl(
@@ -56,7 +56,7 @@ class TraktScrobbleModule internal constructor(override val client: TraktClient)
             appVersion: String? = null,
             appBuildDate: LocalDate? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieScrobblePostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieScrobblePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(
                 ScrobbleStopRequest(
                         TraktMovieScrobblePostImpl(
@@ -72,7 +72,7 @@ class TraktScrobbleModule internal constructor(override val client: TraktClient)
             appVersion: String? = null,
             appBuildDate: LocalDate? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieScrobblePostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieScrobblePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(
                 ScrobbleStartRequest(
                         TraktEpisodeScrobblePostImpl(
@@ -89,7 +89,7 @@ class TraktScrobbleModule internal constructor(override val client: TraktClient)
             appVersion: String? = null,
             appBuildDate: LocalDate? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieScrobblePostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieScrobblePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(
                 ScrobblePauseRequest(
                         TraktEpisodeScrobblePostImpl(
@@ -106,7 +106,7 @@ class TraktScrobbleModule internal constructor(override val client: TraktClient)
             appVersion: String? = null,
             appBuildDate: LocalDate? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieScrobblePostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieScrobblePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(
                 ScrobbleStopRequest(
                         TraktEpisodeScrobblePostImpl(

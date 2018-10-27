@@ -22,28 +22,28 @@ import com.atherapp.thirdparty.api.trakt.requests.parameters.TraktPagedParameter
 import com.atherapp.thirdparty.api.trakt.responses.TraktNoContentResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 class TraktCommentsModule internal constructor(override val client: TraktClient) : TraktModule {
     fun getCommentAsync(
             commentId: Int
-    ): CompletableFuture<TraktResponse<TraktComment>> {
+    ): Deferred<TraktResponse<TraktComment>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentSummaryRequest(commentId.toString()))
     }
 
     fun getMultipleCommentsAsync(
             commentIds: List<Int>
-    ): CompletableFuture<List<TraktResponse<TraktComment>>> {
+    ): Deferred<List<TraktResponse<TraktComment>>> {
         if (commentIds.isEmpty())
-            return CompletableFuture.completedFuture(listOf())
+            return CompletableDeferred(listOf())
 
         var i = 0
         val tasks = Array(commentIds.size) { getCommentAsync(commentIds[i++]) }
 
-        return CompletableFuture.supplyAsync {
-            i = 0
-            List(tasks.size) { tasks[i++].get() }
-        }
+        return GlobalScope.async { tasks.map { it.await() } }
     }
 
     fun postMovieCommentAsync(
@@ -52,7 +52,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktMovieCommentPostImpl(
                 comment, containsSpoiler, sharing,
                 TraktMovieImpl(
@@ -69,7 +69,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktShowCommentPostImpl(
                 comment, containsSpoiler, sharing,
                 TraktShowImpl(
@@ -86,7 +86,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktSeasonCommentPostImpl(
                 comment, containsSpoiler, sharing,
                 TraktSeasonImpl(ids = season.ids)
@@ -99,7 +99,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktEpisodeCommentPostImpl(
                 comment, containsSpoiler, sharing,
                 TraktEpisodeImpl(ids = episode.ids)
@@ -112,7 +112,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             containsSpoiler: Boolean? = null,
             sharing: TraktSharing? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentPostRequest(TraktListCommentPostImpl(
                 comment, containsSpoiler, sharing,
                 TraktListImpl(ids = list.ids)
@@ -124,7 +124,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             comment: String,
             containsSpoiler: Boolean? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentUpdateRequest(
                 commentId.toString(),
                 TraktCommentUpdatePostImpl(
@@ -139,7 +139,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             comment: String,
             containsSpoiler: Boolean? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktCommentPostResponse>> {
+    ): Deferred<TraktResponse<TraktCommentPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(CommentReplyRequest(
                 commentId.toString(),
                 TraktCommentReplyPostImpl(
@@ -152,21 +152,21 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
     fun deleteCommentAsync(
             commentId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktNoContentResponse> {
+    ): Deferred<TraktNoContentResponse> {
         return RequestHandler(client).executeNoContentRequestAsync(CommentDeleteRequest(commentId.toString()), requestAuthorization)
     }
 
     fun likeCommentAsync(
             commentId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktNoContentResponse> {
+    ): Deferred<TraktNoContentResponse> {
         return RequestHandler(client).executeNoContentRequestAsync(CommentLikeRequest(commentId.toString()), requestAuthorization)
     }
 
     fun unlikeCommentAsync(
             commentId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktNoContentResponse> {
+    ): Deferred<TraktNoContentResponse> {
         return RequestHandler(client).executeNoContentRequestAsync(CommentUnlikeRequest(commentId.toString()), requestAuthorization)
     }
 
@@ -174,7 +174,7 @@ class TraktCommentsModule internal constructor(override val client: TraktClient)
             commentId: Int,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktComment>> {
+    ): Deferred<TraktPagedResponse<TraktComment>> {
         return RequestHandler(client).executePagedRequestAsync(CommentRepliesRequest(
                 commentId.toString(),
                 pagedParameters?.page,

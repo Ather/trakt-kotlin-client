@@ -35,11 +35,11 @@ import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktNoContentResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
+import kotlinx.coroutines.Deferred
 import java.time.ZonedDateTime
-import java.util.concurrent.CompletableFuture
 
 class TraktSyncModule internal constructor(override val client: TraktClient) : TraktModule {
-    fun getLastActivitiesAsync(requestAuthorization: TraktAuthorization = client.authorization): CompletableFuture<TraktResponse<TraktSyncLastActivities>> {
+    fun getLastActivitiesAsync(requestAuthorization: TraktAuthorization = client.authorization): Deferred<TraktResponse<TraktSyncLastActivities>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncLastActivitiesRequest(), requestAuthorization)
     }
 
@@ -47,56 +47,56 @@ class TraktSyncModule internal constructor(override val client: TraktClient) : T
             objectType: TraktSyncType? = null,
             limit: Int? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktSyncPlaybackProgressItem>> {
+    ): Deferred<TraktListResponse<TraktSyncPlaybackProgressItem>> {
         return RequestHandler(client).executeListRequestAsync(SyncPlaybackProgressRequest(objectType, limit), requestAuthorization)
     }
 
     fun removePlaybackItemAsync(
             playbackId: Int,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktNoContentResponse> {
+    ): Deferred<TraktNoContentResponse> {
         return RequestHandler(client).executeNoContentRequestAsync(SyncPlaybackDeleteRequest(playbackId.toString()), requestAuthorization)
     }
 
     fun getCollectionMoviesAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCollectionMovie>> {
+    ): Deferred<TraktListResponse<TraktCollectionMovie>> {
         return RequestHandler(client).executeListRequestAsync(SyncCollectionMoviesRequest(extendedInfo), requestAuthorization)
     }
 
     fun getCollectionShowsAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktCollectionShow>> {
+    ): Deferred<TraktListResponse<TraktCollectionShow>> {
         return RequestHandler(client).executeListRequestAsync(SyncCollectionShowsRequest(extendedInfo), requestAuthorization)
     }
 
     fun addCollectionItemsAsync(
             collectionPost: TraktSyncCollectionPost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncCollectionPostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncCollectionPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncCollectionAddRequest(collectionPost), requestAuthorization)
     }
 
     fun removeCollectionItemsAsync(
             collectionRemovePost: TraktSyncCollectionPost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncCollectionRemovePostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncCollectionRemovePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncCollectionRemoveRequest(collectionRemovePost), requestAuthorization)
     }
 
     fun getWatchedMoviesAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktListResponse<TraktWatchedMovie>> {
+    ): Deferred<TraktListResponse<TraktWatchedMovie>> {
         return RequestHandler(client).executeListRequestAsync(SyncWatchedMoviesRequest(extendedInfo), requestAuthorization)
     }
 
     fun getWatchedShowsAsync(
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktListResponse<TraktWatchedShow>> {
+    ): Deferred<TraktListResponse<TraktWatchedShow>> {
         return RequestHandler(client).executeListRequestAsync(SyncWatchedShowsRequest(extendedInfo), requestAuthorization)
     }
 
@@ -108,7 +108,7 @@ class TraktSyncModule internal constructor(override val client: TraktClient) : T
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktHistoryItem>> {
+    ): Deferred<TraktPagedResponse<TraktHistoryItem>> {
         return RequestHandler(client).executePagedRequestAsync(SyncWatchedHistoryRequest(
                 historyItemType, itemId, startAt, endAt, extendedInfo, pagedParameters?.page, pagedParameters?.limit
         ), requestAuthorization)
@@ -117,14 +117,14 @@ class TraktSyncModule internal constructor(override val client: TraktClient) : T
     fun addWatchedHistoryItemsAsync(
             historyPost: TraktSyncHistoryPost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncHistoryPostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncHistoryPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchedHistoryAddRequest(historyPost), requestAuthorization)
     }
 
     fun removeWatchedHistoryItemsAsync(
             historyRemovePost: TraktSyncHistoryRemovePost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncHistoryRemovePostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncHistoryRemovePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchedHistoryRemoveRequest(historyRemovePost), requestAuthorization)
     }
 
@@ -133,21 +133,21 @@ class TraktSyncModule internal constructor(override val client: TraktClient) : T
             ratingsFilter: List<Int>? = null,
             extendedInfo: TraktExtendedInfo? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktListResponse<TraktRatingsItem>> {
+    ): Deferred<TraktListResponse<TraktRatingsItem>> {
         return RequestHandler(client).executeListRequestAsync(SyncRatingsRequest(ratingsItemType, ratingsFilter, extendedInfo), requestAuthorization)
     }
 
     fun addRatingsAsync(
             ratingsPost: TraktSyncRatingsPost,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktSyncRatingsPostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncRatingsPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncRatingsAddRequest(ratingsPost), requestAuthorization)
     }
 
     fun removeRatingsAsync(
             ratingsRemovePost: TraktSyncRatingsPost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncRatingsRemovePostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncRatingsRemovePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncRatingsRemoveRequest(ratingsRemovePost), requestAuthorization)
     }
 
@@ -156,7 +156,7 @@ class TraktSyncModule internal constructor(override val client: TraktClient) : T
             extendedInfo: TraktExtendedInfo? = null,
             pagedParameters: TraktPagedParameters? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktPagedResponse<TraktWatchlistItem>> {
+    ): Deferred<TraktPagedResponse<TraktWatchlistItem>> {
         return RequestHandler(client).executePagedRequestAsync(SyncWatchlistRequest(
                 watchlistItemType, extendedInfo, pagedParameters?.page, pagedParameters?.limit
         ), requestAuthorization)
@@ -165,14 +165,14 @@ class TraktSyncModule internal constructor(override val client: TraktClient) : T
     fun addWatchlistItemsAsync(
             watchlistPost: TraktSyncWatchlistPost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncWatchlistPostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncWatchlistPostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchlistAddRequest(watchlistPost), requestAuthorization)
     }
 
     fun removeWatchlistItemsAsync(
             watchlistRemovePost: TraktSyncWatchlistPost,
             requestAuthorization: TraktAuthorization
-    ): CompletableFuture<TraktResponse<TraktSyncWatchlistRemovePostResponse>> {
+    ): Deferred<TraktResponse<TraktSyncWatchlistRemovePostResponse>> {
         return RequestHandler(client).executeSingleItemRequestAsync(SyncWatchlistRemoveRequest(watchlistRemovePost), requestAuthorization)
     }
 }

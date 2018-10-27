@@ -18,9 +18,9 @@ import com.atherapp.thirdparty.api.trakt.requests.checkins.CheckinsDeleteRequest
 import com.atherapp.thirdparty.api.trakt.requests.handler.RequestHandler
 import com.atherapp.thirdparty.api.trakt.responses.TraktNoContentResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
+import kotlinx.coroutines.Deferred
 import java.time.LocalDate
 import java.time.ZonedDateTime
-import java.util.concurrent.CompletableFuture
 
 class TraktCheckinModule internal constructor(override val client: TraktClient) : TraktModule {
     fun checkIntoMovieAsync(
@@ -32,7 +32,7 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
             foursquareVenueID: String? = null,
             foursquareVenueName: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktMovieCheckinPostResponse>> {
+    ): Deferred<TraktResponse<TraktMovieCheckinPostResponse>> {
         val requestBody = TraktMovieCheckinPostImpl(
                 sharing, message, appVersion, appBuildDate.toString(), foursquareVenueID, foursquareVenueName,
                 TraktMovieImpl(
@@ -54,7 +54,7 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
             foursquareVenueID: String? = null,
             foursquareVenueName: String? = null,
             requestAuthorization: TraktAuthorization = client.authorization
-    ): CompletableFuture<TraktResponse<TraktEpisodeCheckinPostResponse>> {
+    ): Deferred<TraktResponse<TraktEpisodeCheckinPostResponse>> {
         val requestBody = TraktEpisodeCheckinPostImpl(
                 sharing, message, appVersion, appBuildDate.toString(), foursquareVenueID, foursquareVenueName,
                 TraktEpisodeImpl(
@@ -68,6 +68,6 @@ class TraktCheckinModule internal constructor(override val client: TraktClient) 
         return RequestHandler(client).executeSingleItemRequestAsync(CheckinRequest(requestBody, TraktEpisodeCheckinPostResponse::class), requestAuthorization)
     }
 
-    fun deleteAnyActiveCheckinsAsync(): CompletableFuture<TraktNoContentResponse> =
+    fun deleteAnyActiveCheckinsAsync(): Deferred<TraktNoContentResponse> =
             RequestHandler(client).executeNoContentRequestAsync(CheckinsDeleteRequest())
 }

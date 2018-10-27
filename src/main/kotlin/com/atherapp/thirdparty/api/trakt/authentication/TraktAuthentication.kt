@@ -2,20 +2,20 @@ package com.atherapp.thirdparty.api.trakt.authentication
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
 import com.atherapp.thirdparty.api.trakt.core.Constants
-import com.atherapp.thirdparty.api.trakt.core.TraktConfiguration
 import com.atherapp.thirdparty.api.trakt.enums.TraktAccessTokenGrantType
 import com.atherapp.thirdparty.api.trakt.exceptions.*
 import com.atherapp.thirdparty.api.trakt.extensions.containsSpace
 import com.atherapp.thirdparty.api.trakt.objects.basic.TraktError
 import com.atherapp.thirdparty.api.trakt.utils.Json
-import com.atherapp.thirdparty.api.trakt.utils.http.HttpMethod
-import org.asynchttpclient.Dsl.asyncHttpClient
-import org.asynchttpclient.Request
-import org.asynchttpclient.RequestBuilder
-import org.asynchttpclient.Response
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.net.HttpURLConnection
+import java.nio.charset.Charset
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 
 class TraktAuthentication(val client: TraktClient) {
@@ -56,56 +56,56 @@ class TraktAuthentication(val client: TraktClient) {
     val isAuthorized: Boolean
         get() = !authorization.isExpired
 
-    fun checkIfAuthorizationIsExpiredOrWasRevokedAsync(autoRefresh: Boolean = false): CompletableFuture<Pair<Boolean, TraktAuthorization?>> {
+    fun checkIfAuthorizationIsExpiredOrWasRevokedAsync(autoRefresh: Boolean = false): Deferred<Pair<Boolean, TraktAuthorization?>> = GlobalScope.async {
         if (authorization.isExpired)
-            return CompletableFuture.completedFuture(true to null)
+            return@async true to null
 
         try {
-            return client.sync.getLastActivitiesAsync().thenApply {
+            return@async client.sync.getLastActivitiesAsync().await().run {
                 false to null
             }
         } catch (e: TraktAuthorizationException) {
             if (!autoRefresh)
-                return CompletableFuture.completedFuture(true to null)
+                return@async true to null
 
-            return refreshAuthorizationAsync().thenApply {
-                true to it
+            return@async refreshAuthorizationAsync().await().run {
+                true to this
             }
         }
     }
 
-    fun checkIfAuthorizationIsExpiredOrWasRevokedAsync(authorization: TraktAuthorization?, autoRefresh: Boolean = false): CompletableFuture<Pair<Boolean, TraktAuthorization?>> {
+    fun checkIfAuthorizationIsExpiredOrWasRevokedAsync(authorization: TraktAuthorization?, autoRefresh: Boolean = false): Deferred<Pair<Boolean, TraktAuthorization?>> {
         if (authorization == null)
             throw IllegalArgumentException("authorization")
 
         val currentAuthorization = authorization
         this.authorization = authorization
 
-        return CompletableFuture.supplyAsync {
+        return GlobalScope.async {
             val result: Pair<Boolean, TraktAuthorization?>
 
             try {
-                result = checkIfAuthorizationIsExpiredOrWasRevokedAsync(autoRefresh).get()
+                result = checkIfAuthorizationIsExpiredOrWasRevokedAsync(autoRefresh).await()
             } finally {
-                this.authorization = currentAuthorization
+                this@TraktAuthentication.authorization = currentAuthorization
             }
 
-            return@supplyAsync result
+            return@async result
         }
     }
 
-    fun checkIfAccessTokenWasRevokedOrIsNotValidAsync(accessToken: String): CompletableFuture<Boolean> {
+    fun checkIfAccessTokenWasRevokedOrIsNotValidAsync(accessToken: String): Deferred<Boolean> = GlobalScope.async {
         if (accessToken.isBlank() || accessToken.containsSpace())
             throw IllegalArgumentException("access token must not be null, empty, or contain any spaces")
 
         val currentAuthorization = authorization
         authorization = TraktAuthorization.createWith(accessToken)
 
-        return try {
-            client.sync.getLastActivitiesAsync()
-            CompletableFuture.completedFuture(false)
+        return@async try {
+            client.sync.getLastActivitiesAsync().await()
+            false
         } catch (e: TraktAuthorizationException) {
-            CompletableFuture.completedFuture(true)
+            true
         } finally {
             authorization = currentAuthorization
         }
@@ -116,7 +116,7 @@ class TraktAuthentication(val client: TraktClient) {
             clientId: String? = client.clientId,
             clientSecret: String? = client.clientSecret,
             redirectUri: String = this.redirectUri
-    ): CompletableFuture<TraktAuthorization> {
+    ): Deferred<TraktAuthorization> = GlobalScope.async {
         if (!isAuthorized && (refreshToken!!.isEmpty() || refreshToken.contains(" ")))
             throw TraktAuthorizationException("not authorized")
 
@@ -131,50 +131,47 @@ class TraktAuthentication(val client: TraktClient) {
                 " \"client_secret\": \"$clientSecret\", \"redirect_uri\": \"$redirectUri\"," +
                 " \"grant_type\": \"$grantType\" }}"
 
-        val httpClient = TraktConfiguration.httpClient ?: asyncHttpClient()
-
         val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_TOKEN_URI}"
-        val request = RequestBuilder().setMethod(HttpMethod.POST.toString()).setBody(postContent).build()
+        val request = Fuel.post(tokenUrl).body(postContent)
 
         setDefaultRequestHeaders(request)
 
-        return httpClient.executeRequest(request).toCompletableFuture().thenApply {
-            val responseCode = it.statusCode
-            val responseContent = it.responseBody ?: ""
-            val reasonPhrase = it.statusText
+        val (_, response, _) = request.response()
+        val responseCode = response.statusCode
+        val responseContent = response.data.toString(Charset.forName("UTF-8"))
+        val reasonPhrase = response.responseMessage
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                var token = TraktAuthorization()
-                if (!responseContent.isBlank())
-                    token = Json.deserialize(responseContent)
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            var token = TraktAuthorization()
+            if (!responseContent.isBlank())
+                token = Json.deserialize(responseContent)
 
-                client.authentication.authorization = token
-                return@thenApply token
-            } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                var error: TraktError? = null
-                if (!responseContent.isBlank())
-                    error = Json.deserialize(responseContent)
+            client.authentication.authorization = token
+            return@async token
+        } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            var error: TraktError? = null
+            if (!responseContent.isBlank())
+                error = Json.deserialize(responseContent)
 
-                val errorMessage = if (error == null) "unknown error" else "error on refreshing oauth access token\nerror: ${error.error}\n" +
-                        "description: ${error.description}"
+            val errorMessage = if (error == null) "unknown error" else "error on refreshing oauth access token\nerror: ${error.error}\n" +
+                    "description: ${error.description}"
 
-                throw TraktAuthenticationException(errorMessage).apply {
-                    statusCode = responseCode
-                    requestUrl = tokenUrl
-                    requestBody = postContent
-                    serverReasonPhrase = reasonPhrase
-                }
+            throw TraktAuthenticationException(errorMessage).apply {
+                statusCode = responseCode
+                requestUrl = tokenUrl
+                requestBody = postContent
+                serverReasonPhrase = reasonPhrase
             }
-
-            errorHandling(it, tokenUrl, postContent)
-            return@thenApply TraktAuthorization()
         }
+
+        errorHandling(response, tokenUrl, postContent)
+        return@async TraktAuthorization()
     }
 
     fun revokeAuthorizationAsync(
             accessToken: String = authorization.accessToken ?: "",
             clientId: String? = client.clientId
-    ): CompletableFuture<Unit>? {
+    ): Deferred<Unit>? = GlobalScope.async {
         if (!isAuthorized && (accessToken.isBlank() || accessToken.containsSpace()))
             throw TraktAuthorizationException("not authorized")
 
@@ -185,33 +182,29 @@ class TraktAuthentication(val client: TraktClient) {
             throw IllegalArgumentException("client id not valid")
 
         val postContent = "token=$accessToken"
-        val httpClient = TraktConfiguration.httpClient ?: asyncHttpClient()
-        val request = RequestBuilder().setMethod(HttpMethod.POST.toString()).setBody(postContent).build()
+        val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_REVOKE_URL}"
+        val request = Fuel.post(tokenUrl).body(postContent)
 
         setDefaultRequestHeaders(request)
         setAuthorizationRequestHeaders(request, accessToken, clientId)
 
-        val tokenUrl = "${client.configuration.baseUrl}${Constants.OAUTH_REVOKE_URL}"
-
         request.headers["Content-Type"] = "application/x-www-form-urlencoded"
 
-        return httpClient.executeRequest(request).toCompletableFuture().thenApply {
+        val (_, response, _) = request.response()
+        if (response.statusCode !in 200..299) {
+            if (response.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                val responseContent = response.data.toString(Charset.forName("UTF-8"))
 
-            if (it.statusCode !in 200..299) {
-                if (it.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    val responseContent = it.responseBody ?: ""
-
-                    throw TraktAuthenticationException("error on revoking access token").apply {
-                        requestUrl = tokenUrl
-                        requestBody = postContent
-                        this.response = responseContent
-                        serverReasonPhrase = it.statusText
-                    }
+                throw TraktAuthenticationException("error on revoking access token").apply {
+                    requestUrl = tokenUrl
+                    requestBody = postContent
+                    this.response = responseContent
+                    serverReasonPhrase = response.responseMessage
                 }
             }
-
-            errorHandling(it, tokenUrl, postContent)
         }
+
+        errorHandling(response, tokenUrl, postContent)
     }
 
     private fun setDefaultRequestHeaders(request: Request) {
@@ -240,13 +233,10 @@ class TraktAuthentication(val client: TraktClient) {
     }
 
     private fun errorHandling(resp: Response, reqUrl: String, reqContent: String) {
-        var responseContent = ""
-
-        if (resp.responseBody != null)
-            responseContent = resp.responseBody
+        val responseContent = resp.data.toString(Charset.forName("UTF-8"))
 
         val code = resp.statusCode
-        val reasonPhrase = resp.statusText
+        val reasonPhrase = resp.responseMessage
 
         when (code) {
             HttpURLConnection.HTTP_NOT_FOUND -> throw TraktNotFoundException("Resource not found").apply {

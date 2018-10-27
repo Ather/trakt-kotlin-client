@@ -8,8 +8,6 @@ import com.atherapp.thirdparty.api.trakt.core.TraktConfiguration
 import com.atherapp.thirdparty.api.trakt.extensions.containsSpace
 import com.atherapp.thirdparty.api.trakt.modules.*
 
-import java.util.concurrent.Executors
-
 class TraktClient internal constructor() {
     val configuration: TraktConfiguration = TraktConfiguration()
 
