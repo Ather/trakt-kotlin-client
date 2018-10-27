@@ -95,7 +95,7 @@ bintray {
     pkg {
         repo = 'trakt-kotlin-client'
         name = 'trakt-kotlin-client'
-        userOrg = 'Ather'
+        userOrg = 'ather'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/Ather/trakt-kotlin-client.git'
         version {
