@@ -53,3 +53,9 @@ src/test/kotlin/com/atherapp/thirdparty/api/trakt/Playground.kt
 
 .idea/
 *.iml
+
+gradlew
+gradlew.bat
+.gradle/
+*.ipr
+*.iws
