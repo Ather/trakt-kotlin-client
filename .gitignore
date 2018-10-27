@@ -60,4 +60,5 @@ gradlew.bat
 *.ipr
 *.iws
 
+build/
 out/
