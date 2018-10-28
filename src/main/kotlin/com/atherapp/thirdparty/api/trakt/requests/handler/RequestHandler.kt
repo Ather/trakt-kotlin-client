@@ -200,7 +200,7 @@ internal class RequestHandler(
 
         val response = requestMessage.request.response().second
         if (response.statusCode !in 200..299)
-            ResponseErrorHandler.handleErrorsAsync(requestMessage, response, isCheckinRequest)
+            ResponseErrorHandler.handleErrorsAsync(requestMessage, response, isCheckinRequest).await()
 
         return@async response
     }
