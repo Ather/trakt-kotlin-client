@@ -17,7 +17,7 @@ internal class TraktClientTest {
 
     @Test
     fun `test default construction`() {
-        val client = TraktClient().run {
+        TraktClient().run {
             assertNotNull(configuration)
             assertNotNull(authentication)
             //assertNotNull(oAuth)
@@ -52,7 +52,7 @@ internal class TraktClientTest {
 
     @Test
     fun `test invalid client`() {
-        val client = TraktClient(
+        TraktClient(
                 clientId = INVALID_CLIENT_ID,
                 clientSecret = INVALID_CLIENT_SECRET
         ).run {
@@ -67,7 +67,7 @@ internal class TraktClientTest {
      */
     @Test
     fun `test semivalid client`() {
-        val client = TraktClient(
+        TraktClient(
                 clientId = VALID_CLIENT_ID,
                 clientSecret = INVALID_CLIENT_SECRET
         ).run {
@@ -79,7 +79,7 @@ internal class TraktClientTest {
 
     @Test
     fun `test valid client`() {
-        val client = TraktClient(
+        TraktClient(
                 clientId = VALID_CLIENT_ID,
                 clientSecret = VALID_CLIENT_SECRET
         ).run {

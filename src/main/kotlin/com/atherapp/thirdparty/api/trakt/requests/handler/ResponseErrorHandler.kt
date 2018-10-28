@@ -78,6 +78,9 @@ internal object ResponseErrorHandler {
             HTTP_UNAVAILABLE, HTTP_GATEWAY_TIMEOUT -> handleServerOverloadedError(errorParameters)
             520, 521, 522 -> handleCloudflareError(errorParameters)
         }
+
+        handleUnknownError(errorParameters)
+
         return@async
     }
 
@@ -187,7 +190,7 @@ internal object ResponseErrorHandler {
         else if (errorParameters.isAuthorizationRevoke)
             throw TraktAuthenticationException("unknown exception").initHttp(errorParameters)
 
-        var error: TraktError? = null
+        val error: TraktError?
 
         try {
             error = Json.deserialize<TraktErrorImpl>(errorParameters.responseBody)
