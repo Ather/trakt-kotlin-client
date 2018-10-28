@@ -214,9 +214,6 @@ internal class RequestHandler(
     }
 
     private fun setDefaultRequestHeaders(requestMessage: ExtendedHttpRequestMessage) {
-        requestMessage.request.header(Constants.API_CLIENT_ID_HEADER_KEY to "${client.clientId}")
-        requestMessage.request.header(Constants.API_VERSION_HEADER_KEY to "${client.configuration.apiVersion}")
-
         requestMessage.request.header("Accept" to Constants.MEDIA_TYPE)
         requestMessage.request.header("Content-Type" to Constants.MEDIA_TYPE)
     }

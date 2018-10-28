@@ -31,7 +31,7 @@ internal class AuthorizationPollRequest(
 )
 
 internal class AuthorizationPollRequestBody(
-        private val device: TraktDevice,
+        val device: TraktDevice,
         private val clientId: String,
         private val clientSecret: String
 ) : IRequestBody {
