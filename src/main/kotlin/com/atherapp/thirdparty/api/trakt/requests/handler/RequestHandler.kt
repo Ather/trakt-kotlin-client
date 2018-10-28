@@ -1,9 +1,9 @@
 package com.atherapp.thirdparty.api.trakt.requests.handler
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.core.Constants
 import com.atherapp.thirdparty.api.trakt.exceptions.*
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.objects.basic.TraktError
 import com.atherapp.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostErrorResponse
 import com.atherapp.thirdparty.api.trakt.requests.base.RequestObjectType.*
@@ -198,9 +198,9 @@ internal class RequestHandler(
     private fun executeRequestAsync(requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false): Deferred<Response> = GlobalScope.async {
         setDefaultRequestHeaders(requestMessage)
 
-        val (_, response, _) = requestMessage.request.response()
+        val response = requestMessage.request.response().second
         if (response.statusCode !in 200..299)
-            errorHandling(response, requestMessage, isCheckinRequest)
+            ResponseErrorHandler.handleErrorsAsync(requestMessage, response, isCheckinRequest)
 
         return@async response
     }
@@ -214,209 +214,7 @@ internal class RequestHandler(
     }
 
     private fun setDefaultRequestHeaders(requestMessage: ExtendedHttpRequestMessage) {
-        requestMessage.request.header(Constants.API_CLIENT_ID_HEADER_KEY to "${client.clientId}")
-        requestMessage.request.header(Constants.API_VERSION_HEADER_KEY to "${client.configuration.apiVersion}")
-
         requestMessage.request.header("Accept" to Constants.MEDIA_TYPE)
         requestMessage.request.header("Content-Type" to Constants.MEDIA_TYPE)
-    }
-
-    private fun errorHandling(httpResponse: Response, requestMessage: ExtendedHttpRequestMessage, isCheckinRequest: Boolean = false) {
-        var responseContent = ""
-
-        if (httpResponse.data.isNotEmpty())
-            responseContent = httpResponse.data.toString(Charset.forName("UTF-8"))
-
-        val code = httpResponse.statusCode
-        val url = requestMessage.request.url.toString()
-        val requestBodyJson = requestMessage.requestBodyJson
-        val reasonPhrase = httpResponse.responseMessage
-
-        when (code) {
-            HttpURLConnection.HTTP_NOT_FOUND -> handleNotFoundStatusCode(requestMessage, responseContent, url, requestBodyJson, reasonPhrase)
-            HttpURLConnection.HTTP_BAD_REQUEST -> throw TraktBadRequestException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_UNAUTHORIZED -> throw TraktAuthorizationException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_FORBIDDEN -> throw TraktForbiddenException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_BAD_METHOD -> throw TraktMethodNotFoundException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_CONFLICT -> handleConflictStatusCode(isCheckinRequest, responseContent, url, requestBodyJson, reasonPhrase)
-            HttpURLConnection.HTTP_INTERNAL_ERROR -> throw TraktServerException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_BAD_GATEWAY -> throw TraktBadGatewayException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_PRECON_FAILED -> throw TraktPreconditionFailedException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            422 -> throw TraktValidationException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            429 -> throw TraktRateLimitException().apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            HttpURLConnection.HTTP_UNAVAILABLE, HttpURLConnection.HTTP_GATEWAY_TIMEOUT -> throw TraktServerUnavailableException("Service Unavailable - server overloaded (try again in 30s)").apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-            520, 521, 522 -> throw TraktServerUnavailableException("Service Unavailable - Cloudflare error").apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-            }
-        }
-
-        handleUnknownError(responseContent, code, url, requestBodyJson, reasonPhrase)
-    }
-
-    private fun handleNotFoundStatusCode(requestMessage: ExtendedHttpRequestMessage, responseContent: String, url: String, requestBodyJson: String, reasonPhrase: String) {
-        val requestObjectType = requestMessage.requestObjectType
-
-        if (requestObjectType != null) {
-            val objectId = requestMessage.objectId
-            val seasonNr = requestMessage.seasonNumber ?: 0
-            val episodeNr = requestMessage.episodeNumber ?: 0
-
-            when (requestObjectType) {
-                Episodes -> throw TraktEpisodeNotFoundException(objectId, seasonNr, episodeNr).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                Movies -> throw TraktMovieNotFoundException(objectId).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                Shows -> throw TraktShowNotFoundException(objectId).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                Seasons -> throw TraktSeasonNotFoundException(objectId, seasonNr).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                People -> throw TraktPersonNotFoundException(objectId).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                Comments -> throw TraktCommentNotFoundException(objectId).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                Lists -> throw TraktListNotFoundException(objectId).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-                else -> throw TraktObjectNotFoundException(objectId).apply {
-                    requestUrl = url
-                    requestBody = requestBodyJson
-                    response = responseContent
-                    serverReasonPhrase = reasonPhrase
-                }
-            }
-        }
-
-        throw TraktNotFoundException("Resource not found - Reason Phrase: $reasonPhrase")
-    }
-
-    private fun handleConflictStatusCode(isCheckinRequest: Boolean, responseContent: String, url: String, requestBodyJson: String, reasonPhrase: String) {
-        if (isCheckinRequest) {
-            var errorResponse: TraktCheckinPostErrorResponse? = null
-
-            if (!responseContent.isBlank()) {
-                try {
-                    errorResponse = Json.deserialize(responseContent)
-                } catch (e: JsonParseException) {
-                    throw TraktException("json convert exception", e)
-                }
-            }
-
-            throw TraktCheckinException("checkin is already in progress").apply {
-                requestUrl = url
-                requestBody = requestBodyJson
-                response = responseContent
-                serverReasonPhrase = reasonPhrase
-                expiresAt = errorResponse?.expiresAt
-            }
-        }
-
-        throw TraktConflictException().apply {
-            requestUrl = url
-            requestBody = requestBodyJson
-            response = responseContent
-            serverReasonPhrase = reasonPhrase
-        }
-    }
-
-    private fun handleUnknownError(responseContent: String, code: Int, url: String, requestBodyJson: String, reasonPhrase: String) {
-        val error: TraktError
-
-        try {
-            error = Json.deserialize(responseContent)
-        } catch (e: JsonParseException) {
-            throw TraktException("json convert exception", e)
-        }
-
-        val errorMessage =
-                if (error.description.isBlank())
-                    "Trakt API error without content. Response status code was $code"
-                else error.description
-
-        throw TraktException(errorMessage).apply {
-            requestUrl = url
-            requestBody = requestBodyJson
-            response = responseContent
-            serverReasonPhrase = reasonPhrase
-        }
     }
 }

@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.modules
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.objects.get.calendars.TraktCalendarMovie
 import com.atherapp.thirdparty.api.trakt.objects.get.calendars.TraktCalendarShow
 import com.atherapp.thirdparty.api.trakt.requests.calendars.*

@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.modules
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.objects.get.movies.TraktMovie
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShow
 import com.atherapp.thirdparty.api.trakt.requests.handler.RequestHandler

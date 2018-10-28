@@ -18,4 +18,7 @@ object Constants {
     const val OAUTH_DEVICE_TOKEN_URI = "oauth/device/token"
 
     const val MEDIA_TYPE = "application/json"
+    const val MEDIA_TYPE_URL_ENCODED = "application/x-www-form-urlencoded"
+
+    const val DEFAULT_REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob"
 }

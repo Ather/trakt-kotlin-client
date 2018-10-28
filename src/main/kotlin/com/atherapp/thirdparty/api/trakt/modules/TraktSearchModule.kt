@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.modules
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.enums.TraktSearchField
 import com.atherapp.thirdparty.api.trakt.enums.TraktSearchIdType
 import com.atherapp.thirdparty.api.trakt.enums.TraktSearchResultType

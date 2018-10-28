@@ -2,8 +2,9 @@ package com.atherapp.thirdparty.api.trakt.requests.handler
 
 import com.damnhandy.uri.template.UriTemplate
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.core.Constants
 import com.atherapp.thirdparty.api.trakt.exceptions.TraktAuthorizationException
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IHasId
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IRequestBody
@@ -13,12 +14,15 @@ import com.github.kittinunf.fuel.core.Method
 
 internal class RequestMessageBuilder(
         private val client: TraktClient,
-        private var request: IRequest? = null,
-        private var authorization: TraktAuthorization = client.authorization
+        var request: IRequest? = null,
+        var authorization: TraktAuthorization = client.authorization
 ) {
-    private var requestBody: IRequestBody? = null
+    var requestBody: IRequestBody? = null
 
-    fun withRequestBody(requestBody: IRequestBody): RequestMessageBuilder {
+    var useAPIVersionHeader = true
+    var useAPIClientIdHeader = true
+
+    fun withRequestBody(requestBody: IRequestBody?): RequestMessageBuilder {
         this.requestBody = requestBody
         return this
     }
@@ -96,6 +100,11 @@ internal class RequestMessageBuilder(
 
     private fun setRequestMessageHeadersForAuthorization(requestMessage: ExtendedHttpRequestMessage) {
         val authorizationRequirement = request!!.authorizationRequirement
+
+        if (useAPIVersionHeader)
+            requestMessage.request.header(Constants.API_VERSION_HEADER_KEY to "${client.configuration.apiVersion}")
+        if (useAPIClientIdHeader && client.clientId != null)
+            requestMessage.request.header(Constants.API_CLIENT_ID_HEADER_KEY to client.clientId!!)
 
         if (authorizationRequirement == AuthorizationRequirement.Required) {
             if (authorization.isExpired)

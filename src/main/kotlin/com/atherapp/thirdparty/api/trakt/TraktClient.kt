@@ -1,21 +1,14 @@
 package com.atherapp.thirdparty.api.trakt
 
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthentication
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
-import com.atherapp.thirdparty.api.trakt.authentication.TraktDeviceAuth
-import com.atherapp.thirdparty.api.trakt.authentication.TraktOAuth
 import com.atherapp.thirdparty.api.trakt.core.TraktConfiguration
 import com.atherapp.thirdparty.api.trakt.extensions.containsSpace
 import com.atherapp.thirdparty.api.trakt.modules.*
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 
 class TraktClient internal constructor() {
     val configuration: TraktConfiguration = TraktConfiguration()
 
-    val authentication: TraktAuthentication = TraktAuthentication(this)
-
-    val oAuth: TraktOAuth = TraktOAuth(this)
-
-    val deviceAuth: TraktDeviceAuth = TraktDeviceAuth(this)
+    val authentication: TraktAuthenticationModule = TraktAuthenticationModule(this)
 
     val calendars: TraktCalendarsModule = TraktCalendarsModule(this)
 

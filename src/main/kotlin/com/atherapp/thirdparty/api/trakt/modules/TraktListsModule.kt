@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.modules
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.TraktList
 import com.atherapp.thirdparty.api.trakt.requests.handler.RequestHandler
 import com.atherapp.thirdparty.api.trakt.requests.lists.ListsPopularRequest
