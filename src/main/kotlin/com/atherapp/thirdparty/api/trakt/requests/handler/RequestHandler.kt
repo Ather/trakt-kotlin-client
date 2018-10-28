@@ -2,11 +2,7 @@ package com.atherapp.thirdparty.api.trakt.requests.handler
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
 import com.atherapp.thirdparty.api.trakt.core.Constants
-import com.atherapp.thirdparty.api.trakt.exceptions.*
 import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
-import com.atherapp.thirdparty.api.trakt.objects.basic.TraktError
-import com.atherapp.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostErrorResponse
-import com.atherapp.thirdparty.api.trakt.requests.base.RequestObjectType.*
 import com.atherapp.thirdparty.api.trakt.requests.checkins.CheckinRequest
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IRequestBody
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.base.*
@@ -16,7 +12,6 @@ import com.atherapp.thirdparty.api.trakt.responses.TraktPagedResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktResponse
 import com.atherapp.thirdparty.api.trakt.utils.Json
 import com.github.kittinunf.fuel.core.Response
-import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
