@@ -20,8 +20,8 @@ internal class TraktClientTest {
         val client = TraktClient().run {
             assertNotNull(configuration)
             assertNotNull(authentication)
-            assertNotNull(oAuth)
-            assertNotNull(deviceAuth)
+            //assertNotNull(oAuth)
+            //assertNotNull(deviceAuth)
             assertNotNull(calendars)
             assertNotNull(checkin)
             assertNotNull(certifications)
