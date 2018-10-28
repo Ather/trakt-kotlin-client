@@ -6,15 +6,15 @@ import java.time.Instant
 
 data class TraktDeviceImpl internal constructor(
         @SerializedName("device_code")
-        override var deviceCode: String,
+        override var deviceCode: String = "",
         @SerializedName("user_code")
-        override var userCode: String,
+        override var userCode: String = "",
         @SerializedName("verification_url")
-        override var verificationUrl: String,
+        override var verificationUrl: String = "",
         @SerializedName("expires_in")
-        override var expiresInSeconds: Int,
+        override var expiresInSeconds: Int = 0,
         @SerializedName("interval")
-        override var intervalInSeconds: Int
+        override var intervalInSeconds: Int = 0
 ): TraktDevice {
     override val intervalInMilliseconds: Int
         get() = intervalInSeconds * 1000

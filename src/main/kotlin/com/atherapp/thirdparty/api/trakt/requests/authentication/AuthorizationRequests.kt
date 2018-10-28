@@ -4,6 +4,7 @@ import com.atherapp.thirdparty.api.trakt.enums.TraktAccessTokenGrantType
 import com.atherapp.thirdparty.api.trakt.extensions.containsSpace
 import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktDevice
+import com.atherapp.thirdparty.api.trakt.requests.base.APostRequest
 import com.atherapp.thirdparty.api.trakt.requests.base.APostRequestHasResponse
 import com.atherapp.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IRequestBody
@@ -82,6 +83,96 @@ internal class AuthorizationRefreshRequestBody(
             throw IllegalArgumentException("client id not valid")
         if (clientSecret.isBlank() || clientSecret.containsSpace())
             throw IllegalArgumentException("client secret not valid")
+    }
+
+    override fun toJson() = httpContentAsString
+}
+
+internal class AuthorizationRequest(
+        code: String,
+        redirectUri: String,
+        clientId: String,
+        clientSecret: String
+) : AbstractAuthorizationRequest<TraktAuthorization, AuthorizationRequestBody>(
+        "oauth/token",
+        TraktAuthorization::class,
+        AuthorizationRequestBody(code, redirectUri, clientId, clientSecret)
+)
+
+internal class AuthorizationRequestBody(
+        private val code: String,
+        private val redirectUri: String,
+        private val clientId: String,
+        private val clientSecret: String
+) : IRequestBody {
+    private val httpContentAsString = "{{ \"code\": \"$code\", \"client_id\": \"$clientId\"," +
+            " \"client_secret\": \"$clientSecret\", \"redirect_uri\": \"$redirectUri\"," +
+            " \"grant_type\": \"${TraktAccessTokenGrantType.AUTHORIZATION_CODE.objectName}\" }}"
+
+    override fun validate(variableName: String) {
+        if (code.isBlank() || code.containsSpace())
+            throw IllegalArgumentException("code not valid")
+        if (redirectUri.isBlank() || redirectUri.containsSpace())
+            throw IllegalArgumentException("redirect uri not valid")
+        if (clientId.isBlank() || clientId.containsSpace())
+            throw IllegalArgumentException("client id not valid")
+        if (clientSecret.isBlank() || clientSecret.containsSpace())
+            throw IllegalArgumentException("client secret not valid")
+    }
+
+    override fun toJson() = httpContentAsString
+}
+
+internal class AuthorizationRevokeRequest(
+        accessToken: String,
+        clientId: String,
+        clientSecret: String
+) : APostRequest<AuthorizationRevokeRequestBody>() {
+    override val authorizationRequirement: AuthorizationRequirement = AuthorizationRequirement.NotRequired
+
+    override val uriTemplate: String = "oauth/revoke"
+
+    override var requestBody: AuthorizationRevokeRequestBody? = AuthorizationRevokeRequestBody(accessToken, clientId, clientSecret)
+
+    override val uriPathParameters: Map<String, Any>? = null
+}
+
+internal class AuthorizationRevokeRequestBody(
+        private val accessToken: String,
+        private val clientId: String,
+        private val clientSecret: String
+) : IRequestBody {
+    private val httpContentAsString = "{{ \"token\": \"$accessToken\", \"client_id\": \"$clientId\"," +
+            " \"client_secret\": \"$clientSecret\" }}"
+
+    override fun validate(variableName: String) {
+        if (accessToken.isBlank() || accessToken.containsSpace())
+            throw IllegalArgumentException("code not valid")
+        if (clientId.isBlank() || clientId.containsSpace())
+            throw IllegalArgumentException("client id not valid")
+        if (clientSecret.isBlank() || clientSecret.containsSpace())
+            throw IllegalArgumentException("client secret not valid")
+    }
+
+    override fun toJson() = httpContentAsString
+}
+
+internal class DeviceRequest(
+        clientId: String
+) : AbstractAuthorizationRequest<TraktDevice, DeviceRequestBody>(
+        "oauth/device/code",
+        TraktDevice::class,
+        DeviceRequestBody(clientId)
+)
+
+internal class DeviceRequestBody(
+        private val clientId: String
+) : IRequestBody {
+    private val httpContentAsString = "{{ \"client_id\": \"$clientId\" }}"
+
+    override fun validate(variableName: String) {
+        if (clientId.isBlank() || clientId.containsSpace())
+            throw IllegalArgumentException("client id not valid")
     }
 
     override fun toJson() = httpContentAsString
