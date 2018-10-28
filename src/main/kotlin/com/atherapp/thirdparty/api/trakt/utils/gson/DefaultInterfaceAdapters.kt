@@ -1,5 +1,9 @@
 package com.atherapp.thirdparty.api.trakt.utils.gson
 
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktDevice
+import com.atherapp.thirdparty.api.trakt.objects.authentication.implementations.TraktAuthorizationImpl
+import com.atherapp.thirdparty.api.trakt.objects.authentication.implementations.TraktDeviceImpl
 import com.atherapp.thirdparty.api.trakt.objects.basic.*
 import com.atherapp.thirdparty.api.trakt.objects.basic.implementations.*
 import com.atherapp.thirdparty.api.trakt.objects.get.calendars.TraktCalendarMovie
@@ -115,6 +119,8 @@ import kotlin.reflect.KClass
 internal object DefaultInterfaceAdapters {
     val adapters: Array<Pair<KClass<out Any>, InterfaceImplementationAdapter<out Any, *>>>
         get() = arrayOf(
+                *Objects.authentication,
+
                 *Objects.basic,
 
                 *Objects.Get.calendars,
@@ -152,6 +158,11 @@ internal object DefaultInterfaceAdapters {
                 * responses)
 
     object Objects {
+        val authentication = arrayOf(
+                TraktAuthorization::class toImpl TraktAuthorizationImpl::class,
+                TraktDevice::class toImpl TraktDeviceImpl::class
+        )
+
         val basic = arrayOf(
                 TraktCastAndCrew::class toImpl TraktCastAndCrewImpl::class,
                 TraktCastMember::class toImpl TraktCastMemberImpl::class,
