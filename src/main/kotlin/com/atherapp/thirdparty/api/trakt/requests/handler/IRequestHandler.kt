@@ -1,6 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.requests.handler
 
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.base.IRequest
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.base.IRequestHasResponse
 import com.atherapp.thirdparty.api.trakt.responses.TraktListResponse

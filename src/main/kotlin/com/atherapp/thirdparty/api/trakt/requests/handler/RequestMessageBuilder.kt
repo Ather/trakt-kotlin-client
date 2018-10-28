@@ -2,8 +2,8 @@ package com.atherapp.thirdparty.api.trakt.requests.handler
 
 import com.damnhandy.uri.template.UriTemplate
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.exceptions.TraktAuthorizationException
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.requests.base.AuthorizationRequirement
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IHasId
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IRequestBody

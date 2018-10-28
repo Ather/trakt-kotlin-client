@@ -1,9 +1,9 @@
 package com.atherapp.thirdparty.api.trakt.requests.handler
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.core.Constants
 import com.atherapp.thirdparty.api.trakt.exceptions.*
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.objects.basic.TraktError
 import com.atherapp.thirdparty.api.trakt.objects.post.checkins.responses.TraktCheckinPostErrorResponse
 import com.atherapp.thirdparty.api.trakt.requests.base.RequestObjectType.*

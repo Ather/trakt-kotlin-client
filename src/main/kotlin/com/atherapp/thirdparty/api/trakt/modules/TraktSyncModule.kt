@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.modules
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.enums.TraktRatingsItemType
 import com.atherapp.thirdparty.api.trakt.enums.TraktSyncItemType
 import com.atherapp.thirdparty.api.trakt.enums.TraktSyncType

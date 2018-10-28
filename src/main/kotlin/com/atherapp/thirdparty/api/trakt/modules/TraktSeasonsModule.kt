@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.modules
 
 import com.atherapp.thirdparty.api.trakt.TraktClient
-import com.atherapp.thirdparty.api.trakt.authentication.TraktAuthorization
+import com.atherapp.thirdparty.api.trakt.objects.authentication.TraktAuthorization
 import com.atherapp.thirdparty.api.trakt.enums.TraktCommentSortOrder
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortOrder
 import com.atherapp.thirdparty.api.trakt.enums.TraktListType
