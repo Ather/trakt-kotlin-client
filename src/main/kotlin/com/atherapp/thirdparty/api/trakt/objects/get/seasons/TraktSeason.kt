@@ -1,5 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.seasons
 
+import com.atherapp.thirdparty.api.trakt.core.TraktSeasonIds
 import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime

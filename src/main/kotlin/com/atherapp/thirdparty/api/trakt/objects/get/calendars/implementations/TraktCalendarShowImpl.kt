@@ -1,12 +1,12 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.calendars.implementations
 
-import com.google.gson.annotations.SerializedName
+import com.atherapp.thirdparty.api.trakt.core.TraktEpisodeIds
 import com.atherapp.thirdparty.api.trakt.objects.get.calendars.TraktCalendarShow
 import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
-import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds
 import com.atherapp.thirdparty.api.trakt.objects.get.episodes.implementations.TraktEpisodeImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShow
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowImpl
+import com.google.gson.annotations.SerializedName
 import java.time.ZonedDateTime
 
 data class TraktCalendarShowImpl(

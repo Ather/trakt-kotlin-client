@@ -25,15 +25,19 @@ import com.atherapp.thirdparty.api.trakt.objects.get.history.implementations.Tra
 import com.atherapp.thirdparty.api.trakt.objects.get.movies.*
 import com.atherapp.thirdparty.api.trakt.objects.get.movies.implementations.*
 import com.atherapp.thirdparty.api.trakt.objects.get.people.TraktPerson
-import com.atherapp.thirdparty.api.trakt.objects.get.people.TraktPersonIds
 import com.atherapp.thirdparty.api.trakt.objects.get.people.credits.*
 import com.atherapp.thirdparty.api.trakt.objects.get.people.credits.implementations.*
-import com.atherapp.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonIdsImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.people.implementations.TraktPersonImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.ratings.TraktRatingsItem
 import com.atherapp.thirdparty.api.trakt.objects.get.ratings.implementations.TraktRatingsItemImpl
-import com.atherapp.thirdparty.api.trakt.objects.get.seasons.*
-import com.atherapp.thirdparty.api.trakt.objects.get.seasons.implementations.*
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.TraktSeason
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.TraktSeasonCollectionProgress
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.TraktSeasonProgress
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.TraktSeasonWatchedProgress
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonCollectionProgressImpl
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonImpl
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonProgressImpl
+import com.atherapp.thirdparty.api.trakt.objects.get.seasons.implementations.TraktSeasonWatchedProgressImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.*
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.implementations.*
 import com.atherapp.thirdparty.api.trakt.objects.get.syncs.activities.*
@@ -43,9 +47,7 @@ import com.atherapp.thirdparty.api.trakt.objects.get.syncs.playback.implementati
 import com.atherapp.thirdparty.api.trakt.objects.get.users.*
 import com.atherapp.thirdparty.api.trakt.objects.get.users.implementations.*
 import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.TraktList
-import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.TraktListIds
 import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.TraktListItem
-import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListIdsImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.implementations.TraktListItemImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.users.statistics.*
@@ -173,7 +175,6 @@ internal object DefaultInterfaceAdapters {
                 TraktCrewMember::class toImpl TraktCrewMemberImpl::class,
                 TraktError::class toImpl TraktErrorImpl::class,
                 TraktGenre::class toImpl TraktGenreImpl::class,
-                TraktIds::class toImpl TraktIdsImpl::class,
                 TraktImage::class toImpl TraktImageImpl::class,
                 TraktMetadata::class toImpl TraktMetadataImpl::class,
                 TraktNetwork::class toImpl TraktNetworkImpl::class,
@@ -200,7 +201,6 @@ internal object DefaultInterfaceAdapters {
             val episodes = arrayOf(
                     TraktEpisode::class toImpl TraktEpisodeImpl::class,
                     TraktEpisodeCollectionProgress::class toImpl TraktEpisodeCollectionProgressImpl::class,
-                    TraktEpisodeIds::class toImpl TraktEpisodeIdsImpl::class,
                     TraktEpisodeProgress::class toImpl TraktEpisodeProgressImpl::class,
                     TraktEpisodeTranslation::class toImpl TraktEpisodeTranslationImpl::class,
                     TraktEpisodeWatchedProgress::class toImpl TraktEpisodeWatchedProgressImpl::class
@@ -216,7 +216,6 @@ internal object DefaultInterfaceAdapters {
                     TraktMostPWCMovie::class toImpl TraktMostPWCMovieImpl::class,
                     TraktMovie::class toImpl TraktMovieImpl::class,
                     TraktMovieAlias::class toImpl TraktMovieAliasImpl::class,
-                    TraktMovieIds::class toImpl TraktMovieIdsImpl::class,
                     TraktMovieRelease::class toImpl TraktMovieReleaseImpl::class,
                     TraktMovieTranslation::class toImpl TraktMovieTranslationImpl::class,
                     TraktRecentlyUpdatedMovie::class toImpl TraktRecentlyUpdatedMovieImpl::class,
@@ -224,8 +223,7 @@ internal object DefaultInterfaceAdapters {
             )
 
             val people = arrayOf(
-                    TraktPerson::class toImpl TraktPersonImpl::class,
-                    TraktPersonIds::class toImpl TraktPersonIdsImpl::class
+                    TraktPerson::class toImpl TraktPersonImpl::class
             )
 
             val peopleCredits = arrayOf(
@@ -246,7 +244,6 @@ internal object DefaultInterfaceAdapters {
             val seasons = arrayOf(
                     TraktSeason::class toImpl TraktSeasonImpl::class,
                     TraktSeasonCollectionProgress::class toImpl TraktSeasonCollectionProgressImpl::class,
-                    TraktSeasonIds::class toImpl TraktSeasonIdsImpl::class,
                     TraktSeasonProgress::class toImpl TraktSeasonProgressImpl::class,
                     TraktSeasonWatchedProgress::class toImpl TraktSeasonWatchedProgressImpl::class
             )
@@ -259,7 +256,6 @@ internal object DefaultInterfaceAdapters {
                     TraktShowAirs::class toImpl TraktShowAirsImpl::class,
                     TraktShowAlias::class toImpl TraktShowAliasImpl::class,
                     TraktShowCollectionProgress::class toImpl TraktShowCollectionProgressImpl::class,
-                    TraktShowIds::class toImpl TraktShowIdsImpl::class,
                     TraktShowProgress::class toImpl TraktShowProgressImpl::class,
                     TraktShowTranslation::class toImpl TraktShowTranslationImpl::class,
                     TraktShowWatchedProgress::class toImpl TraktShowWatchedProgressImpl::class,
@@ -289,7 +285,6 @@ internal object DefaultInterfaceAdapters {
                     TraktUserFollowRequest::class toImpl TraktUserFollowRequestImpl::class,
                     TraktUserFriend::class toImpl TraktUserFriendImpl::class,
                     TraktUserHiddenItem::class toImpl TraktUserHiddenItemImpl::class,
-                    TraktUserIds::class toImpl TraktUserIdsImpl::class,
                     TraktUserImages::class toImpl TraktUserImagesImpl::class,
                     TraktUserLikeItem::class toImpl TraktUserLikeItemImpl::class,
                     TraktUserSettings::class toImpl TraktUserSettingsImpl::class,
@@ -298,7 +293,6 @@ internal object DefaultInterfaceAdapters {
 
             val userLists = arrayOf(
                     TraktList::class toImpl TraktListImpl::class,
-                    TraktListIds::class toImpl TraktListIdsImpl::class,
                     TraktListItem::class toImpl TraktListItemImpl::class
             )
 

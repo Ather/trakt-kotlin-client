@@ -1,5 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.users.lists
 
+import com.atherapp.thirdparty.api.trakt.core.TraktListIds
 import com.atherapp.thirdparty.api.trakt.enums.TraktAccessScope
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortBy
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortHow

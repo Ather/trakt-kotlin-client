@@ -1,15 +1,15 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.seasons.implementations
 
-import com.google.gson.annotations.SerializedName
+import com.atherapp.thirdparty.api.trakt.core.TraktSeasonIds
 import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import com.atherapp.thirdparty.api.trakt.objects.get.seasons.TraktSeason
-import com.atherapp.thirdparty.api.trakt.objects.get.seasons.TraktSeasonIds
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IValidatable
+import com.google.gson.annotations.SerializedName
 import java.time.ZonedDateTime
 
 data class TraktSeasonImpl(
         override var number: Int = -1,
-        override var ids: TraktSeasonIds = TraktSeasonIdsImpl(),
+        override var ids: TraktSeasonIds = TraktSeasonIds(),
         override var rating: Float? = null,
         override var votes: Int? = null,
         @SerializedName("episode_count")

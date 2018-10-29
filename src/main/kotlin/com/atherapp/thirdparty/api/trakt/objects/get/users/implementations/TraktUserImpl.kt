@@ -1,9 +1,9 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.users.implementations
 
-import com.google.gson.annotations.SerializedName
+import com.atherapp.thirdparty.api.trakt.core.TraktUserIds
 import com.atherapp.thirdparty.api.trakt.objects.get.users.TraktUser
-import com.atherapp.thirdparty.api.trakt.objects.get.users.TraktUserIds
 import com.atherapp.thirdparty.api.trakt.objects.get.users.TraktUserImages
+import com.google.gson.annotations.SerializedName
 import java.time.ZonedDateTime
 
 data class TraktUserImpl(
@@ -15,7 +15,7 @@ data class TraktUserImpl(
         override var vip: Boolean? = null,
         @SerializedName("vip_ep")
         override var vipEp: Boolean? = null,
-        override var ids: TraktUserIds = TraktUserIdsImpl(),
+        override var ids: TraktUserIds = TraktUserIds(),
         @SerializedName("joined_at")
         override var joinedAt: ZonedDateTime? = null,
         override var location: String? = null,

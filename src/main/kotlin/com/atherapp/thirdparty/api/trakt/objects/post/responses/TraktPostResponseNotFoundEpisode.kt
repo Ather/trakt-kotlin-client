@@ -1,6 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.post.responses
 
-import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisodeIds
+import com.atherapp.thirdparty.api.trakt.core.TraktEpisodeIds
 
 interface TraktPostResponseNotFoundEpisode {
     var ids: TraktEpisodeIds

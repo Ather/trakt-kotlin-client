@@ -1,5 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.movies
 
+import com.atherapp.thirdparty.api.trakt.core.TraktMovieIds
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.LocalDate
 import java.time.ZonedDateTime

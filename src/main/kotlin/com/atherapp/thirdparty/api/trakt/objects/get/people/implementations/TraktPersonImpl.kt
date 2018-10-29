@@ -1,13 +1,13 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.people.implementations
 
+import com.atherapp.thirdparty.api.trakt.core.TraktPersonIds
 import com.atherapp.thirdparty.api.trakt.extensions.yearsBetween
 import com.atherapp.thirdparty.api.trakt.objects.get.people.TraktPerson
-import com.atherapp.thirdparty.api.trakt.objects.get.people.TraktPersonIds
 import java.time.ZonedDateTime
 
 data class TraktPersonImpl(
         override var name: String = "",
-        override var ids: TraktPersonIds = TraktPersonIdsImpl(),
+        override var ids: TraktPersonIds = TraktPersonIds(),
         override var biography: String? = null,
         override var birthday: ZonedDateTime? = null,
         override var death: ZonedDateTime? = null,

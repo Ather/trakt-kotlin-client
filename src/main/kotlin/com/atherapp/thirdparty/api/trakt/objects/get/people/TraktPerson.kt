@@ -1,5 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.people
 
+import com.atherapp.thirdparty.api.trakt.core.TraktPersonIds
 import java.time.ZonedDateTime
 
 interface TraktPerson {

@@ -1,5 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.shows
 
+import com.atherapp.thirdparty.api.trakt.core.TraktShowIds
 import com.atherapp.thirdparty.api.trakt.enums.TraktShowStatus
 import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IValidatable

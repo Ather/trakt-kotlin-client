@@ -1,17 +1,17 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.movies.implementations
 
-import com.google.gson.annotations.SerializedName
+import com.atherapp.thirdparty.api.trakt.core.TraktMovieIds
 import com.atherapp.thirdparty.api.trakt.extensions.isValidYear
 import com.atherapp.thirdparty.api.trakt.extensions.validate
 import com.atherapp.thirdparty.api.trakt.objects.get.movies.TraktMovie
-import com.atherapp.thirdparty.api.trakt.objects.get.movies.TraktMovieIds
+import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
 data class TraktMovieImpl(
         override var title: String = "",
         override var year: Int = -1,
-        override var ids: TraktMovieIds = TraktMovieIdsImpl(),
+        override var ids: TraktMovieIds = TraktMovieIds(),
         override var tagline: String? = null,
         override var overview: String? = null,
         override var released: LocalDate? = null,

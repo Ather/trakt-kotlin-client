@@ -1,6 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.shows.implementations
 
-import com.google.gson.annotations.SerializedName
+import com.atherapp.thirdparty.api.trakt.core.TraktShowIds
 import com.atherapp.thirdparty.api.trakt.enums.TraktShowStatus
 import com.atherapp.thirdparty.api.trakt.extensions.isNotNegative
 import com.atherapp.thirdparty.api.trakt.extensions.isValidYear
@@ -8,13 +8,13 @@ import com.atherapp.thirdparty.api.trakt.extensions.validate
 import com.atherapp.thirdparty.api.trakt.objects.get.episodes.TraktEpisode
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShow
 import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShowAirs
-import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShowIds
+import com.google.gson.annotations.SerializedName
 import java.time.ZonedDateTime
 
 data class TraktShowImpl(
         override var title: String = "",
         override var year: Int = -1,
-        override var ids: TraktShowIds = TraktShowIdsImpl(),
+        override var ids: TraktShowIds = TraktShowIds(),
         override var overview: String? = null,
         @SerializedName("first_aired")
         override var firstAired: ZonedDateTime? = null,
