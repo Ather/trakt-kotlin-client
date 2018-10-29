@@ -1,5 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.episodes
 
+import com.atherapp.thirdparty.api.trakt.core.TraktEpisodeIds
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IValidatable
 import java.time.ZonedDateTime
 

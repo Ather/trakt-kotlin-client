@@ -1,6 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.post.syncs.history
 
-import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShowIds
+import com.atherapp.thirdparty.api.trakt.core.TraktShowIds
 import java.time.ZonedDateTime
 
 interface TraktSyncHistoryPostShow {

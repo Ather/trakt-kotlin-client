@@ -1,7 +1,7 @@
 package com.atherapp.thirdparty.api.trakt.objects.post.syncs.collection
 
+import com.atherapp.thirdparty.api.trakt.core.TraktShowIds
 import com.atherapp.thirdparty.api.trakt.objects.basic.TraktMetadata
-import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShowIds
 import java.time.ZonedDateTime
 
 interface TraktSyncCollectionPostShow {

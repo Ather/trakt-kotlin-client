@@ -1,14 +1,14 @@
 package com.atherapp.thirdparty.api.trakt.objects.get.users.lists.implementations
 
-import com.google.gson.annotations.SerializedName
+import com.atherapp.thirdparty.api.trakt.core.TraktListIds
 import com.atherapp.thirdparty.api.trakt.enums.TraktAccessScope
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortBy
 import com.atherapp.thirdparty.api.trakt.enums.TraktListSortHow
 import com.atherapp.thirdparty.api.trakt.objects.get.users.TraktUser
 import com.atherapp.thirdparty.api.trakt.objects.get.users.implementations.TraktUserImpl
 import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.TraktList
-import com.atherapp.thirdparty.api.trakt.objects.get.users.lists.TraktListIds
 import com.atherapp.thirdparty.api.trakt.requests.interfaces.IValidatable
+import com.google.gson.annotations.SerializedName
 import java.time.ZonedDateTime
 
 data class TraktListImpl(
@@ -24,6 +24,6 @@ data class TraktListImpl(
         @SerializedName("item_count") override var itemCount: Int? = null,
         @SerializedName("comment_count") override var commentCount: Int? = null,
         override var likes: Int? = null,
-        override var ids: TraktListIds = TraktListIdsImpl(),
+        override var ids: TraktListIds = TraktListIds(),
         override var user: TraktUser = TraktUserImpl()
 ) : TraktList, IValidatable by ids

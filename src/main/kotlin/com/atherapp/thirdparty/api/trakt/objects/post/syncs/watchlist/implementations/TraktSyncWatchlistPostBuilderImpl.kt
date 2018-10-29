@@ -14,7 +14,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
     private val watchlistPost: TraktSyncWatchlistPostImpl = TraktSyncWatchlistPostImpl()
 
     fun addMovie(movie: TraktMovie): TraktSyncWatchlistPostBuilderImpl {
-        if (!movie.ids.hasAnyId())
+        if (!movie.ids.hasAnyId)
             throw IllegalArgumentException("no movie ids set or valid")
 
         if (movie.year.toString().length != 4)
@@ -112,7 +112,7 @@ class TraktSyncWatchlistPostBuilderImpl : AbstractTraktSyncPostBuilder<TraktSync
     }
 
     fun addEpisode(episode: TraktEpisode): TraktSyncWatchlistPostBuilderImpl {
-        if (!episode.ids.hasAnyId())
+        if (!episode.ids.hasAnyId)
             throw IllegalArgumentException("no episode ids set or valid")
 
         val existingEpisode = watchlistPost.episodes.firstOrNull { ep -> ep.ids like episode.ids }

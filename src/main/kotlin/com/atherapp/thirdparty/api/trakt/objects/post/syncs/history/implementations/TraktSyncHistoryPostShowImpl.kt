@@ -1,10 +1,9 @@
 package com.atherapp.thirdparty.api.trakt.objects.post.syncs.history.implementations
 
-import com.google.gson.annotations.SerializedName
-import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShowIds
-import com.atherapp.thirdparty.api.trakt.objects.get.shows.implementations.TraktShowIdsImpl
+import com.atherapp.thirdparty.api.trakt.core.TraktShowIds
 import com.atherapp.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPostShow
 import com.atherapp.thirdparty.api.trakt.objects.post.syncs.history.TraktSyncHistoryPostShowSeason
+import com.google.gson.annotations.SerializedName
 import java.time.ZonedDateTime
 
 data class TraktSyncHistoryPostShowImpl(
@@ -12,6 +11,6 @@ data class TraktSyncHistoryPostShowImpl(
         override var watchedAt: ZonedDateTime? = null,
         override var title: String = "",
         override var year: Int? = null,
-        override var ids: TraktShowIds = TraktShowIdsImpl(),
+        override var ids: TraktShowIds = TraktShowIds(),
         override var seasons: MutableList<TraktSyncHistoryPostShowSeason> = mutableListOf()
 ) : TraktSyncHistoryPostShow

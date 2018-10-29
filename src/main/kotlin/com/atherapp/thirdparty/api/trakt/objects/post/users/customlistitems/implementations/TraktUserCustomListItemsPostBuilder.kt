@@ -16,7 +16,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     private val listItemsPost: TraktUserCustomListItemsPostImpl = TraktUserCustomListItemsPostImpl()
 
     fun addMovie(movie: TraktMovie): TraktUserCustomListItemsPostBuilder {
-        if (!movie.ids.hasAnyId())
+        if (!movie.ids.hasAnyId)
             throw IllegalArgumentException("no movie ids set or valid")
 
         if (movie.year.toString().length != 4)
@@ -121,7 +121,7 @@ class TraktUserCustomListItemsPostBuilder : AbstractTraktSyncPostBuilder<TraktUs
     }
 
     fun addPerson(person: TraktPersonImpl): TraktUserCustomListItemsPostBuilder {
-        if (!person.ids.hasAnyId())
+        if (!person.ids.hasAnyId)
             throw IllegalArgumentException("no person ids set or valid")
 
         if (person.name.isEmpty())

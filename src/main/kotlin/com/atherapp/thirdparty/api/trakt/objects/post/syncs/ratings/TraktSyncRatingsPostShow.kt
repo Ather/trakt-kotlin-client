@@ -1,6 +1,6 @@
 package com.atherapp.thirdparty.api.trakt.objects.post.syncs.ratings
 
-import com.atherapp.thirdparty.api.trakt.objects.get.shows.TraktShowIds
+import com.atherapp.thirdparty.api.trakt.core.TraktShowIds
 import java.time.ZonedDateTime
 
 interface TraktSyncRatingsPostShow {

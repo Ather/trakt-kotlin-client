@@ -22,7 +22,7 @@ data class TraktEpisodeScrobblePostImpl(
     override fun validate(variableName: String) {
         progress.validate("progress value not valid - value must be between 0 and 100", ::isValidProgress, null)
 
-        if (!episode.ids.hasAnyId()) {
+        if (!episode.ids.hasAnyId) {
             show?.title.validate("episode ids not set or have no valid id - show title not valid", String::isNullOrBlank, null)
             episode.season.validate("season number", ::isNotNegative)
             episode.number.validate("episode number", ::isPositive)
